@@ -1,0 +1,8 @@
+{
+  "name": "@strikezone/playdate",
+  "version": "0.1.0",
+  "description": "Strikezone for Playdate handheld (Lua)",
+  "private": true,
+  "scripts": {},
+  "keywords": ["baseball", "playdate", "lua", "handheld"]
+}

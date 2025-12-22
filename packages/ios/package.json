@@ -1,0 +1,8 @@
+{
+  "name": "@strikezone/ios",
+  "version": "0.1.0",
+  "description": "Strikezone for iOS (Swift/SwiftUI)",
+  "private": true,
+  "scripts": {},
+  "keywords": ["baseball", "ios", "swift", "swiftui"]
+}

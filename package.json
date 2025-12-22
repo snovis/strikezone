@@ -1,0 +1,18 @@
+{
+  "name": "strikezone",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Multi-platform baseball simulation engine",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspace=@strikezone/web",
+    "test": "npm run test --workspaces --if-present",
+    "simulate": "npm run simulate --workspace=@strikezone/engine"
+  },
+  "keywords": ["baseball", "simulation", "dice", "tabletop", "game"],
+  "author": "",
+  "license": "MIT"
+}
