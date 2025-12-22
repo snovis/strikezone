@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "description": "Strikezone for iOS (Swift/SwiftUI)",
   "private": true,
-  "scripts": {},
+  "scripts": {
+    "build": "echo 'iOS stub - no build yet'"
+  },
   "keywords": ["baseball", "ios", "swift", "swiftui"]
 }
