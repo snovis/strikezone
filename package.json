@@ -5,7 +5,7 @@
   "main": "dist/dice.js",
   "scripts": {
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test:dice": "ts-node src/test-dice.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@types/seedrandom": "^3.0.8",
+    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
 }
