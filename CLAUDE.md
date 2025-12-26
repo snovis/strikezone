@@ -24,55 +24,79 @@ Rather than debug complex legacy code, we're rebuilding from scratch — testing
    - `setSeed()` / `resetRandom()` — toggle reproducible vs random
 
 2. **Strategy module** (`src/strategy.ts`)
-   - Defines non-transitive relationships (who beats who)
-   - `StrategySet` interface: `{ choices: string[], beats: Record<string, string[]> }`
+   - Symmetric, non-transitive relationships (RPS model)
+   - `StrategySet` interface with `name`, `choices`, `beats`, `explanations`
    - `resolve(a, b, set)` — returns 'win' | 'lose' | 'tie'
+   - `showRules(set)` — displays Sheldon-style explanations
    - Default set: fire > grass > water > fire
    - Baseball set: power > balance, finesse > power, balance > finesse
 
-3. **Player module** (`src/player.ts`)
+3. **Stance module** (`src/stance.ts`)
+   - Asymmetric commitment where player ROLES matter (reader vs actor)
+   - `StanceSet` interface with `name`, `roles`, `axes`, `explanations`
+   - `resolve(readerChoice, actorChoice, set)` — returns 'reader' | 'actor' | 'miss'
+   - `showRules(set)` — displays resolution rules
+   - Baseball set: up/down (vertical), in/out (horizontal)
+   - Match = reader anticipated (25%), Fooled = actor deceived (25%), Miss = neutral (50%)
+
+4. **Player module** (`src/player.ts`)
    - Separates player BEHAVIOR from game RULES
    - `randomChoice(options)` — pick randomly from array
    - `cpuChooseStrategy(set)` — CPU picks random strategy
+   - `cpuChooseStance(set)` — CPU picks random stance
    - Placeholder for future human input
 
-4. **Test harnesses**
+5. **Test harnesses**
    - `test-dice.ts` — roll dice, show histograms, test seeding
-   - `test-strategy.ts` — simulate matchups, verify distributions
+   - `test-strategy.ts` — simulate strategy matchups, verify 33/33/33 distribution
+   - `test-stance.ts` — simulate stance matchups, verify 25/25/50 distribution
 
 ### Verified
 - 1d6 produces flat ~16.67% distribution
 - 2d6 produces bell curve, 7 at peak (~16.67%)
 - Seeded rolls are reproducible
-- Strategy module ready for testing (not yet run)
+- Strategy: 33/33/33 win/lose/tie at N=10000
+- Stance: 25/25/50 reader/actor/miss at N=1000
+
+### Key Insight: Small Samples Lie
+At N=10, stance showed 20/10/70 instead of 25/25/50. Human playtests are small samples that become "lived experience" — we trust them more than math. The simulator helps us see past the noise.
 
 ## Architecture Decisions
 
 **Separation of concerns:**
 - `dice.ts` — randomness (no game logic)
-- `strategy.ts` — game rules (no player behavior, no randomness)
+- `strategy.ts` — symmetric game rules, RPS model (no player behavior, no randomness)
+- `stance.ts` — asymmetric game rules, reader/actor model (no player behavior, no randomness)
 - `player.ts` — player behavior (uses dice for CPU randomness)
 
-**Why this matters:** Strategy module is pure — it just answers "given two choices, who wins?" Player module decides HOW choices are made.
+**Why this matters:** Rule modules are pure — they just answer "given these choices, what's the outcome?" Player module decides HOW choices are made.
+
+**Two commitment types:**
+- **Strategy** (symmetric): What you pick matters, not who you are. Same choice = tie.
+- **Stance** (asymmetric): Who you are (reader vs actor) matters. Same choice = reader wins.
 
 ## Next Steps
 
-1. **Test strategy module** — verify 33/33/33 win/lose/tie distribution
-2. **Location commitment** — second modifier layer (see below)
-3. **Modifiers** (REVEAL phase) — calculate advantage from matchups
-4. **Battle roll** — who wins, at what tier (weak/solid/strong)
-5. **Result tables** — map (winner, tier, roll) → outcome
-6. **Full at-bat simulation** — chain it all together
+1. **Commit phase** — combine strategy + stance choices, resolve to modifiers
+2. **Battle roll** — who wins, at what tier (weak/solid/strong)
+3. **Result tables** — map (winner, tier, roll) → outcome
+4. **Full at-bat simulation** — chain it all together
 
-## Future: Location Commitment
+## The Two Commitment Layers
 
-A second modifier layer where **player order matters** (unlike strategy):
-- 4 choices: up / down / left / right
-- **Match exactly**: Player 1 (batter) wins — "I read you"
-- **Same axis, opposite**: Player 2 (pitcher) wins — "I fooled you"
-- **Different axis**: Neutral — no advantage
+Both happen in the COMMIT phase. Both produce modifiers for BATTLE.
 
-Key difference from strategy: **asymmetric** — who you are (batter vs pitcher) affects the outcome.
+**Strategy (RPS model):**
+- 3 choices: power, finesse, balance
+- Symmetric — player order doesn't matter
+- Same choice = tie (no modifier)
+- Expected: 33% win, 33% lose, 33% tie
+
+**Stance (Reader/Actor model):**
+- 4 choices across 2 axes: up/down, in/out
+- Asymmetric — reader vs actor roles matter
+- Match = reader wins, Opposite = actor wins, Different axis = miss
+- Expected: 25% reader, 25% actor, 50% miss
 
 ## Key TypeScript Concepts Learned
 
@@ -94,6 +118,8 @@ User comes from C background. Key concepts explained:
 - Go slow, understand each piece before moving on
 - Commit frequently
 - Clean separation of concerns (rules vs behavior)
+- **Before running tests**: Discuss expected outcomes first (hypothesis before experiment)
+- **Test at multiple scales**: Run 10, 100, 1000 to see variance/convergence
 
 ## File Structure
 
@@ -101,10 +127,12 @@ User comes from C background. Key concepts explained:
 strikezone-grapple-engine/
 ├── src/
 │   ├── dice.ts          # Core randomness
-│   ├── strategy.ts      # Game rules (pure)
+│   ├── strategy.ts      # Symmetric rules (RPS model)
+│   ├── stance.ts        # Asymmetric rules (reader/actor)
 │   ├── player.ts        # Player behavior
 │   ├── test-dice.ts     # Dice test harness
-│   └── test-strategy.ts # Strategy test harness
+│   ├── test-strategy.ts # Strategy test harness
+│   └── test-stance.ts   # Stance test harness
 ├── docs/
 │   ├── grapple-engine.md    # Design philosophy
 │   └── bush-league-quickref.html
@@ -122,9 +150,15 @@ npm run test:dice -- --rolls 10 --type 2d6
 npm run test:dice -- --rolls 1000 --type 2d6 --histogram
 npm run test:dice -- --rolls 5 --type 2d6 --seed test123
 
-# Strategy tests
+# Strategy tests (expect 33/33/33)
 npm run test:strategy -- --matchups 1000
 npm run test:strategy -- --matchups 10000 --seed test123
+npm run test:strategy -- --set elements  # fire/grass/water
+
+# Stance tests (expect 25/25/50)
+npm run test:stance -- --matchups 1000
+npm run test:stance -- --matchups 10000 --seed test123
+npm run test:stance -- --set coin  # heads/tails (50/50/0)
 ```
 
 ## The Grapple Engine Core Loop
