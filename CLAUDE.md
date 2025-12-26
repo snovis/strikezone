@@ -1,117 +1,122 @@
-# Claude Project Memory — Grapple Engine
+# Claude Project Memory — Cheddar Bob / Grapple Engine
 
 ## Project Overview
 
-Building the **Grapple Engine** — a two-dimensional non-transitive resolution system for tabletop games. Originally derived from "Cheddar Bob" baseball simulation, now being rebuilt from first principles to understand and validate the core mechanics.
+Building **Cheddar Bob** — a baseball tabletop game using the **Grapple Engine**, a two-dimensional non-transitive resolution system. Rebuilt from first principles to understand and validate the core mechanics.
 
-See `docs/grapple-engine.md` for the full design philosophy.
-See `docs/tuning-analysis.md` for simulation results and tuning decisions.
+**Current versions:**
+- **v5.2** — Strategy only (RPS → +2 modifier)
+- **v5.3** — Strategy + Stance (RPS + location commitment)
 
-## Why We Started Fresh
-
-The original simulator (`strikezone-tabletop` branch) reported stats that didn't match playtest reality:
-- Simulator: .377 AVG, ~5 runs/game
-- Playtests: Very low scoring (1-0, 0-1 games)
-
-Rather than debug complex legacy code, we're rebuilding from scratch — testing each layer before adding the next.
+See `docs/grapple-engine.md` for design philosophy.
+See `docs/tuning-analysis.md` for simulation results.
 
 ## Current State (as of 2024-12-26)
+
+### COMPLETE: Full Game Simulation Working
+
+The engine now simulates complete games. Playtest rules are ready for human testing.
 
 ### Completed Modules
 
 1. **Dice module** (`src/dice.ts`)
-   - `roll(sides)` — core roller, works with any die type
-   - `roll1d6()`, `roll2d6()`, `sum2d6()` — composable helpers
-   - `setSeed()` / `resetRandom()` — toggle reproducible vs random
+   - `roll(sides)`, `roll1d6()`, `roll2d6()`, `sum2d6()`
+   - `setSeed()` / `resetRandom()` — reproducible vs random
 
 2. **Strategy module** (`src/strategy.ts`)
-   - Symmetric, non-transitive relationships (RPS model)
-   - `StrategySet` interface with `name`, `choices`, `beats`, `explanations`
-   - `resolve(a, b, set)` — returns 'win' | 'lose' | 'tie'
-   - `explainResult(a, b, set)` — human-readable explanation
-   - `showRules(set)` — displays Sheldon-style explanations
-   - Baseball set: power > balance, finesse > power, balance > finesse
+   - Symmetric RPS model: power > balance > finesse > power
+   - `resolve(a, b, set)` → 'win' | 'lose' | 'tie'
+   - Winner gets +2 modifier
 
 3. **Stance module** (`src/stance.ts`)
-   - Asymmetric commitment where player ROLES matter (reader vs actor)
-   - `StanceSet` interface with `name`, `roles`, `axes`, `explanations`
-   - `resolve(readerChoice, actorChoice, set)` — returns 'reader' | 'actor' | 'miss'
-   - `explainResult(readerChoice, actorChoice, set)` — human-readable explanation
-   - Baseball set: up/down (vertical), in/out (horizontal)
-   - Match = reader anticipated (25%), Fooled = actor deceived (25%), Miss = neutral (50%)
+   - Asymmetric reader/actor model
+   - Axes: vertical (up/down), horizontal (in/out)
+   - Match = batter +1, Fooled = pitcher +1, Miss = no modifier
+   - Probabilities: 25% / 25% / 50%
 
 4. **Commit module** (`src/commit.ts`)
-   - Orchestrates COMMIT and REVEAL phases
-   - `resolveCommit(player1, player2, strategySet, stanceSet, modifiers, verbose)`
    - Combines strategy + stance → per-player modifiers
-   - `ModifierConfig` allows tuning modifier values
-   - Default: strategy win=+1/lose=-1, stance reader=+1/actor=-1
 
 5. **Battle module** (`src/battle.ts`)
-   - `rollBattle(p1mod, p2mod, tierConfig, verbose)` — random simulation
-   - `enumerateBattles(p1mod, p2mod, tierConfig)` — exact probabilities (1,296 combinations)
-   - Tier based on WINNING ROLL VALUE (not margin):
-     - Weak: roll ≤6, Solid: 7-9, Strong: 10+
-   - "12 beats 11" = STRONG victory (epic battle of titans)
-   - "4 beats 3" = WEAK victory (slapfight)
+   - Both roll 2d6 + modifiers, higher wins
+   - Tier by WINNING ROLL VALUE: ≤6 weak, 7-9 solid, 10+ strong
+   - `enumerateBattles()` for exact probability analysis
 
-6. **Player module** (`src/player.ts`)
-   - Separates player BEHAVIOR from game RULES
-   - `randomChoice(options)` — pick randomly from array
-   - `cpuChooseStrategy(set)` — CPU picks random strategy
-   - `cpuChooseStance(set)` — CPU picks random stance
+6. **Result module** (`src/result.ts`) ✨ NEW
+   - Two-roll outcome system (battle tier + result tier)
+   - Position = battleOffset + resultOffset (0-4)
+   - Critical rolls: Snake Eyes (2) = worst, Boxcars (12) = best
+   - Batter ladder: OUT → OUT → 1B → 2B → HR
+   - Pitcher ladder: BB → O-RA → O-RC → O-RF → DP
+   - Configurable result sets (1/2/3 walk variants for testing)
 
-7. **Test harnesses**
-   - `test-dice.ts` — roll dice, show histograms, test seeding
-   - `test-strategy.ts` — simulate strategy matchups, verify 33/33/33
-   - `test-stance.ts` — simulate stance matchups, verify 25/25/50
-   - `test-commit.ts` — simulate full commit phase with modifiers
-   - `test-battle.ts` — simulation, enumeration, and comparison modes
+7. **Game module** (`src/game.ts`) ✨ NEW
+   - Full at-bat simulation: strategy → stance → battle → result
+   - Runner advancement, scoring, innings
+   - `simulateGame()` — single game with optional verbose output
+   - `runSimulation()` — aggregate stats across many games
+   - Configurable: innings, strategy bonus, stance on/off, stance bonus
 
-### Verified
-- 1d6 produces flat ~16.67% distribution
-- 2d6 produces bell curve, 7 at peak (~16.67%)
-- Seeded rolls are reproducible
-- Strategy: 33/33/33 win/lose/tie at N=10000
-- Stance: 25/25/50 reader/actor/miss at N=1000
-- Battle baseline: 44.4/44.4/11.3 P1/P2/tie, tiers 14.8/52/33.2 weak/solid/strong
+8. **Player module** (`src/player.ts`)
+   - `cpuChooseStrategy()`, `cpuChooseStance()` — random CPU choices
 
-## KEY DISCOVERY: Modifier Structure Matters
+### Playtest Rules ✨ NEW
 
-From battle enumeration (see `docs/tuning-analysis.md`):
+- `docs/playtest-rules.html` — **Cheddar Bob v5.2** (strategy only)
+- `docs/playtest-rules-v53.html` — **Cheddar Bob v5.3** (strategy + stance)
 
-**Same net advantage (+2), different tier distribution:**
+Both are print-friendly 1-pagers ready for human playtesting.
 
-| Scenario | Net Diff | P1 Win% | Weak% | Strong% |
-|----------|----------|---------|-------|---------|
-| +2/0 | +2 | 66.4 | 5.5 | **54.7** |
-| +1/-1 | +2 | 66.4 | 13.7 | **36.5** |
+## Simulation Results
 
-**Why?** Tier is based on winning roll VALUE. +2/0 pushes P1 into 4-14 range (more 10+ rolls). +1/-1 keeps both players in normal range.
+### v5.2 (Strategy Only, +2 on win)
+```
+Avg runs/game: 5.37 (2.68 per team)
+AVG: .365  |  OBP: .394  |  HR: 4.9%
+Ties: 15.1% (in 3-inning games)
+```
 
-**Current leaning:** Symmetric (+1/-1) modifiers — preserves drama in tier outcomes. Commit phase decides WHO wins, dice decide HOW epic.
+### v5.3 (Strategy +2, Stance +1)
+```
+Avg runs/game: 5.74 (2.87 per team)
+AVG: .378  |  OBP: .406  |  HR: 5.0%
+Ties: 16.2% (in 3-inning games)
+```
 
-## Architecture Decisions
+**Verdict:** Both balanced. Adding stance increases scoring ~7%, slightly favors batters.
 
-**Separation of concerns:**
-- `dice.ts` — randomness (no game logic)
-- `strategy.ts` — symmetric game rules, RPS model
-- `stance.ts` — asymmetric game rules, reader/actor model
-- `commit.ts` — combines strategy + stance into modifiers
-- `battle.ts` — dice + modifiers → winner + tier
-- `player.ts` — player behavior (uses dice for CPU randomness)
+## The Grapple Engine Core Loop
 
-**Two commitment types:**
-- **Strategy** (symmetric): What you pick matters, not who you are. Same choice = tie.
-- **Stance** (asymmetric): Who you are (reader vs actor) matters. Same choice = reader wins.
+```
+1. STRATEGY  — Both throw RPS. Winner gets +2.
+2. STANCE    — Both pick location (UP/DOWN/IN/OUT). Match=batter+1, Fooled=pitcher+1.
+3. BATTLE    — Both roll 2d6 + modifiers. Higher wins. Tier by winner's roll.
+4. RESULT    — Winner rolls again. Cross-reference battle tier × result tier.
+```
 
-**Roll-value tiers:** Tier based on winning roll, not margin. Rewards rolling well, not just winning by a lot.
+## Result Tables
 
-## Next Steps
+**Batter wins battle → rolls for:**
+```
+         │ Weak(≤6) │ Solid(7-9) │ Strong(10+)
+─────────┼──────────┼────────────┼────────────
+Weak     │ OUT      │ OUT        │ 1B
+Solid    │ OUT      │ 1B         │ 2B
+Strong   │ 1B       │ 2B         │ HR
+```
 
-1. **Result tables** — map (winner, tier, roll) → outcome
-2. **Full at-bat simulation** — chain commit → battle → result
-3. **More tuning exploration** — different modifier configs, tier thresholds
+**Pitcher wins battle → rolls for:**
+```
+         │ Weak(≤6) │ Solid(7-9) │ Strong(10+)
+─────────┼──────────┼────────────┼────────────
+Weak     │ BB       │ O-RA       │ O-RC
+Solid    │ O-RA     │ O-RC       │ O-RF
+Strong   │ O-RC     │ O-RF       │ DP
+```
+
+**Criticals override everything:**
+- Snake Eyes (2) → position 0 (OUT for batter, BB for pitcher)
+- Boxcars (12) → position 4 (HR for batter, DP for pitcher)
 
 ## File Structure
 
@@ -119,55 +124,81 @@ From battle enumeration (see `docs/tuning-analysis.md`):
 strikezone-grapple-engine/
 ├── src/
 │   ├── dice.ts          # Core randomness
-│   ├── strategy.ts      # Symmetric rules (RPS model)
-│   ├── stance.ts        # Asymmetric rules (reader/actor)
+│   ├── strategy.ts      # Symmetric RPS rules
+│   ├── stance.ts        # Asymmetric reader/actor rules
 │   ├── commit.ts        # Combines commitments → modifiers
 │   ├── battle.ts        # Dice + modifiers → winner + tier
-│   ├── player.ts        # Player behavior
-│   ├── test-dice.ts     # Dice test harness
-│   ├── test-strategy.ts # Strategy test harness
-│   ├── test-stance.ts   # Stance test harness
-│   ├── test-commit.ts   # Commit test harness
-│   └── test-battle.ts   # Battle test harness (enum + compare)
+│   ├── result.ts        # Winner + tier + roll → outcome ✨
+│   ├── game.ts          # Full game simulation ✨
+│   ├── player.ts        # CPU player behavior
+│   ├── test-dice.ts
+│   ├── test-strategy.ts
+│   ├── test-stance.ts
+│   ├── test-commit.ts
+│   ├── test-battle.ts
+│   ├── test-result.ts   # ✨
+│   └── test-game.ts     # ✨
 ├── docs/
-│   ├── grapple-engine.md    # Design philosophy
-│   ├── tuning-analysis.md   # Simulation results & decisions
-│   └── bush-league-quickref.html
-├── dist/                # Compiled JS (generated)
+│   ├── grapple-engine.md
+│   ├── tuning-analysis.md
+│   ├── bush-league-quickref.html
+│   ├── playtest-rules.html      # v5.2 ✨
+│   ├── playtest-rules.md        # v5.2 ✨
+│   ├── playtest-rules-v53.html  # v5.3 ✨
+│   └── playtest-rules-v53.md    # v5.3 ✨
 ├── package.json
 ├── tsconfig.json
-└── CLAUDE.md            # This file
+└── CLAUDE.md
 ```
 
 ## Running Tests
 
 ```bash
-# Dice tests
+# Result module
+npm run test:result -- --table           # Show 2D result tables
+npm run test:result -- --enumerate       # Exact outcome probabilities
+npm run test:result -- --compare         # Compare pitcher walk variants
+
+# Game simulation
+npm run test:game -- --games 1000        # Run 1000 games
+npm run test:game -- --single --verbose  # Play-by-play of one game
+npm run test:game -- --compare           # Compare with/without stance
+npm run test:game -- --stance            # Enable stance commitment
+npm run test:game -- --innings 9         # 9-inning games
+
+# Earlier modules
 npm run test:dice -- --rolls 1000 --type 2d6 --histogram
-
-# Strategy tests (expect 33/33/33)
 npm run test:strategy -- --matchups 1000
-npm run test:strategy -- --set elements  # fire/grass/water
-
-# Stance tests (expect 25/25/50)
 npm run test:stance -- --matchups 1000
-
-# Commit tests (9 outcome combinations)
-npm run test:commit -- --matchups 1000
-npm run test:commit -- --matchups 1 --verbose  # trace single at-bat
-
-# Battle tests
-npm run test:battle -- --enumerate              # exact probabilities
-npm run test:battle -- --compare                # compare modifier configs
-npm run test:battle -- --enumerate --p1mod 2 --p2mod -1
-npm run test:battle -- --battles 100 --seed test123 --verbose
+npm run test:battle -- --enumerate
+npm run test:battle -- --compare
 ```
 
-## Key Insight: Small Samples Lie
+## Next Steps / Future Tuning
 
-At N=10, stance showed 20/10/70 instead of 25/25/50. Human playtests are small samples that become "lived experience" — we trust them more than math. The simulator helps us see past the noise.
+1. **Playtest feedback** — Son testing with friends over weekend
+2. **Pitcher walk balance** — Should pitcher have 2 walk boxes instead of 1?
+3. **Modifier tuning** — Is +2/+1 the right split? Try +1/+1 or +2/+2?
+4. **O-RA / O-RC / O-RF mechanics** — Runner advancement on outs needs refinement
+5. **Extra innings** — Handle ties in game simulation
+6. **Player cards** — Add batter/pitcher stats that modify rolls
 
-**Always test at multiple scales:** 10, 100, 1000 to see variance vs convergence.
+## Key Insights
+
+### Small Samples Lie
+At N=10, you see 20/10/70 instead of 25/25/50. Human playtests are small samples. The simulator reveals true probabilities.
+
+### Modifier Structure Matters
+Same net advantage (+2), different outcomes:
+- +2/0 → more Strong tier wins (54.7%)
+- +1/-1 → more Weak tier wins (36.5% strong)
+
+Tier is based on winning roll VALUE, not margin.
+
+### Winner Can Still Lose
+The result tables have built-in drama:
+- Batter wins battle but rolls Snake Eyes → OUT
+- Pitcher wins battle but rolls poorly → walks the batter
 
 ## User Preferences
 
@@ -175,18 +206,11 @@ At N=10, stance showed 20/10/70 instead of 25/25/50. Human playtests are small s
 - Show full console output in responses
 - Go slow, understand each piece before moving on
 - Commit frequently
-- **Before running tests**: Discuss expected outcomes first (hypothesis before experiment)
-- **Test at multiple scales**: Run 10, 100, 1000 to see variance/convergence
-
-## The Grapple Engine Core Loop
-
-1. **COMMIT** — Both players secretly select strategy + stance
-2. **REVEAL** — Compare selections, determine modifiers per player
-3. **BATTLE** — Both roll 2d6 + modifiers, higher wins, determine tier by winning roll
-4. **RESOLVE** — Winner rolls on result table based on tier (NOT YET BUILT)
+- **Hypothesis before experiment**: Discuss expected outcomes before running tests
+- **Test at multiple scales**: 10, 100, 1000 to see variance vs convergence
 
 ## Git Info
 
 - Branch: `grapple-engine`
 - Remote: `origin/grapple-engine`
-- Based off: `main`
+- Latest commit: "Add result module and game simulation for Cheddar Bob v5.2/v5.3"
