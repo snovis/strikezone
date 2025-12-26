@@ -118,6 +118,30 @@ export function resolve(
 }
 
 /**
+ * Explain why a stance matchup resulted the way it did
+ * @returns Human-readable explanation with role names
+ */
+export function explainResult(
+    readerChoice: string,
+    actorChoice: string,
+    set: StanceSet = BASEBALL_STANCE_SET
+): string {
+    const [readerRole, actorRole] = set.roles;
+    const result = resolve(readerChoice, actorChoice, set);
+
+    if (result === 'reader') {
+        return `${readerChoice} vs ${actorChoice} — ${readerRole.toUpperCase()} wins (${set.explanations.match})`;
+    }
+    if (result === 'actor') {
+        const axis = findAxis(readerChoice, set);
+        const axisName = axis?.name ?? 'same axis';
+        return `${readerChoice} vs ${actorChoice} — ${actorRole.toUpperCase()} wins (${axisName}: ${set.explanations.fooled})`;
+    }
+    // miss
+    return `${readerChoice} vs ${actorChoice} — neutral (${set.explanations.miss})`;
+}
+
+/**
  * Display the rules and explanations for a stance set
  */
 export function showRules(set: StanceSet): void {

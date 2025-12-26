@@ -56,9 +56,9 @@ export const BASEBALL_STRATEGY_SET: StrategySet = {
         balance: ['finesse']
     },
     explanations: {
-        'finesse>power': 'Precision placement defeats brute force — a well-timed contact swing beats a wild power swing',
-        'power>balance': 'Aggressive power overwhelms a cautious approach — sometimes you just have to crush it',
-        'balance>finesse': 'Patient discipline neutralizes trickery — waiting for your pitch beats trying to be too clever'
+        'finesse>power': 'Offspeed and breaking pitches defeats swing for the fences. Choked up batter contacts raw power throw',
+        'power>balance': 'Power fastball beats batter who is too slow to catch up. Power hitter, smashes garden variety fastball.',
+        'balance>finesse': 'Batter can stay with breaking pitch and drive it.  Control pitcher beats contact hitter sitting on the curve.'
     }
 };
 
@@ -73,6 +73,25 @@ export function resolve(a: string, b: string, set: StrategySet = DEFAULT_STRATEG
     if (a === b) return 'tie';
     if (set.beats[a]?.includes(b)) return 'win';
     return 'lose';
+}
+
+/**
+ * Explain why a matchup resulted the way it did
+ * @returns Human-readable explanation of the result
+ */
+export function explainResult(a: string, b: string, set: StrategySet = DEFAULT_STRATEGY_SET): string {
+    if (a === b) {
+        return `${a} vs ${a} — tie (same choice)`;
+    }
+    if (set.beats[a]?.includes(b)) {
+        const key = `${a}>${b}`;
+        const why = set.explanations[key] ?? `${a} beats ${b}`;
+        return `${a} beats ${b} — ${why}`;
+    }
+    // b beats a
+    const key = `${b}>${a}`;
+    const why = set.explanations[key] ?? `${b} beats ${a}`;
+    return `${b} beats ${a} — ${why}`;
 }
 
 /**
