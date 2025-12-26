@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob v5.2 — Playtest Rules</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.5in;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 11pt;
+            line-height: 1.4;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.5in;
+            color: #222;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24pt;
+            margin-bottom: 4px;
+            color: #1a5f2a;
+        }
+
+        .tagline {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 16px;
+            font-size: 12pt;
+        }
+
+        .needs {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 10px 16px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            font-size: 10pt;
+        }
+
+        .needs span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        h2 {
+            font-size: 14pt;
+            color: #1a5f2a;
+            border-bottom: 2px solid #1a5f2a;
+            padding-bottom: 4px;
+            margin: 16px 0 10px 0;
+        }
+
+        h3 {
+            font-size: 12pt;
+            color: #333;
+            margin: 12px 0 6px 0;
+        }
+
+        .phase-num {
+            display: inline-block;
+            background: #1a5f2a;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 8px 0;
+            font-size: 10pt;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 6px 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+        }
+
+        .batter-table th { background: #2d7a3d; }
+        .pitcher-table th { background: #7a2d2d; }
+
+        .hit { background: #d4edda; }
+        .out { background: #f8d7da; }
+        .walk { background: #cce5ff; }
+        .hr { background: #28a745; color: white; font-weight: bold; }
+        .dp { background: #c62828; color: white; font-weight: bold; }
+
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .column {
+            min-width: 0;
+        }
+
+        .crit-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #d4a800;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 12px 0;
+        }
+
+        .crit-box h4 {
+            font-size: 11pt;
+            color: #856404;
+            margin-bottom: 6px;
+        }
+
+        .crit-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+            font-size: 10pt;
+        }
+
+        .crit-dice {
+            font-size: 16pt;
+        }
+
+        .quick-ref {
+            background: #e8f5e9;
+            border: 2px solid #1a5f2a;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            font-family: monospace;
+            font-size: 9pt;
+        }
+
+        .quick-ref .line {
+            margin: 4px 0;
+        }
+
+        .quick-ref .label {
+            color: #1a5f2a;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 9pt;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 8px;
+        }
+
+        .rps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .rps-card {
+            background: #f0f0f0;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+        }
+
+        .rps-card .emoji {
+            font-size: 24pt;
+            display: block;
+        }
+
+        .rps-card .name {
+            font-weight: bold;
+            font-size: 10pt;
+        }
+
+        .rps-card .beats {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .tier-table td:first-child {
+            font-weight: bold;
+            background: #f0f0f0;
+        }
+
+        ul {
+            margin: 6px 0 6px 20px;
+            font-size: 10pt;
+        }
+
+        li {
+            margin: 3px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚾ CHEDDAR BOB v5.2 🎲</h1>
+    <p class="tagline">A fast baseball game using just hands and dice</p>
+
+    <div class="needs">
+        <span>🎲 2 dice per player</span>
+        <span>✋ Your hands (for RPS)</span>
+        <span>📄 This sheet</span>
+    </div>
+
+    <h2>Game Flow — Each At-Bat</h2>
+
+    <h3><span class="phase-num">1</span> STRATEGY — Rock Paper Scissors</h3>
+    <p>Both players throw RPS simultaneously. <span class="highlight">Winner gets +2</span> to their battle roll. Tie = no bonus.</p>
+
+    <div class="rps-grid">
+        <div class="rps-card">
+            <span class="emoji">🪨</span>
+            <span class="name">ROCK</span>
+            <span class="beats">beats Scissors</span>
+        </div>
+        <div class="rps-card">
+            <span class="emoji">📄</span>
+            <span class="name">PAPER</span>
+            <span class="beats">beats Rock</span>
+        </div>
+        <div class="rps-card">
+            <span class="emoji">✂️</span>
+            <span class="name">SCISSORS</span>
+            <span class="beats">beats Paper</span>
+        </div>
+    </div>
+
+    <h3><span class="phase-num">2</span> BATTLE — Roll-Off</h3>
+    <p>Both roll 2d6 + modifier. <strong>Higher total wins</strong> and controls the result. Tie? Re-roll.</p>
+    <p>Winner's roll determines the <strong>tier</strong>:</p>
+    <table class="tier-table" style="width: 50%; margin: 8px auto;">
+        <tr><th>Roll Total</th><th>Tier</th></tr>
+        <tr><td>2–6</td><td>Weak</td></tr>
+        <tr><td>7–9</td><td>Solid</td></tr>
+        <tr><td>10+</td><td>Strong</td></tr>
+    </table>
+
+    <h3><span class="phase-num">3</span> RESULT — Winner Rolls Again</h3>
+    <p>Battle winner rolls 2d6 again. Cross-reference battle tier (row) with result roll tier (column).</p>
+
+    <div class="columns">
+        <div class="column">
+            <table class="batter-table">
+                <tr><th colspan="4">BATTER Wins → Outcome</th></tr>
+                <tr><th>Battle ↓</th><th>Weak</th><th>Solid</th><th>Strong</th></tr>
+                <tr><td>Weak</td><td class="out">OUT</td><td class="out">OUT</td><td class="hit">1B</td></tr>
+                <tr><td>Solid</td><td class="out">OUT</td><td class="hit">1B</td><td class="hit">2B</td></tr>
+                <tr><td>Strong</td><td class="hit">1B</td><td class="hit">2B</td><td class="hr">HR</td></tr>
+            </table>
+        </div>
+        <div class="column">
+            <table class="pitcher-table">
+                <tr><th colspan="4">PITCHER Wins → Outcome</th></tr>
+                <tr><th>Battle ↓</th><th>Weak</th><th>Solid</th><th>Strong</th></tr>
+                <tr><td>Weak</td><td class="walk">WALK</td><td class="out">OUT</td><td class="out">OUT</td></tr>
+                <tr><td>Solid</td><td class="out">OUT</td><td class="out">OUT</td><td class="out">OUT</td></tr>
+                <tr><td>Strong</td><td class="out">OUT</td><td class="out">OUT</td><td class="dp">DP</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="crit-box">
+        <h4>🎲 CRITICAL ROLLS — Override Everything!</h4>
+        <div class="crit-item">
+            <span class="crit-dice">🐍</span>
+            <span><strong>Snake Eyes (2)</strong> = Worst outcome → OUT for batter, WALK for pitcher</span>
+        </div>
+        <div class="crit-item">
+            <span class="crit-dice">🎰</span>
+            <span><strong>Boxcars (12)</strong> = Best outcome → HR for batter, DP for pitcher</span>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <h3>Runner Movement</h3>
+            <ul>
+                <li><strong>1B (Single):</strong> All advance 1 base</li>
+                <li><strong>2B (Double):</strong> All advance 2 bases</li>
+                <li><strong>HR:</strong> Everyone scores!</li>
+                <li><strong>Walk:</strong> Batter to 1st, forced runners advance</li>
+                <li><strong>DP:</strong> 2 outs, lead runner removed</li>
+            </ul>
+        </div>
+        <div class="column">
+            <h3>Winning</h3>
+            <ul>
+                <li><strong>3 innings</strong> (6 half-innings)</li>
+                <li>Most runs wins</li>
+                <li>Tie? Extra innings!</li>
+                <li>Runner crosses home = 1 run</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quick-ref">
+        <div class="line"><span class="label">STRATEGY:</span> RPS — Winner gets +2 to battle roll</div>
+        <div class="line"><span class="label">BATTLE:</span> Both roll 2d6+mod, high wins. Tier: ≤6 Weak, 7-9 Solid, 10+ Strong</div>
+        <div class="line"><span class="label">RESULT:</span> Winner rolls again, use tables. 🐍2=worst 🎰12=best</div>
+    </div>
+
+    <div class="footer">
+        Cheddar Bob v5.2 — Have fun and tell us what works!
+    </div>
+</body>
+</html>

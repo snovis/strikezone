@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob v5.3 — Playtest Rules</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.4in;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 10pt;
+            line-height: 1.35;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 0.4in;
+            color: #222;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 22pt;
+            margin-bottom: 2px;
+            color: #1a5f2a;
+        }
+
+        .tagline {
+            text-align: center;
+            font-style: italic;
+            color: #666;
+            margin-bottom: 12px;
+            font-size: 11pt;
+        }
+
+        .needs {
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            font-size: 9pt;
+        }
+
+        .needs span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        h2 {
+            font-size: 13pt;
+            color: #1a5f2a;
+            border-bottom: 2px solid #1a5f2a;
+            padding-bottom: 3px;
+            margin: 12px 0 8px 0;
+        }
+
+        h3 {
+            font-size: 11pt;
+            color: #333;
+            margin: 10px 0 5px 0;
+        }
+
+        .phase-num {
+            display: inline-block;
+            background: #1a5f2a;
+            color: white;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 22px;
+            font-weight: bold;
+            font-size: 11pt;
+            margin-right: 6px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 6px 0;
+            font-size: 9pt;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 4px 8px;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+        }
+
+        .batter-table th { background: #2d7a3d; }
+        .pitcher-table th { background: #7a2d2d; }
+        .stance-table th { background: #2d5a7a; }
+
+        .hit { background: #d4edda; }
+        .out { background: #f8d7da; }
+        .walk { background: #cce5ff; }
+        .hr { background: #28a745; color: white; font-weight: bold; }
+        .dp { background: #c62828; color: white; font-weight: bold; }
+        .batter-adv { background: #d4edda; }
+        .pitcher-adv { background: #f8d7da; }
+        .neutral { background: #f0f0f0; }
+
+        .columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .columns-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .column {
+            min-width: 0;
+        }
+
+        .crit-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #d4a800;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 10px 0;
+        }
+
+        .crit-box h4 {
+            font-size: 10pt;
+            color: #856404;
+            margin-bottom: 4px;
+        }
+
+        .crit-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin: 3px 0;
+            font-size: 9pt;
+        }
+
+        .crit-dice {
+            font-size: 14pt;
+        }
+
+        .quick-ref {
+            background: #e8f5e9;
+            border: 2px solid #1a5f2a;
+            border-radius: 8px;
+            padding: 10px;
+            margin-top: 10px;
+            font-family: monospace;
+            font-size: 8pt;
+        }
+
+        .quick-ref .line {
+            margin: 3px 0;
+        }
+
+        .quick-ref .label {
+            color: #1a5f2a;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 9pt;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 6px;
+        }
+
+        .rps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin: 6px 0;
+        }
+
+        .rps-card {
+            background: #f0f0f0;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .rps-card .emoji {
+            font-size: 20pt;
+            display: block;
+        }
+
+        .rps-card .name {
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        .rps-card .beats {
+            font-size: 7pt;
+            color: #666;
+        }
+
+        .stance-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+            margin: 6px 0;
+        }
+
+        .stance-card {
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            border-radius: 6px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        .stance-card .emoji {
+            font-size: 18pt;
+            display: block;
+        }
+
+        .stance-card .name {
+            font-weight: bold;
+            font-size: 9pt;
+        }
+
+        .stance-card .axis {
+            font-size: 7pt;
+            color: #666;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .tier-table td:first-child {
+            font-weight: bold;
+            background: #f0f0f0;
+        }
+
+        ul {
+            margin: 5px 0 5px 18px;
+            font-size: 9pt;
+        }
+
+        li {
+            margin: 2px 0;
+        }
+
+        .stance-result-box {
+            background: #e3f2fd;
+            border: 2px solid #1976d2;
+            border-radius: 8px;
+            padding: 8px;
+            margin: 8px 0;
+        }
+
+        .stance-result-box h4 {
+            font-size: 10pt;
+            color: #1565c0;
+            margin-bottom: 6px;
+        }
+
+        .mod-summary {
+            background: #fff3e0;
+            border: 1px solid #ff9800;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 9pt;
+        }
+
+        .mod-summary strong {
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <h1>⚾ CHEDDAR BOB v5.3 🎲</h1>
+    <p class="tagline">A fast baseball game with strategic pitch location</p>
+
+    <div class="needs">
+        <span>🎲 2 dice per player</span>
+        <span>✋ Hands (for strategy)</span>
+        <span>🃏 4 location cards</span>
+        <span>📄 This sheet</span>
+    </div>
+
+    <h2>Game Flow — Each At-Bat</h2>
+
+    <div class="columns">
+        <div class="column">
+            <h3><span class="phase-num">1</span> STRATEGY</h3>
+            <p>Both choose secretly, reveal together. <span class="highlight">Winner +2</span></p>
+            <div class="rps-grid">
+                <div class="rps-card">
+                    <span class="emoji">🔨</span>
+                    <span class="name">POWER</span>
+                    <span class="beats">beats ⚖️</span>
+                </div>
+                <div class="rps-card">
+                    <span class="emoji">⚖️</span>
+                    <span class="name">BALANCE</span>
+                    <span class="beats">beats 🎯</span>
+                </div>
+                <div class="rps-card">
+                    <span class="emoji">🎯</span>
+                    <span class="name">FINESSE</span>
+                    <span class="beats">beats 🔨</span>
+                </div>
+            </div>
+        </div>
+        <div class="column">
+            <h3><span class="phase-num">2</span> STANCE — Location</h3>
+            <p>Both secretly pick, then reveal together.</p>
+            <div class="stance-grid">
+                <div class="stance-card">
+                    <span class="emoji">⬆️</span>
+                    <span class="name">UP</span>
+                    <span class="axis">vertical</span>
+                </div>
+                <div class="stance-card">
+                    <span class="emoji">⬇️</span>
+                    <span class="name">DOWN</span>
+                    <span class="axis">vertical</span>
+                </div>
+                <div class="stance-card">
+                    <span class="emoji">⬅️</span>
+                    <span class="name">IN</span>
+                    <span class="axis">horizontal</span>
+                </div>
+                <div class="stance-card">
+                    <span class="emoji">➡️</span>
+                    <span class="name">OUT</span>
+                    <span class="axis">horizontal</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="stance-result-box">
+        <h4>📍 Stance Resolution</h4>
+        <table class="stance-table" style="width: 100%;">
+            <tr>
+                <th>Result</th>
+                <th>Condition</th>
+                <th>Modifier</th>
+            </tr>
+            <tr class="batter-adv">
+                <td><strong>MATCH</strong></td>
+                <td>Same location (e.g., UP vs UP)</td>
+                <td>Batter +1</td>
+            </tr>
+            <tr class="pitcher-adv">
+                <td><strong>FOOLED</strong></td>
+                <td>Same axis, opposite (e.g., UP vs DOWN)</td>
+                <td>Pitcher +1</td>
+            </tr>
+            <tr class="neutral">
+                <td><strong>MISS</strong></td>
+                <td>Different axes (e.g., UP vs IN)</td>
+                <td>No modifier</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <h3><span class="phase-num">3</span> BATTLE — Roll-Off</h3>
+            <p>Both roll 2d6 + all modifiers. <strong>High wins.</strong> Tie = re-roll.</p>
+            <table class="tier-table" style="margin: 6px 0;">
+                <tr><th>Roll Total</th><th>Tier</th></tr>
+                <tr><td>2–6</td><td>Weak</td></tr>
+                <tr><td>7–9</td><td>Solid</td></tr>
+                <tr><td>10+</td><td>Strong</td></tr>
+            </table>
+        </div>
+        <div class="column">
+            <div class="mod-summary">
+                <strong>Modifier Summary:</strong><br>
+                • Strategy winner: <strong>+2</strong><br>
+                • Batter matched location: <strong>+1</strong><br>
+                • Pitcher fooled batter: <strong>+1</strong><br>
+                <em>Max possible: +3 (won both)</em>
+            </div>
+        </div>
+    </div>
+
+    <h3><span class="phase-num">4</span> RESULT — Winner Rolls Again</h3>
+    <p>Battle winner rolls 2d6. Cross-reference battle tier (row) with result tier (column).</p>
+
+    <div class="columns">
+        <div class="column">
+            <table class="batter-table">
+                <tr><th colspan="4">BATTER Wins → Outcome</th></tr>
+                <tr><th>Battle ↓</th><th>Weak</th><th>Solid</th><th>Strong</th></tr>
+                <tr><td>Weak</td><td class="out">OUT</td><td class="out">OUT</td><td class="hit">1B</td></tr>
+                <tr><td>Solid</td><td class="out">OUT</td><td class="hit">1B</td><td class="hit">2B</td></tr>
+                <tr><td>Strong</td><td class="hit">1B</td><td class="hit">2B</td><td class="hr">HR</td></tr>
+            </table>
+        </div>
+        <div class="column">
+            <table class="pitcher-table">
+                <tr><th colspan="4">PITCHER Wins → Outcome</th></tr>
+                <tr><th>Battle ↓</th><th>Weak</th><th>Solid</th><th>Strong</th></tr>
+                <tr><td>Weak</td><td class="walk">WALK</td><td class="out">OUT</td><td class="out">OUT</td></tr>
+                <tr><td>Solid</td><td class="out">OUT</td><td class="out">OUT</td><td class="out">OUT</td></tr>
+                <tr><td>Strong</td><td class="out">OUT</td><td class="out">OUT</td><td class="dp">DP</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="crit-box">
+        <h4>🎲 CRITICAL ROLLS — Override Everything!</h4>
+        <div class="crit-item">
+            <span class="crit-dice">🐍</span>
+            <span><strong>Snake Eyes (2)</strong> = Worst → OUT for batter, WALK for pitcher</span>
+        </div>
+        <div class="crit-item">
+            <span class="crit-dice">🎰</span>
+            <span><strong>Boxcars (12)</strong> = Best → HR for batter, DP for pitcher</span>
+        </div>
+    </div>
+
+    <div class="columns">
+        <div class="column">
+            <h3>Runner Movement</h3>
+            <ul>
+                <li><strong>1B:</strong> All advance 1 base</li>
+                <li><strong>2B:</strong> All advance 2 bases</li>
+                <li><strong>HR:</strong> Everyone scores!</li>
+                <li><strong>Walk:</strong> Forced runners advance</li>
+                <li><strong>DP:</strong> 2 outs, lead runner out</li>
+            </ul>
+        </div>
+        <div class="column">
+            <h3>Winning</h3>
+            <ul>
+                <li><strong>3 innings</strong> (6 half-innings)</li>
+                <li>Most runs wins</li>
+                <li>Tie? Extra innings!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="quick-ref">
+        <div class="line"><span class="label">STRATEGY:</span> 🔨>⚖️>🎯>🔨 — Winner +2</div>
+        <div class="line"><span class="label">STANCE:</span> UP/DOWN/IN/OUT — Match: Batter +1 | Fooled: Pitcher +1 | Miss: 0</div>
+        <div class="line"><span class="label">BATTLE:</span> 2d6+mods, high wins. Tier: ≤6 Weak, 7-9 Solid, 10+ Strong</div>
+        <div class="line"><span class="label">RESULT:</span> Winner rolls, use tables. 🐍2=worst 🎰12=best</div>
+    </div>
+
+    <div class="footer">
+        Cheddar Bob v5.3 — Have fun and tell us what works!
+    </div>
+</body>
+</html>
