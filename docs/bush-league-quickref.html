@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob: Bush League - Quick Reference</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 8pt;
+            line-height: 1.25;
+        }
+
+        .page {
+            width: 8.5in;
+            height: 11in;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            padding: 0.15in;
+            gap: 0.1in;
+        }
+
+        .panel {
+            border: 2px dashed #aaa;
+            padding: 0.15in;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .panel-title {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c23 100%);
+            color: white;
+            padding: 4px 8px;
+            font-size: 11pt;
+            font-weight: bold;
+            margin: -0.15in -0.15in 8px -0.15in;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .header-main {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            font-size: 13pt;
+        }
+
+        .header-main .subtitle {
+            font-size: 8pt;
+            font-weight: normal;
+            opacity: 0.9;
+        }
+
+        /* Flow Box */
+        .flow-box {
+            background: #f8f8f8;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 8px;
+            margin-bottom: 8px;
+        }
+
+        .flow-box h3 {
+            font-size: 10pt;
+            margin-bottom: 4px;
+            color: #2d5016;
+        }
+
+        .flow-list {
+            list-style: none;
+            font-size: 9pt;
+        }
+
+        .flow-list li {
+            margin: 2px 0;
+            padding-left: 6px;
+        }
+
+        .flow-list li::before {
+            content: "→ ";
+            color: #4a7c23;
+            font-weight: bold;
+        }
+
+        /* Zone Table */
+        .zone-table {
+            border-collapse: collapse;
+            margin: 6px 0;
+            width: 100%;
+        }
+
+        .zone-table th, .zone-table td {
+            border: 1px solid #333;
+            padding: 3px 6px;
+            text-align: center;
+            font-size: 8pt;
+        }
+
+        .zone-table th {
+            background: #333;
+            color: white;
+            font-size: 8pt;
+        }
+
+        .zone-table .weak { background: #ffe6e6; }
+        .zone-table .solid { background: #fff9e6; }
+        .zone-table .strong { background: #e6ffe6; }
+
+        /* RPS Section */
+        .rps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin: 6px 0;
+        }
+
+        .rps-card {
+            background: #f0f0f0;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 4px;
+            text-align: center;
+        }
+
+        .rps-card .emoji {
+            font-size: 18pt;
+            display: block;
+        }
+
+        .rps-card .name {
+            font-weight: bold;
+            font-size: 8pt;
+        }
+
+        .rps-card .pitch {
+            font-size: 7pt;
+            color: #666;
+        }
+
+        /* Outcome Tables */
+        .outcome-section {
+            margin: 6px 0;
+        }
+
+        .outcome-section h4 {
+            font-size: 9pt;
+            margin-bottom: 4px;
+            padding: 3px 6px;
+            border-radius: 3px;
+        }
+
+        .batter-header {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .pitcher-header {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .outcome-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 8pt;
+        }
+
+        .outcome-table th, .outcome-table td {
+            border: 1px solid #333;
+            padding: 2px 4px;
+            text-align: center;
+        }
+
+        .outcome-table th {
+            background: #444;
+            color: white;
+        }
+
+        .outcome-table .roll-col {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .outcome-table .hit { background: #d4edda; }
+        .outcome-table .out { background: #f8d7da; }
+        .outcome-table .walk { background: #cce5ff; }
+        .outcome-table .dp { background: #f5c6cb; }
+
+        /* Crit Box */
+        .crit-box {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #d4a800;
+            border-radius: 6px;
+            padding: 6px;
+            margin: 6px 0;
+        }
+
+        .crit-box h4 {
+            font-size: 9pt;
+            color: #856404;
+            margin-bottom: 4px;
+        }
+
+        .crit-item {
+            display: flex;
+            align-items: center;
+            margin: 2px 0;
+            font-size: 8pt;
+        }
+
+        .crit-dice {
+            font-size: 12pt;
+            margin-right: 6px;
+        }
+
+        /* Definitions */
+        .def-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 1px 6px;
+            font-size: 7pt;
+            margin: 4px 0;
+        }
+
+        .def-code {
+            font-weight: bold;
+            font-family: monospace;
+            background: #eee;
+            padding: 0px 3px;
+            border-radius: 2px;
+            font-size: 7pt;
+        }
+
+        /* Quick Ref Box */
+        .quick-ref {
+            background: #f0f4ff;
+            border: 1px solid #4a5568;
+            border-radius: 6px;
+            padding: 6px;
+            margin: 6px 0;
+            font-family: monospace;
+            font-size: 7pt;
+        }
+
+        .quick-ref .line {
+            margin: 2px 0;
+        }
+
+        .quick-ref .label {
+            color: #666;
+        }
+
+        .quick-ref .value {
+            font-weight: bold;
+        }
+
+        /* Philosophy Box */
+        .philosophy {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            border: 1px solid #4a7c23;
+            border-radius: 6px;
+            padding: 6px;
+            text-align: center;
+            margin-top: 6px;
+        }
+
+        .philosophy .tagline {
+            font-size: 10pt;
+            font-weight: bold;
+            color: #2d5016;
+        }
+
+        .philosophy .sub {
+            font-size: 7pt;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        /* Scorecard */
+        .scorecard {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 7pt;
+        }
+
+        .scorecard th, .scorecard td {
+            border: 1px solid #333;
+            padding: 6px 3px;
+            text-align: center;
+        }
+
+        .scorecard th {
+            background: #333;
+            color: white;
+        }
+
+        .scorecard .batter-num {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* Runner Challenge */
+        .runner-challenge {
+            background: #fff3e0;
+            border: 1px solid #e65100;
+            border-radius: 4px;
+            padding: 6px;
+            margin: 6px 0;
+            font-size: 8pt;
+        }
+
+        .runner-challenge h4 {
+            color: #e65100;
+            font-size: 9pt;
+            margin-bottom: 3px;
+        }
+
+        /* Footer */
+        .panel-footer {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 7pt;
+            color: #888;
+        }
+
+        .highlight {
+            background: #ffeb3b;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+
+        .bold { font-weight: bold; }
+        .green { color: #2d5016; }
+        .red { color: #c62828; }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- PANEL 1: FLOW (Top Left) -->
+        <div class="panel">
+            <div class="panel-title header-main">
+                ⚾ CHEDDAR BOB: BUSH LEAGUE 🎲🎲
+                <div class="subtitle">No excuses. No equipment. Just hands and dice.</div>
+            </div>
+
+            <div class="flow-box">
+                <h3>GAME FLOW</h3>
+                <ol class="flow-list">
+                    <li><strong>SELECT</strong> - Both choose RPS secretly</li>
+                    <li><strong>REVEAL</strong> - Throw hands simultaneously</li>
+                    <li><strong>BATTLE</strong> - Roll 2d6 + mods, high wins</li>
+                    <li><strong>RESULT</strong> - Winner rolls for outcome</li>
+                </ol>
+            </div>
+
+            <h4 style="margin-bottom: 4px; font-size: 9pt;">THE MAGIC NUMBER: <span class="highlight">7-9</span></h4>
+            <p style="font-size: 7pt; color: #555; margin-bottom: 4px;">Used for BOTH Battle roll AND Result roll:</p>
+            <table class="zone-table">
+                <tr>
+                    <th>Roll</th>
+                    <th>Zone</th>
+                    <th>Offset</th>
+                </tr>
+                <tr class="weak">
+                    <td><strong>≤6</strong></td>
+                    <td>Weak</td>
+                    <td>0</td>
+                </tr>
+                <tr class="solid">
+                    <td><strong>7-9</strong></td>
+                    <td>Solid</td>
+                    <td>1</td>
+                </tr>
+                <tr class="strong">
+                    <td><strong>10+</strong></td>
+                    <td>Strong</td>
+                    <td>2</td>
+                </tr>
+            </table>
+            <p style="font-size: 7pt; color: #555; margin-top: 3px;"><strong>Battle</strong> sets Offset | <strong>Result</strong> adds to Offset → Position</p>
+
+            <div class="crit-box">
+                <h4>🎲 CRITICAL ROLLS</h4>
+                <div class="crit-item">
+                    <span class="crit-dice">🐍</span>
+                    <span><strong>Snake Eyes (2)</strong> = Crit Fail → Worst outcome</span>
+                </div>
+                <div class="crit-item">
+                    <span class="crit-dice">🎰</span>
+                    <span><strong>Boxcars (12)</strong> = Crit Hit → Best outcome</span>
+                </div>
+            </div>
+
+            <div class="philosophy">
+                <div class="tagline">Read your opponent. Roll your fate.</div>
+                <div class="sub">Your choices influence the odds. Smart choices make luck.</div>
+            </div>
+        </div>
+
+        <!-- PANEL 2: RPS & TABLES (Top Right) -->
+        <div class="panel">
+            <div class="panel-title">RPS &amp; OUTCOME TABLES</div>
+
+            <h4 style="margin-bottom: 4px; font-size: 9pt;">ROCK-PAPER-SCISSORS → Pitch Type</h4>
+            <div class="rps-grid">
+                <div class="rps-card">
+                    <span class="emoji">🪨</span>
+                    <span class="name">ROCK</span>
+                    <span class="pitch">Fastball</span>
+                </div>
+                <div class="rps-card">
+                    <span class="emoji">📄</span>
+                    <span class="name">PAPER</span>
+                    <span class="pitch">Changeup</span>
+                </div>
+                <div class="rps-card">
+                    <span class="emoji">✂️</span>
+                    <span class="name">SCISSORS</span>
+                    <span class="pitch">Breaking Ball</span>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 8pt; margin-bottom: 6px;">
+                <strong class="green">RPS Winner: +2</strong> to battle roll &nbsp;|&nbsp; Tie: No modifier
+            </p>
+
+            <div class="outcome-section">
+                <h4 class="batter-header">BATTER WINS → Outcome Table</h4>
+                <table class="outcome-table">
+                    <tr>
+                        <th>Battle</th>
+                        <th>Weak (≤6)</th>
+                        <th>Solid (7-9)</th>
+                        <th>Strong (10+)</th>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Weak</td>
+                        <td class="out">OUT</td>
+                        <td class="out">OUT</td>
+                        <td class="hit">1B</td>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Solid</td>
+                        <td class="out">OUT</td>
+                        <td class="hit">1B</td>
+                        <td class="hit">2B</td>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Strong</td>
+                        <td class="hit">1B</td>
+                        <td class="hit">2B</td>
+                        <td class="hit" style="background: #28a745; color: white; font-weight: bold;">HR</td>
+                    </tr>
+                </table>
+                <p style="font-size: 8pt; color: #666; margin-top: 2px;">🐍 Snake Eyes = OUT &nbsp;|&nbsp; 🎰 Boxcars = HR</p>
+            </div>
+
+            <div class="outcome-section">
+                <h4 class="pitcher-header">PITCHER WINS → Outcome Table</h4>
+                <table class="outcome-table">
+                    <tr>
+                        <th>Battle</th>
+                        <th>Weak (≤6)</th>
+                        <th>Solid (7-9)</th>
+                        <th>Strong (10+)</th>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Weak</td>
+                        <td class="walk">BB</td>
+                        <td class="out">O-RA</td>
+                        <td class="out">O-RC</td>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Solid</td>
+                        <td class="out">O-RA</td>
+                        <td class="out">O-RC</td>
+                        <td class="out">O-RF</td>
+                    </tr>
+                    <tr>
+                        <td class="roll-col">Strong</td>
+                        <td class="out">O-RC</td>
+                        <td class="out">O-RF</td>
+                        <td class="dp">DP!</td>
+                    </tr>
+                </table>
+                <p style="font-size: 8pt; color: #666; margin-top: 2px;">🐍 Snake Eyes = BB (HBP) &nbsp;|&nbsp; 🎰 Boxcars = DP</p>
+            </div>
+
+            <div style="display: flex; gap: 8px; margin-top: 6px; font-size: 8pt;">
+                <!-- BATTER RESULTS -->
+                <div style="flex: 1;">
+                    <div style="background: #d4edda; padding: 2px 4px; font-weight: bold; text-align: center; font-size: 7pt;">BATTER RESULTS</div>
+                    <div style="display: flex;">
+                        <!-- Labels -->
+                        <div style="display: flex; flex-direction: column; font-size: 5pt; color: #666; padding-right: 2px; text-align: right;">
+                            <div style="height: 16px; line-height: 16px;">Wk</div>
+                            <div style="height: 16px; line-height: 16px;">Sol</div>
+                            <div style="height: 16px; line-height: 16px;">Str</div>
+                        </div>
+                        <!-- Brackets -->
+                        <div style="width: 14px; position: relative;">
+                            <div style="position: absolute; top: 0; height: 48px; border: 2px solid #f8b4b4; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 0;"></div>
+                            <div style="position: absolute; top: 16px; height: 48px; border: 2px solid #fcd34d; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 4px;"></div>
+                            <div style="position: absolute; top: 32px; height: 48px; border: 2px solid #86efac; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 8px;"></div>
+                        </div>
+                        <!-- Items -->
+                        <div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">0.</span> OUT</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">1.</span> OUT</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">2.</span> 1B</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">3.</span> 2B</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">4.</span> HR</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- PITCHER RESULTS -->
+                <div style="flex: 1;">
+                    <div style="background: #f8d7da; padding: 2px 4px; font-weight: bold; text-align: center; font-size: 7pt;">PITCHER RESULTS</div>
+                    <div style="display: flex;">
+                        <!-- Labels -->
+                        <div style="display: flex; flex-direction: column; font-size: 5pt; color: #666; padding-right: 2px; text-align: right;">
+                            <div style="height: 16px; line-height: 16px;">Wk</div>
+                            <div style="height: 16px; line-height: 16px;">Sol</div>
+                            <div style="height: 16px; line-height: 16px;">Str</div>
+                        </div>
+                        <!-- Brackets -->
+                        <div style="width: 14px; position: relative;">
+                            <div style="position: absolute; top: 0; height: 48px; border: 2px solid #f8b4b4; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 0;"></div>
+                            <div style="position: absolute; top: 16px; height: 48px; border: 2px solid #fcd34d; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 4px;"></div>
+                            <div style="position: absolute; top: 32px; height: 48px; border: 2px solid #86efac; border-right: none; border-radius: 4px 0 0 4px; width: 4px; left: 8px;"></div>
+                        </div>
+                        <!-- Items -->
+                        <div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">0.</span> BB</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">1.</span> O-RA</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">2.</span> O-RC</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">3.</span> O-RF</div>
+                            <div style="height: 16px; line-height: 16px;"><span style="color: #888;">4.</span> DP</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL 3: PLAYS GUIDE (Bottom Left) -->
+        <div class="panel">
+            <div class="panel-title">PLAYS GUIDE</div>
+
+            <div class="runner-challenge">
+                <h4>🏃 RUNNER CHALLENGE (O-RC)</h4>
+                <p>Runner <em>may</em> attempt to advance. If they go:</p>
+                <ol style="margin-left: 16px; margin-top: 4px;">
+                    <li>Both players roll 2d6 (no mods)</li>
+                    <li>Higher roll wins (tie = re-roll)</li>
+                    <li>Runner wins → Safe! | Defense wins → Out!</li>
+                </ol>
+            </div>
+
+            <h4 style="margin: 6px 0 4px; font-size: 9pt;">RUNNER ADVANCE ON HITS</h4>
+            <div class="def-grid">
+                <span class="def-code">1B</span><span>R1→2nd, R2→3rd, R3 scores</span>
+                <span class="def-code">2B</span><span>R2+R3 score, R1→3rd</span>
+                <span class="def-code">HR</span><span>Everyone scores!</span>
+            </div>
+
+            <h4 style="margin: 6px 0 4px; font-size: 9pt;">WALKS &amp; DOUBLE PLAYS</h4>
+            <div class="def-grid">
+                <span class="def-code">BB</span><span>Forced runners advance only</span>
+                <span class="def-code">DP</span><span>2 outs, lead runner erased</span>
+            </div>
+
+            <div class="quick-ref">
+                <div class="line"><span class="label">FLOW:</span> <span class="value">SELECT → REVEAL → BATTLE → RESULT</span></div>
+                <div class="line"><span class="label">RPS:</span> <span class="value">🪨=FB 📄=CH ✂️=CB | Winner +2</span></div>
+                <div class="line"><span class="label">ZONES:</span> <span class="value">≤6 Weak | 7-9 Solid | 10+ Strong</span></div>
+                <div class="line"><span class="label">BATTER:</span> <span class="value">OUT-OUT-1B-2B-HR</span></div>
+                <div class="line"><span class="label">PITCHER:</span> <span class="value">BB-ORA-ORC-ORF-DP</span></div>
+            </div>
+
+            <h4 style="margin: 6px 0 4px; font-size: 9pt;">SIM STATS (5000 AB)</h4>
+            <table class="zone-table" style="font-size: 7pt;">
+                <tr>
+                    <td><strong>.379</strong> AVG</td>
+                    <td><strong>.397</strong> OBP</td>
+                    <td><strong>.655</strong> SLG</td>
+                </tr>
+                <tr>
+                    <td><strong>4.6%</strong> HR</td>
+                    <td><strong>47pt</strong> RPS Swing</td>
+                    <td><strong>~5.4</strong> runs/game</td>
+                </tr>
+            </table>
+
+            <div class="panel-footer">
+                ⚾ Cheddar Bob: Bush League 🎲🎲 - No excuses, just play!
+            </div>
+        </div>
+
+        <!-- PANEL 4: SCORECARD (Bottom Right) -->
+        <div class="panel">
+            <div class="panel-title">SCORECARD</div>
+
+            <table class="scorecard">
+                <tr>
+                    <th>Btr</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th></th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                </tr>
+                <tr>
+                    <td class="batter-num">1</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">1</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">2</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">2</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">3</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">3</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">4</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">4</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">5</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">5</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">6</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">6</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">7</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">7</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">8</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">8</td>
+                    <td></td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">9</td>
+                    <td></td><td></td><td></td>
+                    <td class="batter-num">9</td>
+                    <td></td><td></td><td></td>
+                </tr>
+            </table>
+
+            <table class="scorecard" style="margin-top: 10px;">
+                <tr>
+                    <th>Team</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>R</th>
+                    <th>H</th>
+                </tr>
+                <tr>
+                    <td class="batter-num">Away</td>
+                    <td></td><td></td><td></td>
+                    <td></td><td></td>
+                </tr>
+                <tr>
+                    <td class="batter-num">Home</td>
+                    <td></td><td></td><td></td>
+                    <td></td><td></td>
+                </tr>
+            </table>
+
+            <h4 style="margin: 8px 0 4px; font-size: 9pt;">NOTATION</h4>
+            <p style="font-size: 7pt; line-height: 1.4;">
+                <span class="def-code">1B</span> Single
+                <span class="def-code">2B</span> Double
+                <span class="def-code">HR</span> Home Run<br>
+                <span class="def-code">BB</span> Walk
+                <span class="def-code">K</span> Strikeout
+                <span class="def-code">DP</span> Double Play<br>
+                <span class="def-code">RA</span> Runners Advance
+                <span class="def-code">RC</span> Runner Challenge
+                <span class="def-code">RF</span> Runners Freeze
+            </p>
+
+            <h4 style="margin: 8px 0 4px; font-size: 9pt;">WHAT YOU NEED</h4>
+            <p style="font-size: 7pt;">
+                🎲 2 dice per player (or dice apps)<br>
+                ✋ Your hands (for RPS)<br>
+                📝 This card (optional)
+            </p>
+
+            <div class="panel-footer">
+                Print, fold, play anywhere! | v1.0
+            </div>
+        </div>
+    </div>
+</body>
+</html>
