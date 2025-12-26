@@ -5,16 +5,18 @@
  *   npm run test:dice -- --rolls 10 --type 1d6
  *   npm run test:dice -- --rolls 5 --type 2d6
  *   npm run test:dice -- --rolls 1000 --type 2d6 --histogram
+ *   npm run test:dice -- --rolls 5 --type 2d6 --seed test123
  */
 
-import { roll1d6, roll2d6, sum2d6 } from './dice';
+import { roll1d6, roll2d6, sum2d6, setSeed } from './dice';
 
 // Parse command line arguments
-function parseArgs(): { rolls: number; type: string; histogram: boolean } {
+function parseArgs(): { rolls: number; type: string; histogram: boolean; seed: string | null } {
     const args = process.argv.slice(2);
     let rolls = 10;
     let type = '1d6';
     let histogram = false;
+    let seed: string | null = null;
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--rolls' && args[i + 1]) {
@@ -26,9 +28,12 @@ function parseArgs(): { rolls: number; type: string; histogram: boolean } {
         if (args[i] === '--histogram') {
             histogram = true;
         }
+        if (args[i] === '--seed' && args[i + 1]) {
+            seed = args[i + 1];
+        }
     }
 
-    return { rolls, type, histogram };
+    return { rolls, type, histogram, seed };
 }
 
 // Roll and return result based on type
@@ -91,14 +96,20 @@ function showHistogram(counts: Map<number, number>, total: number, type: string)
 }
 
 // Main
-const { rolls, type, histogram } = parseArgs();
+const { rolls, type, histogram, seed } = parseArgs();
 
 if (type !== '1d6' && type !== '2d6') {
     console.log(`Unknown type: ${type}`);
     process.exit(1);
 }
 
-console.log(`Rolling ${type} ${rolls} times...`);
+// Set seed if provided
+if (seed) {
+    setSeed(seed);
+    console.log(`Rolling ${type} ${rolls} times (seed: "${seed}")...`);
+} else {
+    console.log(`Rolling ${type} ${rolls} times (random)...`);
+}
 
 if (histogram) {
     // Collect counts for histogram
