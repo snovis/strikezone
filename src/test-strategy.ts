@@ -4,17 +4,24 @@
  * Usage:
  *   npm run test:strategy -- --matchups 1000
  *   npm run test:strategy -- --matchups 1000 --seed test123
+ *   npm run test:strategy -- --set elements
+ *
+ * Options:
+ *   --matchups N    Number of matchups to simulate (default: 100)
+ *   --seed S        Set random seed for reproducibility
+ *   --set NAME      Strategy set: baseball (default), elements
  */
 
 import { setSeed } from './dice';
-import { DEFAULT_STRATEGY_SET, resolve, StrategySet } from './strategy';
+import { DEFAULT_STRATEGY_SET, BASEBALL_STRATEGY_SET, resolve, showRules, StrategySet } from './strategy';
 import { cpuChooseStrategy } from './player';
 
 // Parse command line arguments
-function parseArgs(): { matchups: number; seed: string | null } {
+function parseArgs(): { matchups: number; seed: string | null; setName: string } {
     const args = process.argv.slice(2);
     let matchups = 100;
     let seed: string | null = null;
+    let setName = 'baseball';  // default to baseball
 
     for (let i = 0; i < args.length; i++) {
         if (args[i] === '--matchups' && args[i + 1]) {
@@ -23,9 +30,26 @@ function parseArgs(): { matchups: number; seed: string | null } {
         if (args[i] === '--seed' && args[i + 1]) {
             seed = args[i + 1];
         }
+        if (args[i] === '--set' && args[i + 1]) {
+            setName = args[i + 1].toLowerCase();
+        }
     }
 
-    return { matchups, seed };
+    return { matchups, seed, setName };
+}
+
+// Get strategy set by name
+function getStrategySet(name: string): StrategySet {
+    switch (name) {
+        case 'baseball':
+            return BASEBALL_STRATEGY_SET;
+        case 'elements':
+        case 'default':
+            return DEFAULT_STRATEGY_SET;
+        default:
+            console.log(`Unknown set "${name}", using baseball`);
+            return BASEBALL_STRATEGY_SET;
+    }
 }
 
 // Show all matchups in the strategy set
@@ -95,12 +119,11 @@ function runSimulation(matchups: number, set: StrategySet): void {
 }
 
 // Main
-const { matchups, seed } = parseArgs();
-const set = DEFAULT_STRATEGY_SET;
+const { matchups, seed, setName } = parseArgs();
+const set = getStrategySet(setName);
 
 console.log('Strategy Test Harness');
 console.log('=====================');
-console.log(`\nStrategy Set: ${set.choices.join(', ')}`);
 
 if (seed) {
     setSeed(seed);
@@ -108,6 +131,9 @@ if (seed) {
 } else {
     console.log('Seed: (random)');
 }
+
+// Show the rules with explanations
+showRules(set);
 
 showMatchupTable(set);
 runSimulation(matchups, set);
