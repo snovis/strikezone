@@ -9,6 +9,7 @@
     "test:strategy": "ts-node src/test-strategy.ts",
     "test:stance": "ts-node src/test-stance.ts",
     "test:commit": "ts-node src/test-commit.ts",
+    "test:battle": "ts-node src/test-battle.ts",
     "test:10": "ts-node src/test-dice.ts --rolls 5 --type 2d6",
     "test:100": "ts-node src/test-dice.ts --rolls 100 --type 2d6 --histogram",
     "test:h1K": "ts-node src/test-dice.ts --rolls 1000 --type 2d6 --histogram"
