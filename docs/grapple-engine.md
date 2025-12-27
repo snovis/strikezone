@@ -44,9 +44,9 @@ Within any single phase, choices exist in a **cyclic dominance** relationship.
 Across phases, **winning one contest does not guarantee winning the next.**
 
 ```
-COMMIT → REVEAL → BATTLE → RESOLVE
-   ↓        ↓        ↓         ↓
-(choice) (edge)  (control) (outcome)
+COMMIT  →  SHOW  →  BATTLE  →  RESULT
+   ↓         ↓         ↓          ↓
+ (pick)    (mods)   (winner)   (outcome)
 ```
 
 Each phase resets uncertainty. A strategic edge improves your odds in the battle. Winning the battle grants control of the result. But control doesn't guarantee your preferred outcome—the result roll still contains a spectrum of possibilities, some of which favor your opponent.
@@ -63,12 +63,12 @@ Every grapple follows four beats:
 Both players secretly select an **approach**—a choice from a non-transitive set. This is the strategic layer. You're reading your opponent, making predictions, accepting risk.
 
 > *Baseball: Pitch type (Fastball / Curveball / Changeup)*
-> 
+>
 > *Fantasy: Combat stance (Aggressive / Defensive / Feint)*
-> 
+>
 > *Heist: Approach (Force / Stealth / Deception)*
 
-### 2. REVEAL
+### 2. SHOW
 Simultaneously, both players reveal their selections. Compare to determine **modifiers**:
 
 | Outcome | Effect |
@@ -80,20 +80,20 @@ Simultaneously, both players reveal their selections. Compare to determine **mod
 The non-transitive loop ensures no selection is universally safe.
 
 ### 3. BATTLE
-Both players roll dice, applying any modifiers from the Reveal phase. This is the **contested moment**—the struggle for control.
+Both players roll dice, applying any modifiers from the Show phase. This is the **contested moment**—the struggle for control.
 
-The higher result wins control and establishes **battle strength**:
+The higher result wins control and establishes **battle tier**:
 
-| Roll Result | Strength |
-|-------------|----------|
+| Roll Result | Tier |
+|-------------|------|
 | Low (≤6) | Weak |
 | Middle (7-9) | Solid |
 | High (10+) | Strong |
 
 Ties can either favor the attacker, defender, or trigger a reroll—genre dependent.
 
-### 4. RESOLVE
-The player who won control rolls for the **outcome**. Their battle strength determines which outcome table or column they use.
+### 4. RESULT
+The player who won control rolls for the **outcome**. Their battle tier determines which outcome table or column they use.
 
 **Critical insight:** Both players' desired outcomes exist on the table. 
 
@@ -145,7 +145,7 @@ When an outcome creates a new choice point, a **nested grapple** can occur.
 > 
 > *Fantasy: Fighter lands a blow but enemy has a parry ability. New grapple: Follow-through vs. Deflection.*
 
-This creates **branching tension**—the main grapple spawns child grapples, each with their own commit-reveal-battle-resolve loop.
+This creates **branching tension**—the main grapple spawns child grapples, each with their own commit-show-battle-result loop.
 
 ---
 

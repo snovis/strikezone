@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob: Bush League - Scorecards</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0;
+        }
+
+        @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 8pt;
+        }
+
+        .page {
+            width: 8.5in;
+            height: 11in;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            padding: 0.15in;
+            gap: 0.15in;
+        }
+
+        .panel {
+            border: 1px dashed #aaa;
+            padding: 0.1in;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #333;
+        }
+
+        .panel-title {
+            font-size: 10pt;
+            font-weight: bold;
+        }
+
+        .panel-subtitle {
+            font-size: 7pt;
+            color: #666;
+        }
+
+        /* Team name inputs */
+        .team-row {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 6px;
+            font-size: 7pt;
+        }
+
+        .team-input {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .team-input label {
+            font-weight: bold;
+        }
+
+        .team-input .line {
+            flex: 1;
+            border-bottom: 1px solid #333;
+            height: 12px;
+        }
+
+        /* Main scorecard table */
+        .scorecard {
+            border-collapse: collapse;
+            width: 100%;
+            flex: 1;
+        }
+
+        .scorecard th, .scorecard td {
+            border: 1px solid #333;
+            text-align: center;
+            padding: 0;
+            height: 18px;
+            vertical-align: middle;
+        }
+
+        .scorecard th {
+            background: #333;
+            color: white;
+            font-size: 6pt;
+            font-weight: bold;
+        }
+
+        .scorecard .btr {
+            width: 14px;
+            background: #f0f0f0;
+            font-weight: bold;
+            font-size: 7pt;
+        }
+
+        .scorecard .inning {
+            width: 22px;
+        }
+
+        .scorecard .divider {
+            width: 4px;
+            background: #333;
+            border: none;
+        }
+
+        .scorecard .divider-header {
+            background: #333;
+        }
+
+        /* Linescore */
+        .linescore {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .linescore th, .linescore td {
+            border: 1px solid #333;
+            text-align: center;
+            padding: 2px 4px;
+            font-size: 7pt;
+        }
+
+        .linescore th {
+            background: #333;
+            color: white;
+        }
+
+        .linescore .team-cell {
+            text-align: left;
+            padding-left: 4px;
+            width: 50px;
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        .linescore .total {
+            background: #f0f0f0;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .panel-footer {
+            margin-top: 6px;
+            font-size: 6pt;
+            color: #666;
+            text-align: center;
+        }
+
+        .notation {
+            font-size: 6pt;
+            color: #555;
+            margin-top: 4px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <!-- SCORECARD 1 -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">⚾ Cheddar Bob: Bush League</span>
+                <span class="panel-subtitle">Date: ________</span>
+            </div>
+
+            <div class="team-row">
+                <div class="team-input"><label>Away:</label><div class="line"></div></div>
+                <div class="team-input"><label>Home:</label><div class="line"></div></div>
+            </div>
+
+            <table class="scorecard">
+                <tr>
+                    <th class="btr">B</th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                    <th class="divider-header"></th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                </tr>
+                <tr><td class="btr">1</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">2</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">3</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">4</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">5</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">6</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">7</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">8</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">9</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+
+            <table class="linescore">
+                <tr>
+                    <th>Team</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th class="total">R</th>
+                    <th class="total">H</th>
+                </tr>
+                <tr>
+                    <td class="team-cell">Away</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+                <tr>
+                    <td class="team-cell">Home</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+            </table>
+
+            <div class="notation">1B 2B HR | BB K DP | RA RC RF</div>
+        </div>
+
+        <!-- SCORECARD 2 -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">⚾ Cheddar Bob: Bush League</span>
+                <span class="panel-subtitle">Date: ________</span>
+            </div>
+
+            <div class="team-row">
+                <div class="team-input"><label>Away:</label><div class="line"></div></div>
+                <div class="team-input"><label>Home:</label><div class="line"></div></div>
+            </div>
+
+            <table class="scorecard">
+                <tr>
+                    <th class="btr">B</th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                    <th class="divider-header"></th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                </tr>
+                <tr><td class="btr">1</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">2</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">3</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">4</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">5</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">6</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">7</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">8</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">9</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+
+            <table class="linescore">
+                <tr>
+                    <th>Team</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th class="total">R</th>
+                    <th class="total">H</th>
+                </tr>
+                <tr>
+                    <td class="team-cell">Away</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+                <tr>
+                    <td class="team-cell">Home</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+            </table>
+
+            <div class="notation">1B 2B HR | BB K DP | RA RC RF</div>
+        </div>
+
+        <!-- SCORECARD 3 -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">⚾ Cheddar Bob: Bush League</span>
+                <span class="panel-subtitle">Date: ________</span>
+            </div>
+
+            <div class="team-row">
+                <div class="team-input"><label>Away:</label><div class="line"></div></div>
+                <div class="team-input"><label>Home:</label><div class="line"></div></div>
+            </div>
+
+            <table class="scorecard">
+                <tr>
+                    <th class="btr">B</th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                    <th class="divider-header"></th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                </tr>
+                <tr><td class="btr">1</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">2</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">3</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">4</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">5</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">6</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">7</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">8</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">9</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+
+            <table class="linescore">
+                <tr>
+                    <th>Team</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th class="total">R</th>
+                    <th class="total">H</th>
+                </tr>
+                <tr>
+                    <td class="team-cell">Away</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+                <tr>
+                    <td class="team-cell">Home</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+            </table>
+
+            <div class="notation">1B 2B HR | BB K DP | RA RC RF</div>
+        </div>
+
+        <!-- SCORECARD 4 -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">⚾ Cheddar Bob: Bush League</span>
+                <span class="panel-subtitle">Date: ________</span>
+            </div>
+
+            <div class="team-row">
+                <div class="team-input"><label>Away:</label><div class="line"></div></div>
+                <div class="team-input"><label>Home:</label><div class="line"></div></div>
+            </div>
+
+            <table class="scorecard">
+                <tr>
+                    <th class="btr">B</th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                    <th class="divider-header"></th>
+                    <th class="inning">1</th>
+                    <th class="inning">2</th>
+                    <th class="inning">3</th>
+                    <th class="inning">4</th>
+                </tr>
+                <tr><td class="btr">1</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">2</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">3</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">4</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">5</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">6</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">7</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">8</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="btr">9</td><td></td><td></td><td></td><td></td><td class="divider"></td><td></td><td></td><td></td><td></td></tr>
+            </table>
+
+            <table class="linescore">
+                <tr>
+                    <th>Team</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th class="total">R</th>
+                    <th class="total">H</th>
+                </tr>
+                <tr>
+                    <td class="team-cell">Away</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+                <tr>
+                    <td class="team-cell">Home</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="total"></td>
+                    <td class="total"></td>
+                </tr>
+            </table>
+
+            <div class="notation">1B 2B HR | BB K DP | RA RC RF</div>
+        </div>
+    </div>
+</body>
+</html>
