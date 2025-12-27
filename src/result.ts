@@ -158,6 +158,119 @@ export const PITCHER_3WALK_RESULT_SET: ResultSet = {
 };
 
 /**
+ * R3 Pressure: Runner on 3rd makes pitcher careful
+ * Option A: One out becomes walk (keeps 5 positions)
+ * OUT → BB → 1B → 2B → HR
+ */
+export const BATTER_R3_PRESSURE_1WALK: ResultSet = {
+    name: 'Batter (R3 Pressure - 1 Walk)',
+    controller: 'batter',
+    outcomes: ['out', 'bb', '1b', '2b', 'hr'],
+    labels: BATTER_RESULT_SET.labels
+};
+
+/**
+ * R3 Pressure: Runner on 3rd - MORE aggressive version
+ * Option B: Both outs become walks (shifts everything)
+ * OUT → BB → BB → 1B → 2B
+ * Note: HR only via boxcars (position 4 = 2B, boxcars still gives best = 2B here)
+ *
+ * To get HR, we'd need to extend to 6 positions or use special handling
+ */
+export const BATTER_R3_PRESSURE_2WALK: ResultSet = {
+    name: 'Batter (R3 Pressure - 2 Walk)',
+    controller: 'batter',
+    outcomes: ['out', 'bb', 'bb', '1b', '2b'],  // HR unreachable via normal ladder
+    labels: BATTER_RESULT_SET.labels
+};
+
+/**
+ * R3 Pressure: Full 6-position extended ladder
+ * OUT → BB → BB → 1B → 2B → HR
+ * Requires extended result resolution (boxcars = position 5)
+ */
+export interface ExtendedResultSet {
+    name: string;
+    controller: 'batter' | 'pitcher';
+    outcomes: Outcome[];  // Variable length (5 or 6)
+    labels: Record<Outcome, string>;
+}
+
+export const BATTER_R3_PRESSURE_6POS: ExtendedResultSet = {
+    name: 'Batter (R3 Pressure - 6 Position)',
+    controller: 'batter',
+    outcomes: ['out', 'bb', 'bb', '1b', '2b', 'hr'],
+    labels: BATTER_RESULT_SET.labels
+};
+
+/**
+ * Resolve result with extended ladder support (for R3 pressure testing)
+ * Boxcars hits the LAST position (whatever that is)
+ */
+export function resolveExtendedResult(
+    battleTier: BattleTier,
+    resultDice: [number, number] | null = null,
+    resultSet: ExtendedResultSet,
+    tierConfig: TierConfig = DEFAULT_TIER_CONFIG,
+    verbose: boolean = false
+): ResultResolution {
+    const log = verbose ? console.log : () => {};
+    const maxPosition = resultSet.outcomes.length - 1;
+
+    // Roll if dice not provided
+    const dice = resultDice ?? roll2d6();
+    const resultRoll = sum2d6(dice);
+
+    // Check for criticals first
+    const critical = detectCritical(resultRoll);
+
+    let position: number;
+    let battleOffset: number;
+    let resultTier: BattleTier;
+    let resultOffset: number;
+
+    if (critical === 'snake-eyes') {
+        position = 0;
+        battleOffset = tierToOffset(battleTier);
+        resultTier = 'weak';
+        resultOffset = 0;
+        log(`\n🐍 SNAKE EYES! Critical fail — position forced to 0`);
+    } else if (critical === 'boxcars') {
+        position = maxPosition;  // Hit the LAST position (HR for 6-pos ladder)
+        battleOffset = tierToOffset(battleTier);
+        resultTier = 'strong';
+        resultOffset = 2;
+        log(`\n🎰 BOXCARS! Critical hit — position forced to ${maxPosition}`);
+    } else {
+        battleOffset = tierToOffset(battleTier);
+        resultTier = getTier(resultRoll, tierConfig);
+        resultOffset = tierToOffset(resultTier);
+        position = battleOffset + resultOffset;
+        // Clamp to valid range
+        position = Math.max(0, Math.min(maxPosition, position));
+    }
+
+    const outcome = resultSet.outcomes[position];
+
+    log(`\n--- RESULT PHASE (${resultSet.name}) ---`);
+    log(`Result roll: [${dice[0]}+${dice[1]}] = ${resultRoll} → ${resultTier.toUpperCase()}`);
+    log(`Position: ${position} (max: ${maxPosition})`);
+    log(`Outcome: ${resultSet.labels[outcome]} (${outcome.toUpperCase()})`);
+
+    return {
+        battleTier,
+        resultRoll,
+        resultDice: dice,
+        battleOffset,
+        resultTier,
+        resultOffset,
+        position,
+        outcome,
+        critical
+    };
+}
+
+/**
  * Resolve the result phase
  *
  * @param battleTier - The tier from the battle phase (determines base offset)

@@ -8,7 +8,9 @@
  *   npm run test:game -- --bonus 2           Strategy win bonus
  *   npm run test:game -- --stance            Enable stance (location) commitment
  *   npm run test:game -- --stance-bonus 1    Stance modifier value
+ *   npm run test:game -- --r3pressure        Enable R3 pressure (batter ladder shifts)
  *   npm run test:game -- --compare           Compare strategy-only vs strategy+stance
+ *   npm run test:game -- --compare-r3        Compare with/without R3 pressure
  */
 
 import { setSeed, resetRandom } from './dice';
@@ -37,9 +39,11 @@ const innings = parseInt(getArg('innings') ?? '3', 10);
 const bonus = parseInt(getArg('bonus') ?? '2', 10);
 const useStance = hasFlag('stance');
 const stanceBonus = parseInt(getArg('stance-bonus') ?? '1', 10);
+const useR3Pressure = hasFlag('r3pressure');
 const single = hasFlag('single');
 const verbose = hasFlag('verbose');
 const compare = hasFlag('compare');
+const compareR3 = hasFlag('compare-r3');
 const seed = getArg('seed');
 
 // Setup randomness
@@ -57,6 +61,7 @@ const config: GameConfig = {
     useStance,
     stanceSet: BASEBALL_STANCE_SET,
     stanceBonus,
+    useR3Pressure,
     verbose: verbose || single
 };
 
@@ -77,9 +82,25 @@ if (compare) {
     resetRandom();
     runSimulation(numGames, { ...config, useStance: true });
 
+} else if (compareR3) {
+    // Compare with/without R3 pressure
+    console.log('\nComparing: Normal vs R3 Pressure');
+    console.log('='.repeat(60));
+
+    // Normal
+    resetRandom();
+    console.log('\n[BASELINE - Normal batter ladder]');
+    runSimulation(numGames, { ...config, useR3Pressure: false });
+
+    // R3 Pressure
+    resetRandom();
+    console.log('\n[R3 PRESSURE - Favorable batter ladder when R3 occupied]');
+    runSimulation(numGames, { ...config, useR3Pressure: true });
+
 } else if (single) {
     const stanceInfo = useStance ? `, stance +${stanceBonus}` : '';
-    console.log(`\nSingle game: ${innings} innings, strategy +${bonus}${stanceInfo}`);
+    const r3Info = useR3Pressure ? ', R3 pressure' : '';
+    console.log(`\nSingle game: ${innings} innings, strategy +${bonus}${stanceInfo}${r3Info}`);
     simulateGame(config);
 } else {
     runSimulation(numGames, config);
@@ -91,4 +112,6 @@ console.log('  npm run test:game -- --single --verbose Play-by-play');
 console.log('  npm run test:game -- --innings 9        9-inning games');
 console.log('  npm run test:game -- --bonus 1          +1 strategy bonus');
 console.log('  npm run test:game -- --stance           Enable stance commitment');
+console.log('  npm run test:game -- --r3pressure       Enable R3 pressure mechanic');
 console.log('  npm run test:game -- --compare          Compare with/without stance');
+console.log('  npm run test:game -- --compare-r3       Compare with/without R3 pressure');

@@ -13,6 +13,7 @@ import { rollBattle, BattleTier, getTier, DEFAULT_TIER_CONFIG } from './battle';
 import {
     resolveResult,
     BATTER_RESULT_SET,
+    BATTER_R3_PRESSURE_1WALK,
     PITCHER_RESULT_SET,
     Outcome
 } from './result';
@@ -27,6 +28,7 @@ export interface GameConfig {
     useStance: boolean;        // whether to use stance (location) commitment
     stanceSet: StanceSet;
     stanceBonus: number;       // modifier for stance advantage
+    useR3Pressure: boolean;    // when R3 occupied, batter gets better ladder
     verbose: boolean;
 }
 
@@ -37,6 +39,7 @@ export const DEFAULT_GAME_CONFIG: GameConfig = {
     useStance: false,
     stanceSet: BASEBALL_STANCE_SET,
     stanceBonus: 1,  // +1/-1 for stance (reader wins = batter +1, actor wins = pitcher +1)
+    useR3Pressure: false,
     verbose: false
 };
 
@@ -80,6 +83,12 @@ export interface GameSummary {
     outs: number;
     homeRuns: number;
     doublePlays: number;
+    // Run sources
+    runsFromHR: number;
+    runsFrom2B: number;
+    runsFrom1B: number;
+    runsFromBB: number;
+    runsFromORA: number;
 }
 
 /**
@@ -142,23 +151,108 @@ export function simulateAtBat(
     log(`  Battle: [${battle.player1Dice}]+${batterMod}=${battle.player1Total} vs [${battle.player2Dice}]+${pitcherMod}=${battle.player2Total}`);
     log(`  Winner: ${battleWinner}${battle.tier ? ` (${battle.tier})` : ''}`);
 
-    // 5. Handle tie (re-roll until decisive) - simplified: just re-roll battle
+    // 5. Check for critical battle rolls (boxcars or snake eyes)
+    const batterRawRoll = battle.player1Dice[0] + battle.player1Dice[1];
+    const pitcherRawRoll = battle.player2Dice[0] + battle.player2Dice[1];
+
+    let runsScored = 0;
+    let outsRecorded = 0;
+    let outcome: Outcome;
+
+    // Batter boxcars = auto HR
+    if (batterRawRoll === 12) {
+        log(`  🎰 BATTER BOXCARS! Automatic HOME RUN!`);
+        outcome = 'hr';
+        runsScored = 1 + (state.runners[0] ? 1 : 0) + (state.runners[1] ? 1 : 0) + (state.runners[2] ? 1 : 0);
+        state.runners = [false, false, false];
+        if (runsScored > 0) {
+            log(`  *** ${runsScored} RUN${runsScored > 1 ? 'S' : ''} SCORED ***`);
+        }
+        return {
+            batterStrategy, pitcherStrategy, strategyResult,
+            batterMod, pitcherMod, battleWinner: 'batter',
+            battleTier: 'strong', outcome, runsScored, outsRecorded
+        };
+    }
+
+    // Pitcher boxcars = auto double play (2 outs if runners, 1 otherwise)
+    if (pitcherRawRoll === 12) {
+        const hasRunners = state.runners[0] || state.runners[1] || state.runners[2];
+        outsRecorded = hasRunners ? 2 : 1;
+        outcome = 'dp';
+        log(`  🎰 PITCHER BOXCARS! Automatic ${outsRecorded === 2 ? 'DOUBLE PLAY' : 'OUT'}!`);
+        // Erase lead runner on DP
+        if (hasRunners) {
+            if (state.runners[2]) state.runners[2] = false;
+            else if (state.runners[1]) state.runners[1] = false;
+            else if (state.runners[0]) state.runners[0] = false;
+        }
+        return {
+            batterStrategy, pitcherStrategy, strategyResult,
+            batterMod, pitcherMod, battleWinner: 'pitcher',
+            battleTier: 'strong', outcome, runsScored, outsRecorded
+        };
+    }
+
+    // Batter snake eyes = auto out
+    if (batterRawRoll === 2) {
+        log(`  🐍 BATTER SNAKE EYES! Automatic OUT!`);
+        outcome = 'out';
+        outsRecorded = 1;
+        return {
+            batterStrategy, pitcherStrategy, strategyResult,
+            batterMod, pitcherMod, battleWinner: 'pitcher',
+            battleTier: 'weak', outcome, runsScored, outsRecorded
+        };
+    }
+
+    // Pitcher snake eyes = auto walk
+    if (pitcherRawRoll === 2) {
+        log(`  🐍 PITCHER SNAKE EYES! Automatic WALK!`);
+        outcome = 'bb';
+        // Walk logic - forced runners advance
+        if (state.runners[0] && state.runners[1] && state.runners[2]) {
+            runsScored++;  // bases loaded walk
+        }
+        if (state.runners[0] && state.runners[1]) {
+            state.runners[2] = true;
+        }
+        if (state.runners[0]) {
+            state.runners[1] = true;
+        }
+        state.runners[0] = true;
+        if (runsScored > 0) {
+            log(`  *** ${runsScored} RUN SCORED ***`);
+        }
+        return {
+            batterStrategy, pitcherStrategy, strategyResult,
+            batterMod, pitcherMod, battleWinner: 'batter',
+            battleTier: 'weak', outcome, runsScored, outsRecorded
+        };
+    }
+
+    // 6. Handle tie (re-roll until decisive)
     if (battleWinner === 'tie') {
-        // For simplicity, on tie we'll give a neutral outcome
-        // In real game you'd re-roll, but for simulation let's call it a foul ball / no result
-        // Actually, let's just re-roll the battle
         return simulateAtBat(state, config, verbose);
     }
 
-    // 6. Result phase
-    const resultSet = battleWinner === 'batter' ? BATTER_RESULT_SET : PITCHER_RESULT_SET;
+    // 7. Normal result phase (no criticals)
+    // Use R3 pressure ladder if enabled and runner on 3rd
+    const hasR3 = state.runners[2];
+    const batterResultSet = (config.useR3Pressure && hasR3)
+        ? BATTER_R3_PRESSURE_1WALK
+        : BATTER_RESULT_SET;
+    const resultSet = battleWinner === 'batter' ? batterResultSet : PITCHER_RESULT_SET;
+
+    if (config.useR3Pressure && hasR3 && battleWinner === 'batter') {
+        log(`  📍 R3 PRESSURE: Using favorable batter ladder (OUT→BB→1B→2B→HR)`);
+    }
+
     const result = resolveResult(battle.tier!, null, resultSet, DEFAULT_TIER_CONFIG, false);
 
     log(`  Result roll: ${result.resultRoll} → ${result.outcome.toUpperCase()}`);
 
-    // 7. Process outcome
-    let runsScored = 0;
-    let outsRecorded = 0;
+    outcome = result.outcome;
 
     switch (result.outcome) {
         case 'hr':
@@ -294,6 +388,13 @@ export function simulateGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSumm
     let homeRuns = 0;
     let doublePlays = 0;
 
+    // Run sources
+    let runsFromHR = 0;
+    let runsFrom2B = 0;
+    let runsFrom1B = 0;
+    let runsFromBB = 0;
+    let runsFromORA = 0;
+
     for (let inning = 1; inning <= config.innings; inning++) {
         state.inning = inning;
 
@@ -309,6 +410,15 @@ export function simulateGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSumm
             if (r.outcome === 'bb') walks++;
             if (r.outcome === 'dp') doublePlays++;
             outs += r.outsRecorded;
+
+            // Track run sources
+            if (r.runsScored > 0) {
+                if (r.outcome === 'hr') runsFromHR += r.runsScored;
+                else if (r.outcome === '2b') runsFrom2B += r.runsScored;
+                else if (r.outcome === '1b') runsFrom1B += r.runsScored;
+                else if (r.outcome === 'bb') runsFromBB += r.runsScored;
+                else if (r.outcome === 'o-ra') runsFromORA += r.runsScored;
+            }
         }
 
         log(`  Score: Away ${state.awayScore} - Home ${state.homeScore}`);
@@ -325,6 +435,15 @@ export function simulateGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSumm
             if (r.outcome === 'bb') walks++;
             if (r.outcome === 'dp') doublePlays++;
             outs += r.outsRecorded;
+
+            // Track run sources
+            if (r.runsScored > 0) {
+                if (r.outcome === 'hr') runsFromHR += r.runsScored;
+                else if (r.outcome === '2b') runsFrom2B += r.runsScored;
+                else if (r.outcome === '1b') runsFrom1B += r.runsScored;
+                else if (r.outcome === 'bb') runsFromBB += r.runsScored;
+                else if (r.outcome === 'o-ra') runsFromORA += r.runsScored;
+            }
         }
 
         log(`  Score: Away ${state.awayScore} - Home ${state.homeScore}`);
@@ -342,7 +461,12 @@ export function simulateGame(config: GameConfig = DEFAULT_GAME_CONFIG): GameSumm
         walks,
         outs,
         homeRuns,
-        doublePlays
+        doublePlays,
+        runsFromHR,
+        runsFrom2B,
+        runsFrom1B,
+        runsFromBB,
+        runsFromORA
     };
 }
 
@@ -363,6 +487,13 @@ export function runSimulation(
     let awayWins = 0;
     let ties = 0;
 
+    // Run sources
+    let totalRunsFromHR = 0;
+    let totalRunsFrom2B = 0;
+    let totalRunsFrom1B = 0;
+    let totalRunsFromBB = 0;
+    let totalRunsFromORA = 0;
+
     const runDistribution: Record<number, number> = {};
 
     for (let i = 0; i < numGames; i++) {
@@ -374,6 +505,13 @@ export function runSimulation(
         totalAtBats += result.totalAtBats;
         totalHR += result.homeRuns;
         totalDP += result.doublePlays;
+
+        // Aggregate run sources
+        totalRunsFromHR += result.runsFromHR;
+        totalRunsFrom2B += result.runsFrom2B;
+        totalRunsFrom1B += result.runsFrom1B;
+        totalRunsFromBB += result.runsFromBB;
+        totalRunsFromORA += result.runsFromORA;
 
         if (result.awayScore > result.homeScore) awayWins++;
         else if (result.homeScore > result.awayScore) homeWins++;
@@ -402,6 +540,18 @@ export function runSimulation(
     console.log('\nSCORING:');
     console.log(`  Avg runs/game: ${avgRunsPerGame.toFixed(2)} (${avgRunsPerTeam.toFixed(2)} per team)`);
     console.log(`  Total runs: ${totalRuns}`);
+
+    console.log('\nRUN SOURCES:');
+    const pctHR = totalRuns > 0 ? (totalRunsFromHR / totalRuns * 100).toFixed(1) : '0';
+    const pct2B = totalRuns > 0 ? (totalRunsFrom2B / totalRuns * 100).toFixed(1) : '0';
+    const pct1B = totalRuns > 0 ? (totalRunsFrom1B / totalRuns * 100).toFixed(1) : '0';
+    const pctBB = totalRuns > 0 ? (totalRunsFromBB / totalRuns * 100).toFixed(1) : '0';
+    const pctORA = totalRuns > 0 ? (totalRunsFromORA / totalRuns * 100).toFixed(1) : '0';
+    console.log(`  HR:   ${totalRunsFromHR.toString().padStart(5)} runs (${pctHR.padStart(5)}%)`);
+    console.log(`  2B:   ${totalRunsFrom2B.toString().padStart(5)} runs (${pct2B.padStart(5)}%)`);
+    console.log(`  1B:   ${totalRunsFrom1B.toString().padStart(5)} runs (${pct1B.padStart(5)}%)`);
+    console.log(`  BB:   ${totalRunsFromBB.toString().padStart(5)} runs (${pctBB.padStart(5)}%)`);
+    console.log(`  O-RA: ${totalRunsFromORA.toString().padStart(5)} runs (${pctORA.padStart(5)}%)`);
 
     console.log('\nBATTING:');
     console.log(`  AVG: .${Math.round(battingAvg * 1000).toString().padStart(3, '0')}`);
