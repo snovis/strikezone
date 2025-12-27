@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheddar Bob: Bush League - Quick Reference</title>
+    <title>Cheddar Bob V5.3 Rules</title>
     <style>
         * {
             margin: 0;
@@ -356,21 +356,21 @@
         <!-- PANEL 1: FLOW (Top Left) -->
         <div class="panel">
             <div class="panel-title header-main">
-                ⚾ CHEDDAR BOB: BUSH LEAGUE 🎲🎲
-                <div class="subtitle">No excuses. No equipment. Just hands and dice.</div>
+                ⚾ CHEDDAR BOB V5.3 🎲🎲
+                <div class="subtitle">A Fast, Fun, Baseball Simulation</div>
             </div>
 
             <div class="flow-box">
                 <h3>GAME FLOW</h3>
                 <ol class="flow-list">
-                    <li><strong>SELECT</strong> - Both choose RPS secretly</li>
-                    <li><strong>REVEAL</strong> - Throw hands simultaneously</li>
+                    <li><strong>COMMIT</strong> - Both secretly choose Strategy + Stance</li>
+                    <li><strong>REVEAL</strong> - Show both choices simultaneously</li>
                     <li><strong>BATTLE</strong> - Roll 2d6 + mods, high wins</li>
                     <li><strong>RESULT</strong> - Winner rolls for outcome</li>
                 </ol>
             </div>
 
-            <h4 style="margin-bottom: 4px; font-size: 9pt;">THE MAGIC NUMBER: <span class="highlight">7-9</span></h4>
+            <h4 style="margin-bottom: 4px; font-size: 9pt;">THE STRIKE ZONE: <span class="highlight">7-9</span></h4>
             <p style="font-size: 7pt; color: #555; margin-bottom: 4px;">Used for BOTH Battle roll AND Result roll:</p>
             <table class="zone-table">
                 <tr>
@@ -409,8 +409,8 @@
             </div>
 
             <div class="philosophy">
-                <div class="tagline">Read your opponent. Roll your fate.</div>
-                <div class="sub">Your choices influence the odds. Smart choices make luck.</div>
+                <div class="tagline">Commit to Strategy. Commit to Stance. Roll your fate.</div>
+                <div class="sub">Two reads. Two guesses. One winner.</div>
             </div>
         </div>
 
@@ -418,34 +418,44 @@
         <div class="panel">
             <div class="panel-title">STRATEGY &amp; OUTCOME TABLES</div>
 
-            <div style="text-align: center; margin-bottom: 6px;">
-                <!-- Top: Power -->
-                <div class="rps-card" style="display: inline-block; width: 70px; margin-bottom: 2px;">
-                    <span class="emoji">🔨</span>
-                    <span class="name">POWER</span>
-                    <span class="pitch">Fastball</span>
-                </div>
-                <!-- Arrows row -->
-                <div style="font-size: 14pt; margin: -2px 0;">
-                    <span style="margin-right: 50px;">↗</span><span>↘</span>
-                </div>
-                <!-- Bottom row: Finesse ← Balance -->
-                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                    <div class="rps-card" style="width: 70px;">
-                        <span class="emoji">🎯</span>
-                        <span class="name">FINESSE</span>
-                        <span class="pitch">Breaking</span>
+            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                <!-- Triangle -->
+                <div style="text-align: center;">
+                    <div class="rps-card" style="display: inline-block; width: 55px; margin-bottom: 0; padding: 2px;">
+                        <span class="emoji" style="font-size: 14pt;">🔨</span>
+                        <span class="name" style="font-size: 7pt;">POWER</span>
                     </div>
-                    <span style="font-size: 14pt;">←</span>
-                    <div class="rps-card" style="width: 70px;">
-                        <span class="emoji">⚖️</span>
-                        <span class="name">BALANCE</span>
-                        <span class="pitch">Changeup</span>
+                    <div style="font-size: 11pt; margin: -2px 0;">
+                        <span style="margin-right: 35px;">↗</span><span>↘</span>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center; gap: 4px;">
+                        <div class="rps-card" style="width: 55px; padding: 2px;">
+                            <span class="emoji" style="font-size: 14pt;">🎯</span>
+                            <span class="name" style="font-size: 7pt;">FINESSE</span>
+                        </div>
+                        <span style="font-size: 11pt;">←</span>
+                        <div class="rps-card" style="width: 55px; padding: 2px;">
+                            <span class="emoji" style="font-size: 14pt;">⚖️</span>
+                            <span class="name" style="font-size: 7pt;">BALANCE</span>
+                        </div>
                     </div>
                 </div>
-                <p style="font-size: 8pt; margin-top: 4px;">
-                    Arrow points to loser &nbsp;|&nbsp; <strong class="green">Winner: +2</strong> &nbsp;|&nbsp; Tie: +0
-                </p>
+                <!-- Legend -->
+                <div style="font-size: 7pt; text-align: left;">
+                    <div>Arrow → loser</div>
+                    <div><strong class="green">Winner: +2</strong></div>
+                    <div>Tie: +0</div>
+                </div>
+            </div>
+
+            <!-- STANCE SECTION -->
+            <div style="background: #e3f2fd; border: 2px solid #2196f3; border-radius: 4px; padding: 6px; margin-bottom: 6px;">
+                <div style="font-weight: bold; font-size: 9pt; margin-bottom: 4px; border-bottom: 1px solid #2196f3;">STANCE: Location (↑ ↓ ← →)</div>
+                <div style="font-size: 9pt;">
+                    <div><strong>Match</strong> (both ↑) → <span style="color:#4caf50; font-weight:bold;">Batter +1</span></div>
+                    <div><strong>Opposite</strong> (↑ vs ↓) → <span style="color:#ff9800; font-weight:bold;">Pitcher +1</span></div>
+                    <div><strong>Perpendicular</strong> (↑ vs ←) → TIE</div>
+                </div>
             </div>
 
             <div class="outcome-section">
@@ -540,11 +550,11 @@
             </div>
 
             <div class="quick-ref">
-                <div class="line"><span class="label">FLOW:</span> <span class="value">SELECT → REVEAL → BATTLE → RESULT</span></div>
+                <div class="line"><span class="label">FLOW:</span> <span class="value">COMMIT → REVEAL → BATTLE → RESULT</span></div>
                 <div class="line"><span class="label">STRATEGY:</span> <span class="value">🔨>⚖️>🎯>🔨 | Winner +2</span></div>
+                <div class="line"><span class="label">STANCE:</span> <span class="value">UP/DOWN + IN/OUT | Winner +1</span></div>
                 <div class="line"><span class="label">ZONES:</span> <span class="value">≤6 Weak | 7-9 Solid | 10+ Strong</span></div>
-                <div class="line"><span class="label">BATTER:</span> <span class="value">OUT-OUT^-1B-2B-HR (^=BB w/R3)</span></div>
-                <div class="line"><span class="label">PITCHER:</span> <span class="value">BB-ORA-ORC-ORF-DP</span></div>
+                <div class="line"><span class="label">MODS:</span> <span class="value">Max +3 (strategy +2, stance +1)</span></div>
             </div>
 
             <h4 style="margin: 6px 0 4px; font-size: 9pt;">SIM STATS (5000 AB)</h4>
@@ -562,7 +572,7 @@
             </table>
 
             <div class="panel-footer">
-                ⚾ Cheddar Bob: Bush League 🎲🎲 - No excuses, just play!
+                ⚾ Cheddar Bob V5.3 🎲🎲 - Strategy + Stance!
             </div>
         </div>
 
@@ -679,7 +689,7 @@
             </p>
 
             <div class="panel-footer">
-                Print, fold, play anywhere! | v1.0
+                Print, fold, play anywhere! | V5.3
             </div>
         </div>
     </div>
