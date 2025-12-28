@@ -176,3 +176,4 @@ See `docs/grapple-engine.md` for the full philosophy.
 - Test at multiple scales: 10, 100, 1000
 - Commit frequently
 - Lock in stable versions before experimenting
+- **All rules cards and score sheets must include:** `© 2025 Rymare International LLC`
