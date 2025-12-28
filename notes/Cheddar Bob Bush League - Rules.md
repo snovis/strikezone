@@ -69,9 +69,9 @@ Used for BOTH Battle roll AND Result roll:
 
 | Result↓ Battle→ | Weak (RF) | Solid (RC) | Strong (RA) |
 |-----------------|-----------|------------|-------------|
-| **Weak (≤6)** | OUT | OUT | 1B |
-| **Solid (7-9)** | BB | 1B+ | 2B |
-| **Strong (10+)** | 1B+ | 2B+ | **HR** |
+| **Weak (≤6)** | OUT | OUT | 1B+ |
+| **Solid (7-9)** | BB | 1B+ | 2B+ |
+| **Strong (10+)** | 1B | 2B | **HR** |
 
 - 🐍 Snake Eyes (2) = OUT
 - 🎰 Boxcars (12) = HR
