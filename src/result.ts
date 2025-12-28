@@ -170,6 +170,95 @@ export const BATTER_R3_PRESSURE_1WALK: ResultSet = {
 };
 
 /**
+ * True 2D result table (not ladder-based)
+ * Allows different outcomes for same position based on battle vs result tier
+ */
+export interface ResultTable2D {
+    name: string;
+    controller: 'batter' | 'pitcher';
+    // table[battleTier][resultTier] = outcome
+    table: {
+        weak: { weak: Outcome; solid: Outcome; strong: Outcome };
+        solid: { weak: Outcome; solid: Outcome; strong: Outcome };
+        strong: { weak: Outcome; solid: Outcome; strong: Outcome };
+    };
+    labels: Record<Outcome, string>;
+}
+
+/**
+ * Bush League v1.1: Weak/Solid = BB (playtest feedback)
+ *
+ * Playtesters felt that winning battle weakly but rolling well
+ * on result should reward a walk, not an out.
+ *
+ * Battle↓ Result→ | Weak | Solid | Strong
+ * ----------------+------+-------+--------
+ * Weak            | OUT  | BB    | 1B
+ * Solid           | OUT  | 1B    | 2B
+ * Strong          | 1B   | 2B    | HR
+ */
+export const BATTER_BUSH_LEAGUE_V11: ResultTable2D = {
+    name: 'Batter (Bush League v1.1)',
+    controller: 'batter',
+    table: {
+        weak:   { weak: 'out', solid: 'bb',  strong: '1b' },
+        solid:  { weak: 'out', solid: '1b',  strong: '2b' },
+        strong: { weak: '1b',  solid: '2b',  strong: 'hr' }
+    },
+    labels: BATTER_RESULT_SET.labels
+};
+
+/**
+ * Resolve result using 2D table lookup
+ */
+export function resolveResult2D(
+    battleTier: BattleTier,
+    resultDice: [number, number] | null = null,
+    resultTable: ResultTable2D,
+    tierConfig: TierConfig = DEFAULT_TIER_CONFIG,
+    verbose: boolean = false
+): ResultResolution {
+    const log = verbose ? console.log : () => {};
+
+    const dice = resultDice ?? roll2d6();
+    const resultRoll = sum2d6(dice);
+    const critical = detectCritical(resultRoll);
+    const resultTier = getTier(resultRoll, tierConfig);
+
+    let outcome: Outcome;
+    let position: number;
+
+    if (critical === 'snake-eyes') {
+        outcome = resultTable.table.weak.weak;  // worst outcome
+        position = 0;
+        log(`\n🐍 SNAKE EYES! Critical fail`);
+    } else if (critical === 'boxcars') {
+        outcome = resultTable.table.strong.strong;  // best outcome
+        position = 4;
+        log(`\n🎰 BOXCARS! Critical hit`);
+    } else {
+        outcome = resultTable.table[battleTier][resultTier];
+        position = tierToOffset(battleTier) + tierToOffset(resultTier);
+    }
+
+    log(`\n--- RESULT PHASE (${resultTable.name}) ---`);
+    log(`Battle tier: ${battleTier}, Result roll: ${resultRoll} → ${resultTier}`);
+    log(`2D lookup: table[${battleTier}][${resultTier}] = ${outcome.toUpperCase()}`);
+
+    return {
+        battleTier,
+        resultRoll,
+        resultDice: dice,
+        battleOffset: tierToOffset(battleTier),
+        resultTier,
+        resultOffset: tierToOffset(resultTier),
+        position,
+        outcome,
+        critical
+    };
+}
+
+/**
  * R3 Pressure: Runner on 3rd - MORE aggressive version
  * Option B: Both outs become walks (shifts everything)
  * OUT → BB → BB → 1B → 2B

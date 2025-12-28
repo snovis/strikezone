@@ -569,6 +569,85 @@ OUT → BB → BB → 1B → 2B → HR
 - [x] Skill advantage analysis (how human reads affect outcomes)
 - [x] Run source analysis (where do runs come from)
 - [x] R3 pressure mechanic (baserunner pressure)
+- [x] Bush League v1.1 (Weak/Solid = BB) — playtest feedback, adopted
 - [ ] Impact of different tier thresholds
 - [ ] Bunt mechanic testing
 - [ ] Full game simulation with skill-adjusted players
+
+---
+
+## 2024-12-27: Bush League v1.1 — Playtest Feedback
+
+### The Playtest
+
+Real-world playtesting with players who all played high school baseball. Key findings:
+
+1. **Simpler is better for in-person play** — The Bush League variant (strategy-only, no stance) plays fastest and most fun. Extra selection slows things down without adding play value.
+
+2. **Players wanted Weak/Solid = BB** — Unanimous feedback that winning the battle (even weakly) and rolling well on result (Solid 7-9) should reward a walk, not an out.
+
+3. **1-2 inning games work great** — Ties went to extra innings (usually one more).
+
+### The Magic Moment
+
+> The boys made up stories as the game went along, describing the plays they imagined from the at-bat outcomes. The big moment? A 2-out grand slam to tie the game in the bottom of the 2nd — everyone yelled "Ooohhhh!!!!" when that happened. Even the spectators acted like they were watching a "real" game.
+>
+> And it was a real game. A real game of Cheddar Bob Bush League, the baseball simulator. Just not... a real game of baseball.
+
+**This is the goal.** The dice and cards fade away. The story emerges.
+
+### The Change: 2D Result Table
+
+Bush League v1.1 uses a true 2D table instead of ladder for batter results:
+
+```
+         Battle→  Weak  Solid  Strong
+Result↓
+Weak              O     O      1B
+Solid             BB    1B     2B      ← Weak/Solid = BB (the change)
+Strong            1B    2B     HR
+```
+
+The key insight: **same position (1) but different outcomes**. Weak battle + Solid result = BB, but Solid battle + Weak result = OUT. The 2D table lets us express this asymmetry.
+
+### Simulation Results (N=1000, 3 innings)
+
+| Metric | v1.0 | v1.1 | Change |
+|--------|------|------|--------|
+| **Runs/game** | 6.05 | 6.53 | **+8%** |
+| AVG | .351 | .354 | +.003 |
+| **OBP** | .405 | .422 | **+.017** |
+| HR rate | 7.0% | 7.4% | +0.4% |
+| Ties | 12.2% | 10.3% | -1.9% |
+
+### Run Sources (% of total runs)
+
+| Source | v1.0 | v1.1 | Delta |
+|--------|------|------|-------|
+| HR | 58.7% | 59.6% | +0.9% |
+| 2B | 23.0% | 21.9% | -1.1% |
+| 1B | 10.7% | 10.7% | 0% |
+| BB | 1.1% | 1.4% | +0.3% |
+| O-RA | 6.5% | 6.4% | -0.1% |
+
+### Why This Works
+
+1. **Moderate boost (+8%)** — Unlike tier delta (+19%), this is gentle
+2. **OBP increases** without spiking run totals
+3. **Thematically right** — "You beat me barely, rolled well, you get on base"
+4. **Doesn't change HR-dependence** — Still ~60% of runs from HRs (realistic)
+5. **Fewer ties** — More decisive games
+
+### Commands
+
+```bash
+# Compare v1.0 vs v1.1
+npm run test:game -- --compare-bush-v11 --games 1000
+
+# Run v1.1
+npm run test:game -- --bush-v11 --games 100
+```
+
+### Verdict
+
+**Adopted as Bush League v1.1.** The playtesters were right.

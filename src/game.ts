@@ -12,10 +12,13 @@ import { cpuChooseStrategy, cpuChooseStance } from './player';
 import { rollBattle, BattleTier, getTier, DEFAULT_TIER_CONFIG } from './battle';
 import {
     resolveResult,
+    resolveResult2D,
     BATTER_RESULT_SET,
     BATTER_R3_PRESSURE_1WALK,
+    BATTER_BUSH_LEAGUE_V11,
     PITCHER_RESULT_SET,
-    Outcome
+    Outcome,
+    ResultTable2D
 } from './result';
 
 /**
@@ -29,6 +32,7 @@ export interface GameConfig {
     stanceSet: StanceSet;
     stanceBonus: number;       // modifier for stance advantage
     useR3Pressure: boolean;    // when R3 occupied, batter gets better ladder
+    useBushLeagueV11: boolean; // v1.1: Weak/Solid = BB (2D table)
     verbose: boolean;
 }
 
@@ -40,6 +44,7 @@ export const DEFAULT_GAME_CONFIG: GameConfig = {
     stanceSet: BASEBALL_STANCE_SET,
     stanceBonus: 1,  // +1/-1 for stance (reader wins = batter +1, actor wins = pitcher +1)
     useR3Pressure: false,
+    useBushLeagueV11: false,
     verbose: false
 };
 
@@ -237,20 +242,28 @@ export function simulateAtBat(
     }
 
     // 7. Normal result phase (no criticals)
-    // Use R3 pressure ladder if enabled and runner on 3rd
+    // Use Bush League v1.1 (2D table) if enabled, otherwise use ladder
     const hasR3 = state.runners[2];
-    const batterResultSet = (config.useR3Pressure && hasR3)
-        ? BATTER_R3_PRESSURE_1WALK
-        : BATTER_RESULT_SET;
-    const resultSet = battleWinner === 'batter' ? batterResultSet : PITCHER_RESULT_SET;
 
-    if (config.useR3Pressure && hasR3 && battleWinner === 'batter') {
-        log(`  📍 R3 PRESSURE: Using favorable batter ladder (OUT→BB→1B→2B→HR)`);
+    let result;
+    if (config.useBushLeagueV11 && battleWinner === 'batter') {
+        // Bush League v1.1: Use 2D table for batter wins
+        result = resolveResult2D(battle.tier!, null, BATTER_BUSH_LEAGUE_V11, DEFAULT_TIER_CONFIG, false);
+        log(`  Result roll: ${result.resultRoll} → ${result.outcome.toUpperCase()} (2D table)`);
+    } else {
+        // Standard ladder-based resolution
+        const batterResultSet = (config.useR3Pressure && hasR3)
+            ? BATTER_R3_PRESSURE_1WALK
+            : BATTER_RESULT_SET;
+        const resultSet = battleWinner === 'batter' ? batterResultSet : PITCHER_RESULT_SET;
+
+        if (config.useR3Pressure && hasR3 && battleWinner === 'batter') {
+            log(`  📍 R3 PRESSURE: Using favorable batter ladder (OUT→BB→1B→2B→HR)`);
+        }
+
+        result = resolveResult(battle.tier!, null, resultSet, DEFAULT_TIER_CONFIG, false);
+        log(`  Result roll: ${result.resultRoll} → ${result.outcome.toUpperCase()}`);
     }
-
-    const result = resolveResult(battle.tier!, null, resultSet, DEFAULT_TIER_CONFIG, false);
-
-    log(`  Result roll: ${result.resultRoll} → ${result.outcome.toUpperCase()}`);
 
     outcome = result.outcome;
 
@@ -529,12 +542,14 @@ export function runSimulation(
     const hrRate = totalHR / totalAtBats;
 
     console.log('\n' + '='.repeat(60));
-    console.log(`CHEDDAR BOB v5.2 — SIMULATION`);
+    const version = config.useBushLeagueV11 ? 'BUSH LEAGUE v1.1' : 'BUSH LEAGUE v1.0';
+    console.log(`${version} — SIMULATION`);
     console.log(`${numGames} games, ${config.innings} innings each`);
     const stanceInfo = config.useStance
         ? `Strategy +${config.strategyWinBonus}, Stance +${config.stanceBonus}`
         : `Strategy +${config.strategyWinBonus} only (no stance)`;
-    console.log(`Config: ${stanceInfo}`);
+    const v11Info = config.useBushLeagueV11 ? ', Weak/Solid=BB' : '';
+    console.log(`Config: ${stanceInfo}${v11Info}`);
     console.log('='.repeat(60));
 
     console.log('\nSCORING:');

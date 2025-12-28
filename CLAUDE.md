@@ -1,8 +1,8 @@
-# Cheddar Bob v1.0 — Grapple Engine
+# Cheddar Bob — Bush League v1.1
 
-## 🔒 LOCKED-IN RULES (v1.0)
+## 🔒 LOCKED-IN RULES (v1.1)
 
-This is the stable, playtested version. Experiment on branches, not here.
+Playtested and refined. The boys who played high school baseball approved this version.
 
 ### The Core Loop
 
@@ -36,15 +36,15 @@ Arrow points to loser. Winner gets **+2** modifier. Tie = no modifier.
 
 ### Result Tables
 
-**BATTER WINS → Outcome Table**
+**BATTER WINS → Outcome Table (2D)**
 ```
          │ Weak(≤6) │ Solid(7-9) │ Strong(10+)
 ─────────┼──────────┼────────────┼────────────
-Weak     │ OUT      │ OUT^       │ 1B
-Solid    │ OUT^     │ 1B         │ 2B
+Weak     │ OUT      │ BB         │ 1B
+Solid    │ OUT      │ 1B         │ 2B
 Strong   │ 1B       │ 2B         │ HR
 ```
-**^** = BB with runner on 3rd (R3 Pressure)
+**v1.1 change:** Weak/Solid = BB (playtest feedback — "I barely won but rolled well, I get on base")
 
 **PITCHER WINS → Outcome Table**
 ```
@@ -67,9 +67,9 @@ Strong   │ O-RC     │ O-RF       │ DP
 - Snake Eyes (2) = worst outcome for roller
 - Boxcars (12) = best outcome for roller
 
-### R3 Pressure (Built-in)
+### Why Weak/Solid = BB?
 
-When runner on 3rd, batter's OUT^ cells become BB. Batter wins battle → pitcher can't afford strikes → walk.
+Playtest feedback: Winning the battle (even barely) and then rolling well (7-9) should get you on base. The 2D table rewards the result roll asymmetrically — Solid result on a Weak battle = walk, but Weak result on a Solid battle = out.
 
 ### Runner Movement
 
@@ -86,15 +86,16 @@ When runner on 3rd, batter's OUT^ cells become BB. Batter wins battle → pitche
 
 ---
 
-## Simulation Stats (v1.0)
+## Simulation Stats (v1.1)
 
-| Metric | Value |
-|--------|-------|
-| Runs/Game | ~6.0 |
-| AVG | .351 |
-| OBP | .405 |
-| HR Rate | 7.0% |
-| BB Rate | ~4% (with R3 pressure) |
+| Metric | v1.0 | v1.1 |
+|--------|------|------|
+| Runs/Game | 6.0 | **6.5** |
+| AVG | .351 | .354 |
+| OBP | .405 | **.422** |
+| HR Rate | 7.0% | 7.4% |
+
+**+8% scoring, +.017 OBP** — moderate boost, feels right.
 
 ---
 
@@ -125,8 +126,8 @@ docs/
 # Game simulation
 npm run test:game -- --games 1000        # Run 1000 games
 npm run test:game -- --single --verbose  # Play-by-play
-npm run test:game -- --r3pressure        # Enable R3 pressure
-npm run test:game -- --compare-r3        # Compare with/without R3
+npm run test:game -- --bush-v11          # Bush League v1.1 (default now)
+npm run test:game -- --compare-bush-v11  # Compare v1.0 vs v1.1
 
 # Battle analysis
 npm run test:battle -- --enumerate       # Exact probabilities
@@ -139,7 +140,7 @@ npm run test:result -- --table           # Show 2D result tables
 ## Git Info
 
 - Branch: `grapple-engine`
-- Tag: `v1.0-cheddar-bob`
+- Tag: `v1.1-bush-league`
 
 ---
 
@@ -152,6 +153,21 @@ See `docs/grapple-engine.md` for the full philosophy.
 2. **Skill creates edge** — like poker, better reads win over time
 3. **Dice add drama, not randomness** — modifiers shift probability curves
 4. **R3 pressure rewards offense** — batter wins battle, batter gets the walk
+
+## Playtest Insights (2024-12-27)
+
+**The Magic Moment:**
+> The boys made up stories as the game went along, describing the plays they imagined from the at-bat outcomes. The big moment? A 2-out grand slam to tie the game in the bottom of the 2nd — everyone yelled "Ooohhhh!!!!" when that happened. Even the spectators acted like they were watching a "real" game.
+>
+> And it was a real game. A real game of Cheddar Bob Bush League, the baseball simulator. Just not... a real game of baseball.
+
+**Key learnings:**
+1. **Simpler is better** — Bush League (strategy-only) plays fastest. Extra selection slows things down.
+2. **1-2 inning games work great** — Ties go to extra innings.
+3. **Stories emerge** — The dice and cards fade away. Players narrate the plays.
+4. **Weak/Solid = BB felt right** — Unanimous feedback from playtesters.
+
+---
 
 ## User Preferences
 

@@ -40,10 +40,12 @@ const bonus = parseInt(getArg('bonus') ?? '2', 10);
 const useStance = hasFlag('stance');
 const stanceBonus = parseInt(getArg('stance-bonus') ?? '1', 10);
 const useR3Pressure = hasFlag('r3pressure');
+const useBushLeagueV11 = hasFlag('bush-v11');
 const single = hasFlag('single');
 const verbose = hasFlag('verbose');
 const compare = hasFlag('compare');
 const compareR3 = hasFlag('compare-r3');
+const compareBushV11 = hasFlag('compare-bush-v11');
 const seed = getArg('seed');
 
 // Setup randomness
@@ -62,6 +64,7 @@ const config: GameConfig = {
     stanceSet: BASEBALL_STANCE_SET,
     stanceBonus,
     useR3Pressure,
+    useBushLeagueV11,
     verbose: verbose || single
 };
 
@@ -97,6 +100,21 @@ if (compare) {
     console.log('\n[R3 PRESSURE - Favorable batter ladder when R3 occupied]');
     runSimulation(numGames, { ...config, useR3Pressure: true });
 
+} else if (compareBushV11) {
+    // Compare Bush League v1.0 vs v1.1 (Weak/Solid = BB)
+    console.log('\nComparing: Bush League v1.0 vs v1.1 (Weak/Solid = BB)');
+    console.log('='.repeat(60));
+
+    // v1.0 baseline
+    resetRandom();
+    console.log('\n[v1.0 - Weak/Solid = OUT (ladder-based)]');
+    runSimulation(numGames, { ...config, useBushLeagueV11: false });
+
+    // v1.1 with walk
+    resetRandom();
+    console.log('\n[v1.1 - Weak/Solid = BB (2D table, playtest feedback)]');
+    runSimulation(numGames, { ...config, useBushLeagueV11: true });
+
 } else if (single) {
     const stanceInfo = useStance ? `, stance +${stanceBonus}` : '';
     const r3Info = useR3Pressure ? ', R3 pressure' : '';
@@ -107,11 +125,13 @@ if (compare) {
 }
 
 console.log('\nUsage:');
-console.log('  npm run test:game -- --games 1000       Run 1000 games');
-console.log('  npm run test:game -- --single --verbose Play-by-play');
-console.log('  npm run test:game -- --innings 9        9-inning games');
-console.log('  npm run test:game -- --bonus 1          +1 strategy bonus');
-console.log('  npm run test:game -- --stance           Enable stance commitment');
-console.log('  npm run test:game -- --r3pressure       Enable R3 pressure mechanic');
-console.log('  npm run test:game -- --compare          Compare with/without stance');
-console.log('  npm run test:game -- --compare-r3       Compare with/without R3 pressure');
+console.log('  npm run test:game -- --games 1000        Run 1000 games');
+console.log('  npm run test:game -- --single --verbose  Play-by-play');
+console.log('  npm run test:game -- --innings 9         9-inning games');
+console.log('  npm run test:game -- --bonus 1           +1 strategy bonus');
+console.log('  npm run test:game -- --stance            Enable stance commitment');
+console.log('  npm run test:game -- --r3pressure        Enable R3 pressure mechanic');
+console.log('  npm run test:game -- --bush-v11          Bush League v1.1 (Weak/Solid=BB)');
+console.log('  npm run test:game -- --compare           Compare with/without stance');
+console.log('  npm run test:game -- --compare-r3        Compare with/without R3 pressure');
+console.log('  npm run test:game -- --compare-bush-v11  Compare v1.0 vs v1.1');
