@@ -103,12 +103,62 @@ This separation means:
 
 ```
 Result↓ Battle→  Weak(RF)   Solid(RC)   Strong(RA)
-Weak             OUT        OUT         1B
-Solid            BB         1B          2B
+Weak             OUT        OUT         1B+
+Solid            BB         1B+         2B+
 Strong           1B         2B          HR
 ```
 
 Reading: "I won the battle (Solid tier), then rolled Strong on result = 2B"
+
+---
+
+## Stronger = More Options
+
+The tier system maps consistently across the entire design. **Stronger tiers open more options** — for the batter, for the hit, and for the runners.
+
+### Battle Tier → Runner Movement
+
+The column labels (RF, RC, RA) tell you how runners advance:
+
+| Battle Tier | Label | Runner Movement | Philosophy |
+|-------------|-------|-----------------|------------|
+| **Weak** | RF (Runners Freeze) | Station-to-station | You barely won. Take what you get. |
+| **Solid** | RC (Runner Challenge) | Can attempt extra base (roll-off) | Decent win. Aggressive runners can try. |
+| **Strong** | RA (Runners Advance) | Automatic extra base | Dominant win. Everyone moves up. |
+
+### Result Tier → Hit Quality
+
+The row determines what kind of hit you got:
+
+| Result Tier | Outcomes | Stretch? | Philosophy |
+|-------------|----------|----------|------------|
+| **Weak** | OUT, BB, 1B | No stretch | Basic outcome. You got what you got. |
+| **Solid** | OUT, 1B+, 2B | Singles can stretch | Better contact. Singles might become doubles. |
+| **Strong** | 1B, 2B, HR | No indicator needed | Premium hit. HR speaks for itself. |
+
+### The Stretch Indicator (+)
+
+The `+` means the batter can attempt to stretch the hit to the next base (1B→2B, 2B→3B). Notice where they appear:
+
+- **Strong battle column (RA)**: Even weak/solid results get stretch opportunities
+- **Solid battle + Solid result**: The sweet spot — good contact, runners moving
+
+Strong results (bottom row) don't need `+` because you already got the best possible outcome for that battle tier.
+
+### Why This Works
+
+One mechanic (tier) maps consistently to multiple game elements:
+- **Battle tier** → Runner advancement (RF/RC/RA)
+- **Result tier** → Hit quality (OUT/1B/2B/HR)
+- **Combined** → Stretch opportunities (+)
+
+This makes the rules easy to remember: **"Stronger = more options"** applies everywhere.
+
+### The Tradeoff
+
+This system doesn't perfectly simulate every baseball scenario. For example, a runner on 2nd doesn't always score on a single — sometimes they do (RA), sometimes they try (RC), sometimes they hold (RF).
+
+But it's **close enough for a game**. Perfect simulation isn't the goal — creating those "Ooohhhh!!!" moments is.
 
 ---
 
