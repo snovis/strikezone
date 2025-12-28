@@ -412,6 +412,10 @@
                 <div class="tagline">Read your opponent. Roll your fate.</div>
                 <div class="sub">Your choices influence the odds. Smart choices make luck.</div>
             </div>
+
+            <div class="panel-footer">
+                v1.1 | © 2025 Rymare International LLC
+            </div>
         </div>
 
         <!-- PANEL 2: RPS & TABLES (Top Right) -->
@@ -452,22 +456,22 @@
                 <h4 class="batter-header">BATTER WINS → Outcome Table</h4>
                 <table class="outcome-table">
                     <tr>
-                        <th>Battle</th>
-                        <th>Weak (RF)</th>
-                        <th>Solid (RC)</th>
-                        <th>Strong (RA)</th>
+                        <th>Battle↓ Result→</th>
+                        <th>Weak (≤6)</th>
+                        <th>Solid (7-9)</th>
+                        <th>Strong (10+)</th>
                     </tr>
                     <tr>
                         <td class="roll-col">Weak</td>
                         <td class="out">OUT</td>
-                        <td class="out">OUT^</td>
-                        <td class="hit">1B+</td>
+                        <td class="walk">BB</td>
+                        <td class="hit">1B</td>
                     </tr>
                     <tr>
                         <td class="roll-col">Solid</td>
-                        <td class="out">OUT^</td>
-                        <td class="hit">1B+</td>
-                        <td class="hit">2B+</td>
+                        <td class="out">OUT</td>
+                        <td class="hit">1B</td>
+                        <td class="hit">2B</td>
                     </tr>
                     <tr>
                         <td class="roll-col">Strong</td>
@@ -476,7 +480,7 @@
                         <td class="hit" style="background: #28a745; color: white; font-weight: bold;">HR</td>
                     </tr>
                 </table>
-                <p style="font-size: 8pt; color: #666; margin-top: 2px;">🐍=OUT 🎰=HR | <strong>+</strong>=stretch | <strong>^</strong>=BB with R3</p>
+                <p style="font-size: 8pt; color: #666; margin-top: 2px;">🐍=OUT 🎰=HR | Weak battle + Solid result = BB</p>
             </div>
 
             <div class="outcome-section">
@@ -543,21 +547,19 @@
                 <div class="line"><span class="label">FLOW:</span> <span class="value">SELECT → REVEAL → BATTLE → RESULT</span></div>
                 <div class="line"><span class="label">STRATEGY:</span> <span class="value">🔨>⚖️>🎯>🔨 | Winner +2</span></div>
                 <div class="line"><span class="label">ZONES:</span> <span class="value">≤6 Weak | 7-9 Solid | 10+ Strong</span></div>
-                <div class="line"><span class="label">BATTER:</span> <span class="value">OUT-OUT^-1B-2B-HR (^=BB w/R3)</span></div>
+                <div class="line"><span class="label">BATTER:</span> <span class="value">2D table: Weak/Solid=BB</span></div>
                 <div class="line"><span class="label">PITCHER:</span> <span class="value">BB-ORA-ORC-ORF-DP</span></div>
             </div>
 
-            <h4 style="margin: 6px 0 4px; font-size: 9pt;">SIM STATS (5000 AB)</h4>
+            <h4 style="margin: 6px 0 4px; font-size: 9pt;">SIM STATS (v1.1)</h4>
             <table class="zone-table" style="font-size: 7pt;">
                 <tr>
-                    <td><strong>.379</strong> AVG</td>
-                    <td><strong>.397</strong> OBP</td>
-                    <td><strong>.655</strong> SLG</td>
+                    <td><strong>.354</strong> AVG</td>
+                    <td><strong>.422</strong> OBP</td>
+                    <td><strong>7.4%</strong> HR</td>
                 </tr>
                 <tr>
-                    <td><strong>4.6%</strong> HR</td>
-                    <td><strong>47pt</strong> RPS Swing</td>
-                    <td><strong>~5.4</strong> runs/game</td>
+                    <td colspan="3"><strong>~6.5 runs/game</strong> (+8% vs v1.0)</td>
                 </tr>
             </table>
 
@@ -679,7 +681,7 @@
             </p>
 
             <div class="panel-footer">
-                Print, fold, play anywhere! | v1.0
+                Print, fold, play anywhere! | v1.1
             </div>
         </div>
     </div>
