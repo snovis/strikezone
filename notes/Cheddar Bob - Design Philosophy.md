@@ -154,6 +154,24 @@ One mechanic (tier) maps consistently to multiple game elements:
 
 This makes the rules easy to remember: **"Stronger = more options"** applies everywhere.
 
+### Why Weak/Solid = BB (v1.1)
+
+In the original ladder-based system, a weak batter result looked like:
+
+```
+2-9 = OUT | 10-11 = 1B | 12 = HR
+```
+
+That's **brutal** — only 3 numbers (10, 11, 12) escape an out. Playtesters felt this was too harsh when you'd already won the battle.
+
+The v1.1 change shifts 7-9 to a walk:
+
+```
+2-6 = OUT | 7-9 = BB | 10-11 = 1B | 12 = HR
+```
+
+This feels more fair — you won the battle, you deserve *something*. And the simulation stats confirm it doesn't break the game: only +8% scoring and +.017 OBP. A moderate, balanced boost.
+
 ### The Tradeoff
 
 This system doesn't perfectly simulate every baseball scenario. For example, a runner on 2nd doesn't always score on a single — sometimes they do (RA), sometimes they try (RC), sometimes they hold (RF).
