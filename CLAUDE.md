@@ -1,6 +1,6 @@
-# Cheddar Bob — Bush League v1.1
+# Cheddar Bob — Bush League v1.2
 
-## 🔒 LOCKED-IN RULES (v1.1)
+## 🔒 LOCKED-IN RULES (v1.2)
 
 Playtested and refined. The boys who played high school baseball approved this version.
 
@@ -67,9 +67,15 @@ Strong   │ O-RC     │ O-RF       │ DP
 - Snake Eyes (2) = worst outcome for roller
 - Boxcars (12) = best outcome for roller
 
-### Why Weak/Solid = BB?
+### Why Weak/Solid = BB? (v1.1)
 
 Playtest feedback: Winning the battle (even barely) and then rolling well (7-9) should get you on base. The 2D table rewards the result roll asymmetrically — Solid result on a Weak battle = walk, but Weak result on a Solid battle = out.
+
+### Productive Outs (v1.2)
+
+When the **batter wins the battle** but the outcome is **OUT**, runners still advance one base. You won the battle — you sacrificed yourself to move the runners. Like a groundout that advances the runner or a deep fly ball.
+
+This applies only to batter-caused outs (from the batter result table), not pitcher-caused outs.
 
 ### Runner Movement
 
@@ -86,16 +92,17 @@ Playtest feedback: Winning the battle (even barely) and then rolling well (7-9) 
 
 ---
 
-## Simulation Stats (v1.1)
+## Simulation Stats (v1.2)
 
-| Metric | v1.0 | v1.1 |
-|--------|------|------|
-| Runs/Game | 6.0 | **6.5** |
-| AVG | .351 | .354 |
-| OBP | .405 | **.422** |
-| HR Rate | 7.0% | 7.4% |
+| Metric | v1.0 | v1.1 | v1.2 |
+|--------|------|------|------|
+| Runs/Game | 6.0 | 6.5 | **6.9** |
+| AVG | .351 | .354 | .353 |
+| OBP | .405 | .422 | .420 |
+| HR Rate | 7.0% | 7.4% | 7.0% |
 
-**+8% scoring, +.017 OBP** — moderate boost, feels right.
+**v1.1:** +8% scoring (Weak/Solid = BB)
+**v1.2:** +8% more scoring (productive outs) — runners advance on batter outs
 
 ---
 
@@ -140,7 +147,7 @@ npm run test:result -- --table           # Show 2D result tables
 ## Git Info
 
 - Branch: `grapple-engine`
-- Tag: `v1.1-bush-league`
+- Tags: `v1.1-bush-league`, `v1.2-bush-league`
 
 ---
 

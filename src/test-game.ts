@@ -41,11 +41,13 @@ const useStance = hasFlag('stance');
 const stanceBonus = parseInt(getArg('stance-bonus') ?? '1', 10);
 const useR3Pressure = hasFlag('r3pressure');
 const useBushLeagueV11 = hasFlag('bush-v11');
+const useProductiveOuts = hasFlag('productive-outs');
 const single = hasFlag('single');
 const verbose = hasFlag('verbose');
 const compare = hasFlag('compare');
 const compareR3 = hasFlag('compare-r3');
 const compareBushV11 = hasFlag('compare-bush-v11');
+const compareProductiveOuts = hasFlag('compare-productive-outs');
 const seed = getArg('seed');
 
 // Setup randomness
@@ -65,6 +67,7 @@ const config: GameConfig = {
     stanceBonus,
     useR3Pressure,
     useBushLeagueV11,
+    useProductiveOuts,
     verbose: verbose || single
 };
 
@@ -115,6 +118,21 @@ if (compare) {
     console.log('\n[v1.1 - Weak/Solid = BB (2D table, playtest feedback)]');
     runSimulation(numGames, { ...config, useBushLeagueV11: true });
 
+} else if (compareProductiveOuts) {
+    // Compare v1.1 vs v1.2 (productive outs)
+    console.log('\nComparing: v1.1 vs v1.2 (Productive Outs)');
+    console.log('='.repeat(60));
+
+    // v1.1 baseline
+    resetRandom();
+    console.log('\n[v1.1 - Standard outs (runners freeze on batter out)]');
+    runSimulation(numGames, { ...config, useBushLeagueV11: true, useProductiveOuts: false });
+
+    // v1.2 with productive outs
+    resetRandom();
+    console.log('\n[v1.2 - Productive outs (batter outs advance runners)]');
+    runSimulation(numGames, { ...config, useBushLeagueV11: true, useProductiveOuts: true });
+
 } else if (single) {
     const stanceInfo = useStance ? `, stance +${stanceBonus}` : '';
     const r3Info = useR3Pressure ? ', R3 pressure' : '';
@@ -125,13 +143,15 @@ if (compare) {
 }
 
 console.log('\nUsage:');
-console.log('  npm run test:game -- --games 1000        Run 1000 games');
-console.log('  npm run test:game -- --single --verbose  Play-by-play');
-console.log('  npm run test:game -- --innings 9         9-inning games');
-console.log('  npm run test:game -- --bonus 1           +1 strategy bonus');
-console.log('  npm run test:game -- --stance            Enable stance commitment');
-console.log('  npm run test:game -- --r3pressure        Enable R3 pressure mechanic');
-console.log('  npm run test:game -- --bush-v11          Bush League v1.1 (Weak/Solid=BB)');
-console.log('  npm run test:game -- --compare           Compare with/without stance');
-console.log('  npm run test:game -- --compare-r3        Compare with/without R3 pressure');
-console.log('  npm run test:game -- --compare-bush-v11  Compare v1.0 vs v1.1');
+console.log('  npm run test:game -- --games 1000              Run 1000 games');
+console.log('  npm run test:game -- --single --verbose        Play-by-play');
+console.log('  npm run test:game -- --innings 9               9-inning games');
+console.log('  npm run test:game -- --bonus 1                 +1 strategy bonus');
+console.log('  npm run test:game -- --stance                  Enable stance commitment');
+console.log('  npm run test:game -- --r3pressure              Enable R3 pressure mechanic');
+console.log('  npm run test:game -- --bush-v11                Bush League v1.1 (Weak/Solid=BB)');
+console.log('  npm run test:game -- --productive-outs         v1.2: Batter outs advance runners');
+console.log('  npm run test:game -- --compare                 Compare with/without stance');
+console.log('  npm run test:game -- --compare-r3              Compare with/without R3 pressure');
+console.log('  npm run test:game -- --compare-bush-v11        Compare v1.0 vs v1.1');
+console.log('  npm run test:game -- --compare-productive-outs Compare v1.1 vs v1.2');

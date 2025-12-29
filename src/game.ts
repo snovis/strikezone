@@ -33,6 +33,7 @@ export interface GameConfig {
     stanceBonus: number;       // modifier for stance advantage
     useR3Pressure: boolean;    // when R3 occupied, batter gets better ladder
     useBushLeagueV11: boolean; // v1.1: Weak/Solid = BB (2D table)
+    useProductiveOuts: boolean; // v1.2: batter outs advance runners (productive out)
     verbose: boolean;
 }
 
@@ -44,7 +45,8 @@ export const DEFAULT_GAME_CONFIG: GameConfig = {
     stanceSet: BASEBALL_STANCE_SET,
     stanceBonus: 1,  // +1/-1 for stance (reader wins = batter +1, actor wins = pitcher +1)
     useR3Pressure: false,
-    useBushLeagueV11: false,
+    useBushLeagueV11: true,  // v1.1+: 2D table with Weak/Solid=BB
+    useProductiveOuts: true, // v1.2+: batter outs advance runners
     verbose: false
 };
 
@@ -310,8 +312,14 @@ export function simulateAtBat(
         case 'o-rc':
         case 'o-rf':
             outsRecorded = 1;
-            // For simplicity, O-RA moves runners, others freeze
-            if (result.outcome === 'o-ra') {
+            // O-RA always moves runners
+            // Productive outs: batter-caused outs also move runners
+            const advanceRunners = result.outcome === 'o-ra' ||
+                (config.useProductiveOuts && battleWinner === 'batter' && result.outcome === 'out');
+            if (advanceRunners) {
+                if (config.useProductiveOuts && battleWinner === 'batter' && result.outcome === 'out') {
+                    log(`  📦 PRODUCTIVE OUT: Runners advance`);
+                }
                 if (state.runners[2]) runsScored++;
                 state.runners[2] = state.runners[1];
                 state.runners[1] = state.runners[0];
