@@ -1,6 +1,6 @@
 ---
 title: Cheddar Bob Bush League - Rules
-version: "1.1"
+version: "1.2"
 created: 2024-12-27
 updated: 2024-12-27
 tags:
@@ -12,7 +12,7 @@ tags:
 status: production-ready
 ---
 
-# Cheddar Bob: Bush League v1.1
+# Cheddar Bob: Bush League v1.2
 
 > *No excuses. No equipment. Just hands and dice.*
 
@@ -122,6 +122,16 @@ When O-RC occurs, the lead runner may choose to attempt advancement:
 
 ---
 
+## Productive Outs (v1.2)
+
+When the **batter wins the battle** but the outcome is **OUT**, runners still advance one base.
+
+> You won the battle — you sacrificed yourself to move the runners.
+
+This applies only to batter-caused outs (from the batter result table), not pitcher-caused outs.
+
+---
+
 ## Critical Rolls
 
 ### Battle Phase Criticals
@@ -136,14 +146,14 @@ When O-RC occurs, the lead runner may choose to attempt advancement:
 
 ---
 
-## Simulation Stats (v1.1)
+## Simulation Stats (v1.2)
 
 | Metric | Value |
 |--------|-------|
-| Runs/Game | ~6.5 |
-| AVG | .354 |
-| OBP | .422 |
-| HR Rate | 7.4% |
+| Runs/Game | ~6.9 |
+| AVG | .353 |
+| OBP | .420 |
+| HR Rate | 7.0% |
 
 ---
 

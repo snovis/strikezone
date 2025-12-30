@@ -21,7 +21,7 @@ status: documentation
 | **Project Name** | Cheddar Bob / Strikezone Grapple Engine |
 | **Local Path** | `/Users/scottnovis/dev/strikezone-grapple-engine` |
 | **Primary Branch** | `grapple-engine` |
-| **Stable Tag** | `v1.0-cheddar-bob` |
+| **Stable Tag** | `v1.2-bush-league` |
 | **Language** | TypeScript |
 | **Runtime** | Node.js |
 
@@ -143,7 +143,8 @@ npm run build                        # Compile TypeScript
 | `stanceSet` | StanceSet | BASEBALL | Stance options |
 | `stanceBonus` | number | 1 | Modifier for stance match |
 | `useR3Pressure` | boolean | false | Batter-favorable on R3 |
-| `useBushLeagueV11` | boolean | false | Use 2D table with Weak/Solid=BB |
+| `useBushLeagueV11` | boolean | true | Use 2D table with Weak/Solid=BB |
+| `useProductiveOuts` | boolean | true | Batter outs advance runners |
 | `verbose` | boolean | false | Show play-by-play output |
 
 ---
@@ -162,6 +163,11 @@ npm run build                        # Compile TypeScript
 - Weak/Solid batter result = BB (playtest feedback)
 - Updated quickref with copyright
 
+### v1.2 — Bush League (December 2024)
+- Productive Outs: batter wins battle but OUT → runners advance
+- Philosophy: "You won the battle — you sacrificed yourself to move them"
+- +8% scoring over v1.1 (~6.9 runs/game)
+
 ### Experimental (Not Adopted)
 - **v5.4 Tier Delta** — Loser's tier affects result modifier
   - Result: +19% scoring, +42% HR rate (too swingy)
@@ -169,14 +175,14 @@ npm run build                        # Compile TypeScript
 
 ---
 
-## Simulation Stats (v1.1)
+## Simulation Stats (v1.2)
 
-| Metric | v1.0 | v1.1 |
-|--------|------|------|
-| Runs/Game | ~6.0 | ~6.5 |
-| AVG | .351 | .354 |
-| OBP | .405 | .422 |
-| HR Rate | 7.0% | 7.4% |
+| Metric | v1.0 | v1.1 | v1.2 |
+|--------|------|------|------|
+| Runs/Game | ~6.0 | ~6.5 | ~6.9 |
+| AVG | .351 | .354 | .353 |
+| OBP | .405 | .422 | .420 |
+| HR Rate | 7.0% | 7.4% | 7.0% |
 
 ---
 
