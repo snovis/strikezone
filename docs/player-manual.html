@@ -708,6 +708,246 @@
         </tr>
     </table>
 
+    <!-- HOW TO KEEP SCORE -->
+    <div class="page-break"></div>
+    <h2>How to Keep Score</h2>
+
+    <p>Keeping score in Cheddar Bob is simple. Just write the outcome code in the batter's box for each at-bat.</p>
+
+    <h3>Common Notations</h3>
+    <table>
+        <tr>
+            <th>Write</th>
+            <th>Meaning</th>
+            <th>Example</th>
+        </tr>
+        <tr>
+            <td><strong>1B</strong></td>
+            <td>Single</td>
+            <td>Batter reached first base</td>
+        </tr>
+        <tr>
+            <td><strong>2B</strong></td>
+            <td>Double</td>
+            <td>Batter reached second base</td>
+        </tr>
+        <tr>
+            <td><strong>HR</strong></td>
+            <td>Home Run</td>
+            <td>Circle it! Everyone scores!</td>
+        </tr>
+        <tr>
+            <td><strong>BB</strong></td>
+            <td>Walk</td>
+            <td>Batter walked to first</td>
+        </tr>
+        <tr>
+            <td><strong>K</strong></td>
+            <td>Out (strikeout style)</td>
+            <td>Generic out notation</td>
+        </tr>
+        <tr>
+            <td><strong>DP</strong></td>
+            <td>Double Play</td>
+            <td>Two outs recorded</td>
+        </tr>
+        <tr>
+            <td><strong>R</strong></td>
+            <td>Run scored</td>
+            <td>Circle or underline to mark a run</td>
+        </tr>
+    </table>
+
+    <h3>Tracking Runners</h3>
+    <p>For each at-bat, you can note what happened to runners:</p>
+    <ul>
+        <li>Draw a small diamond and fill in bases occupied</li>
+        <li>Or just write the result and update the linescore</li>
+        <li>Circle any notation where a run scored</li>
+    </ul>
+
+    <div class="callout">
+        <h4>Scoring Example</h4>
+        <p>Inning 1: Batter 1 walks (BB), Batter 2 singles moving runner to 2nd (1B), Batter 3 hits a home run scoring everyone (HR with circle).</p>
+        <p>The box scores would show: <strong>BB</strong> | <strong>1B</strong> | <strong>HR ③</strong> (circled, 3 runs scored)</p>
+    </div>
+
+    <h3>Linescore</h3>
+    <p>At the bottom of each scorecard is a linescore. After each half-inning, write the number of runs scored in that inning. Add them up at the end for the final score.</p>
+
+    <!-- SCORECARDS PAGE -->
+    <div class="page-break"></div>
+    <h2>Scorecards</h2>
+    <p style="text-align: center; margin-bottom: 16pt;">Print this page and cut along the dotted lines for 4 individual scorecards.</p>
+
+    <style>
+        .scorecard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 0.25in;
+            width: 100%;
+        }
+        .scorecard-box {
+            border: 2px dashed #999;
+            padding: 0.15in;
+            font-size: 8pt;
+        }
+        .scorecard-box h4 {
+            text-align: center;
+            margin: 0 0 6pt 0;
+            font-size: 10pt;
+            color: #2d5016;
+        }
+        .scorecard-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 7pt;
+        }
+        .scorecard-table th, .scorecard-table td {
+            border: 1px solid #333;
+            padding: 4px 2px;
+            text-align: center;
+            height: 18px;
+        }
+        .scorecard-table th {
+            background: #333;
+            color: white;
+            font-size: 6pt;
+        }
+        .scorecard-table .batter-num {
+            background: #f0f0f0;
+            font-weight: bold;
+            width: 20px;
+        }
+        .linescore-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 8px;
+            font-size: 7pt;
+        }
+        .linescore-table th, .linescore-table td {
+            border: 1px solid #333;
+            padding: 3px 4px;
+            text-align: center;
+            height: 16px;
+        }
+        .linescore-table th {
+            background: #333;
+            color: white;
+        }
+        .linescore-table .team-name {
+            background: #f0f0f0;
+            font-weight: bold;
+            text-align: left;
+            padding-left: 4px;
+        }
+        .scorecard-footer {
+            text-align: center;
+            font-size: 6pt;
+            color: #999;
+            margin-top: 4px;
+        }
+    </style>
+
+    <div class="scorecard-grid">
+        <!-- Scorecard 1 -->
+        <div class="scorecard-box">
+            <h4>⚾ Cheddar Bob: Bush League</h4>
+            <table class="scorecard-table">
+                <tr>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                    <th style="border: none; background: none;"></th>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                </tr>
+                <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            </table>
+            <table class="linescore-table">
+                <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th></tr>
+                <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
+            </table>
+            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+        </div>
+
+        <!-- Scorecard 2 -->
+        <div class="scorecard-box">
+            <h4>⚾ Cheddar Bob: Bush League</h4>
+            <table class="scorecard-table">
+                <tr>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                    <th style="border: none; background: none;"></th>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                </tr>
+                <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            </table>
+            <table class="linescore-table">
+                <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th></tr>
+                <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
+            </table>
+            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+        </div>
+
+        <!-- Scorecard 3 -->
+        <div class="scorecard-box">
+            <h4>⚾ Cheddar Bob: Bush League</h4>
+            <table class="scorecard-table">
+                <tr>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                    <th style="border: none; background: none;"></th>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                </tr>
+                <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            </table>
+            <table class="linescore-table">
+                <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th></tr>
+                <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
+            </table>
+            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+        </div>
+
+        <!-- Scorecard 4 -->
+        <div class="scorecard-box">
+            <h4>⚾ Cheddar Bob: Bush League</h4>
+            <table class="scorecard-table">
+                <tr>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                    <th style="border: none; background: none;"></th>
+                    <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                </tr>
+                <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+                <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            </table>
+            <table class="linescore-table">
+                <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th></tr>
+                <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
+                <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
+            </table>
+            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <div class="footer">
         <p>Cheddar Bob: Bush League v1.2</p>

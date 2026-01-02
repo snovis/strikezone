@@ -385,7 +385,7 @@
             <li><strong>Bleed:</strong> No bleed required</li>
         </ul>
         <p>Save as PDF, then upload to KDP. The page size is already set correctly.</p>
-        <p><strong>Total pages:</strong> 16 (including cover pages)</p>
+        <p><strong>Total pages:</strong> 20 (including cover pages and scorecards)</p>
     </div>
 
     <!-- PAGE 1: FRONT COVER (Right page) -->
@@ -969,7 +969,132 @@
         <span class="page-number right">15</span>
     </div>
 
-    <!-- PAGE 16: BACK COVER (Left page) -->
+    <!-- PAGE 16: HOW TO KEEP SCORE (Left page) -->
+    <div class="page">
+        <h2>How to Keep Score</h2>
+        <p>Just write the outcome code in each batter's box.</p>
+
+        <h3>Common Notations</h3>
+        <table>
+            <tr><th>Code</th><th>Meaning</th></tr>
+            <tr><td><strong>1B</strong></td><td style="text-align: left;">Single</td></tr>
+            <tr><td><strong>2B</strong></td><td style="text-align: left;">Double</td></tr>
+            <tr><td><strong>HR</strong></td><td style="text-align: left;">Home Run (circle it!)</td></tr>
+            <tr><td><strong>BB</strong></td><td style="text-align: left;">Walk</td></tr>
+            <tr><td><strong>K</strong></td><td style="text-align: left;">Out</td></tr>
+            <tr><td><strong>DP</strong></td><td style="text-align: left;">Double Play</td></tr>
+        </table>
+
+        <div class="callout">
+            <h4>Scoring Example</h4>
+            <p>Batter 1 walks (BB), Batter 2 singles (1B), Batter 3 homers (HR). Circle the HR and write "3" for runs scored that inning.</p>
+        </div>
+
+        <h3>Tips</h3>
+        <ul>
+            <li>Circle any at-bat where runs scored</li>
+            <li>Update the linescore after each half-inning</li>
+            <li>Draw a diamond to track baserunners if needed</li>
+        </ul>
+
+        <span class="page-number left">16</span>
+    </div>
+
+    <!-- PAGE 17: SCORECARD 1 (Right page) -->
+    <div class="page right">
+        <h2 style="text-align: center; font-size: 12pt; margin-bottom: 8pt;">Scorecard</h2>
+        <style>
+            .kdp-scorecard { border-collapse: collapse; width: 100%; font-size: 8pt; margin-bottom: 12pt; }
+            .kdp-scorecard th, .kdp-scorecard td { border: 1px solid #333; padding: 6px 4px; text-align: center; height: 22px; }
+            .kdp-scorecard th { background: #333; color: white; font-size: 7pt; }
+            .kdp-scorecard .batter-num { background: #f0f0f0; font-weight: bold; width: 24px; }
+            .kdp-linescore { border-collapse: collapse; width: 100%; font-size: 8pt; }
+            .kdp-linescore th, .kdp-linescore td { border: 1px solid #333; padding: 5px; text-align: center; height: 20px; }
+            .kdp-linescore th { background: #333; color: white; }
+            .kdp-linescore .team-name { background: #f0f0f0; font-weight: bold; text-align: left; padding-left: 6px; }
+        </style>
+        <table class="kdp-scorecard">
+            <tr>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                <th style="border: none; background: none; width: 12px;"></th>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+            </tr>
+            <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">7</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">7</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">8</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">8</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">9</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">9</td><td></td><td></td><td></td></tr>
+        </table>
+        <table class="kdp-linescore">
+            <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th><th>H</th></tr>
+            <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p style="text-align: center; font-size: 7pt; color: #999; margin-top: 8pt;">v1.2 | © 2025 Rymare International LLC</p>
+        <span class="page-number right">17</span>
+    </div>
+
+    <!-- PAGE 18: SCORECARD 2 (Left page) -->
+    <div class="page">
+        <h2 style="text-align: center; font-size: 12pt; margin-bottom: 8pt;">Scorecard</h2>
+        <table class="kdp-scorecard">
+            <tr>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                <th style="border: none; background: none; width: 12px;"></th>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+            </tr>
+            <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">7</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">7</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">8</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">8</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">9</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">9</td><td></td><td></td><td></td></tr>
+        </table>
+        <table class="kdp-linescore">
+            <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th><th>H</th></tr>
+            <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p style="text-align: center; font-size: 7pt; color: #999; margin-top: 8pt;">v1.2 | © 2025 Rymare International LLC</p>
+        <span class="page-number left">18</span>
+    </div>
+
+    <!-- PAGE 19: SCORECARD 3 (Right page) -->
+    <div class="page right">
+        <h2 style="text-align: center; font-size: 12pt; margin-bottom: 8pt;">Scorecard</h2>
+        <table class="kdp-scorecard">
+            <tr>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+                <th style="border: none; background: none; width: 12px;"></th>
+                <th>Btr</th><th>1</th><th>2</th><th>3</th>
+            </tr>
+            <tr><td class="batter-num">1</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">1</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">2</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">2</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">3</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">3</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">4</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">4</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">5</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">5</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">6</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">6</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">7</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">7</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">8</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">8</td><td></td><td></td><td></td></tr>
+            <tr><td class="batter-num">9</td><td></td><td></td><td></td><td style="border: none;"></td><td class="batter-num">9</td><td></td><td></td><td></td></tr>
+        </table>
+        <table class="kdp-linescore">
+            <tr><th>Team</th><th>1</th><th>2</th><th>3</th><th>R</th><th>H</th></tr>
+            <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p style="text-align: center; font-size: 7pt; color: #999; margin-top: 8pt;">v1.2 | © 2025 Rymare International LLC</p>
+        <span class="page-number right">19</span>
+    </div>
+
+    <!-- PAGE 20: BACK COVER (Left page) -->
     <div class="page">
         <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100%; text-align: center;">
             <div style="font-size: 24pt; margin-bottom: 0.3in;">⚾ 🎲🎲</div>
