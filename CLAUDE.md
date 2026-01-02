@@ -146,8 +146,8 @@ npm run test:result -- --table           # Show 2D result tables
 
 ## Git Info
 
-- Branch: `grapple-engine`
-- Tags: `v1.1-bush-league`, `v1.2-bush-league`
+- Branch: `main`
+- Tags: `v1.0-cheddar-bob`, `v1.1-bush-league`, `v1.2-bush-league`, `v1.2-release`
 
 ---
 

@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob: Bush League - Player Manual</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0.75in;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            .no-break {
+                page-break-inside: avoid;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-size: 11pt;
+            line-height: 1.5;
+            color: #333;
+            max-width: 7in;
+            margin: 0 auto;
+            padding: 0.5in;
+        }
+
+        /* Cover Page */
+        .cover {
+            text-align: center;
+            padding: 2in 0;
+            min-height: 9in;
+        }
+
+        .cover h1 {
+            font-size: 36pt;
+            color: #2d5016;
+            margin-bottom: 0.25in;
+        }
+
+        .cover .subtitle {
+            font-size: 24pt;
+            color: #4a7c23;
+            margin-bottom: 0.5in;
+        }
+
+        .cover .edition {
+            font-size: 18pt;
+            color: #666;
+            margin-bottom: 1in;
+        }
+
+        .cover .tagline {
+            font-size: 14pt;
+            font-style: italic;
+            color: #888;
+            margin-bottom: 2in;
+        }
+
+        .cover .version {
+            font-size: 12pt;
+            color: #999;
+        }
+
+        /* Section Headers */
+        h2 {
+            font-size: 18pt;
+            color: #2d5016;
+            border-bottom: 3px solid #4a7c23;
+            padding-bottom: 6px;
+            margin: 24pt 0 12pt 0;
+        }
+
+        h3 {
+            font-size: 14pt;
+            color: #333;
+            margin: 18pt 0 8pt 0;
+        }
+
+        h4 {
+            font-size: 12pt;
+            color: #4a7c23;
+            margin: 12pt 0 6pt 0;
+        }
+
+        p {
+            margin-bottom: 10pt;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 10pt 0 10pt 24pt;
+        }
+
+        li {
+            margin-bottom: 6pt;
+        }
+
+        /* Tables */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 12pt 0;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 8px 12px;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            font-weight: bold;
+        }
+
+        .weak { background: #ffe6e6; }
+        .solid { background: #fff9e6; }
+        .strong { background: #e6ffe6; }
+        .hit { background: #d4edda; }
+        .out { background: #f8d7da; }
+        .walk { background: #cce5ff; }
+        .dp { background: #f5c6cb; }
+
+        /* Callout Boxes */
+        .callout {
+            background: #f8f8f8;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16pt 0;
+        }
+
+        .callout.important {
+            background: #fff3cd;
+            border-color: #d4a800;
+        }
+
+        .callout.tip {
+            background: #e8f5e9;
+            border-color: #4a7c23;
+        }
+
+        .callout h4 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #f0f4ff;
+            border: 2px solid #4a5568;
+            border-radius: 8px;
+            padding: 16px;
+            margin: 16pt 0;
+        }
+
+        .flow-step {
+            text-align: center;
+            flex: 1;
+        }
+
+        .flow-step .number {
+            display: block;
+            font-size: 24pt;
+            font-weight: bold;
+            color: #4a7c23;
+        }
+
+        .flow-step .name {
+            font-weight: bold;
+            font-size: 12pt;
+        }
+
+        .flow-step .desc {
+            font-size: 9pt;
+            color: #666;
+        }
+
+        .flow-arrow {
+            font-size: 24pt;
+            color: #4a7c23;
+            padding: 0 8px;
+        }
+
+        /* Strategy Triangle */
+        .triangle-container {
+            text-align: center;
+            margin: 20pt 0;
+        }
+
+        .strategy-card {
+            display: inline-block;
+            background: #f0f0f0;
+            border: 2px solid #333;
+            border-radius: 8px;
+            padding: 12px 20px;
+            margin: 4px;
+            min-width: 100px;
+        }
+
+        .strategy-card .emoji {
+            font-size: 28pt;
+            display: block;
+        }
+
+        .strategy-card .name {
+            font-weight: bold;
+            font-size: 12pt;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            font-size: 9pt;
+            color: #888;
+            margin-top: 36pt;
+            padding-top: 12pt;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Table of Contents */
+        .toc {
+            margin: 24pt 0;
+        }
+
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 4pt 0;
+            border-bottom: 1px dotted #ccc;
+        }
+
+        .toc-item .title {
+            font-weight: bold;
+        }
+
+        /* Emphasis */
+        .highlight {
+            background: #ffeb3b;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+
+        strong {
+            color: #2d5016;
+        }
+
+        /* Two Column Layout for smaller items */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <h1>CHEDDAR BOB</h1>
+        <div class="subtitle">Bush League</div>
+        <div class="edition">Player Manual</div>
+        <div class="tagline">"No excuses. No equipment. Just hands and dice."</div>
+        <div class="version">Version 1.2</div>
+    </div>
+
+    <!-- TABLE OF CONTENTS -->
+    <div class="page-break"></div>
+    <h2>Contents</h2>
+    <div class="toc">
+        <div class="toc-item"><span class="title">What You Need</span><span>3</span></div>
+        <div class="toc-item"><span class="title">Game Overview</span><span>3</span></div>
+        <div class="toc-item"><span class="title">The Turn Structure</span><span>4</span></div>
+        <div class="toc-item"><span class="title">Strategy Selection</span><span>5</span></div>
+        <div class="toc-item"><span class="title">The Battle Phase</span><span>6</span></div>
+        <div class="toc-item"><span class="title">Tier System</span><span>6</span></div>
+        <div class="toc-item"><span class="title">Result Tables</span><span>7</span></div>
+        <div class="toc-item"><span class="title">Critical Rolls</span><span>8</span></div>
+        <div class="toc-item"><span class="title">Outcomes Explained</span><span>9</span></div>
+        <div class="toc-item"><span class="title">Runner Movement</span><span>10</span></div>
+        <div class="toc-item"><span class="title">Game Structure</span><span>11</span></div>
+    </div>
+
+    <!-- WHAT YOU NEED -->
+    <div class="page-break"></div>
+    <h2>What You Need</h2>
+
+    <p>Cheddar Bob: Bush League is designed to be played anywhere with minimal equipment:</p>
+
+    <ul>
+        <li><strong>Two six-sided dice</strong> (2d6) per player, or share one pair</li>
+        <li><strong>Your hands</strong> for strategy selection (like rock-paper-scissors)</li>
+        <li><strong>Optional:</strong> A scorecard to track the game</li>
+    </ul>
+
+    <div class="callout tip">
+        <h4>Dice Apps Work Great</h4>
+        <p>If you don't have physical dice, any dice-rolling app on your phone works perfectly. Each player can use their own phone.</p>
+    </div>
+
+    <!-- GAME OVERVIEW -->
+    <h2>Game Overview</h2>
+
+    <p>Cheddar Bob: Bush League is a fast-playing baseball simulation for two players. One player is the <strong>Pitcher</strong> (defense) and the other is the <strong>Batter</strong> (offense). Players alternate roles after each half-inning.</p>
+
+    <h3>Objective</h3>
+    <p>Score more runs than your opponent over the course of the game. A standard game is <strong>3 innings</strong>, but you can play any number you agree on.</p>
+
+    <h3>The Core Concept</h3>
+    <p>Every at-bat is a contest between pitcher and batter. Both players simultaneously choose a strategy, then roll dice to determine who wins the confrontation. The winner then rolls again to determine the specific outcome (hit, out, walk, etc.).</p>
+
+    <div class="callout important">
+        <h4>Key Insight</h4>
+        <p>Unlike traditional baseball simulations, <em>both players are always engaged</em>. The pitcher isn't passive — they're actively trying to out-think and out-roll the batter on every pitch.</p>
+    </div>
+
+    <!-- TURN STRUCTURE -->
+    <div class="page-break"></div>
+    <h2>The Turn Structure</h2>
+
+    <p>Each at-bat follows four steps:</p>
+
+    <div class="flow-diagram no-break">
+        <div class="flow-step">
+            <span class="number">1</span>
+            <span class="name">COMMIT</span>
+            <span class="desc">Choose secretly</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+            <span class="number">2</span>
+            <span class="name">SHOW</span>
+            <span class="desc">Reveal together</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+            <span class="number">3</span>
+            <span class="name">BATTLE</span>
+            <span class="desc">Roll + mods</span>
+        </div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step">
+            <span class="number">4</span>
+            <span class="name">RESULT</span>
+            <span class="desc">Winner rolls</span>
+        </div>
+    </div>
+
+    <h3>Step 1: COMMIT</h3>
+    <p>Both players secretly choose one of three strategies: <strong>Power</strong>, <strong>Balance</strong>, or <strong>Finesse</strong>. Hold your choice behind your back or under the table.</p>
+
+    <h3>Step 2: SHOW</h3>
+    <p>On a count of three, both players reveal their choices simultaneously (like rock-paper-scissors). Compare strategies to determine if either player gets a modifier.</p>
+
+    <h3>Step 3: BATTLE</h3>
+    <p>Both players roll 2d6 and add any modifiers. The player with the higher total wins the battle. Ties are re-rolled.</p>
+
+    <h3>Step 4: RESULT</h3>
+    <p>The battle winner rolls 2d6 again. Cross-reference their battle tier with their result tier on the appropriate table to determine the outcome.</p>
+
+    <!-- STRATEGY SELECTION -->
+    <div class="page-break"></div>
+    <h2>Strategy Selection</h2>
+
+    <p>The three strategies form a triangle — each one beats one other and loses to the third:</p>
+
+    <div class="triangle-container no-break">
+        <div class="strategy-card">
+            <span class="emoji">🔨</span>
+            <span class="name">POWER</span>
+        </div>
+        <br>
+        <div style="font-size: 18pt; margin: 8px 0;">
+            <span style="margin-right: 60px;">↗</span><span>↘</span>
+        </div>
+        <div class="strategy-card">
+            <span class="emoji">🎯</span>
+            <span class="name">FINESSE</span>
+        </div>
+        <span style="font-size: 24pt; margin: 0 12px;">←</span>
+        <div class="strategy-card">
+            <span class="emoji">⚖️</span>
+            <span class="name">BALANCE</span>
+        </div>
+    </div>
+
+    <div class="callout no-break">
+        <h4>Strategy Triangle</h4>
+        <ul>
+            <li><strong>Power beats Finesse</strong> — Raw strength overpowers precision</li>
+            <li><strong>Finesse beats Balance</strong> — Precision exploits predictability</li>
+            <li><strong>Balance beats Power</strong> — Adaptability counters aggression</li>
+        </ul>
+        <p style="margin-top: 12px; margin-bottom: 0;"><strong>The winner gets +2 to their battle roll.</strong> If both choose the same strategy, neither gets a modifier.</p>
+    </div>
+
+    <h3>Hand Signals</h3>
+    <p>Use these hand signals to reveal your choice:</p>
+    <ul>
+        <li><strong>Power (🔨):</strong> Closed fist</li>
+        <li><strong>Balance (⚖️):</strong> Flat hand, palm down</li>
+        <li><strong>Finesse (🎯):</strong> Pointed finger</li>
+    </ul>
+
+    <!-- BATTLE PHASE -->
+    <div class="page-break"></div>
+    <h2>The Battle Phase</h2>
+
+    <p>After revealing strategies, both players roll 2d6 and add their modifiers:</p>
+
+    <ol>
+        <li>Both players roll 2d6</li>
+        <li>Add +2 if you won the strategy comparison</li>
+        <li>Compare totals — higher wins</li>
+        <li>If tied, both re-roll (no modifiers on re-roll)</li>
+    </ol>
+
+    <p>The winner of the battle will roll again in the Result phase. Their battle roll determines which <strong>tier</strong> they achieved.</p>
+
+    <!-- TIER SYSTEM -->
+    <h2>Tier System</h2>
+
+    <p>Both the battle roll and result roll are converted into tiers using the same thresholds:</p>
+
+    <table class="no-break">
+        <tr>
+            <th>Roll Total</th>
+            <th>Tier</th>
+            <th>Meaning</th>
+        </tr>
+        <tr class="weak">
+            <td><strong>2–6</strong></td>
+            <td>Weak</td>
+            <td>Below average performance</td>
+        </tr>
+        <tr class="solid">
+            <td><strong>7–9</strong></td>
+            <td>Solid</td>
+            <td>Average, competent performance</td>
+        </tr>
+        <tr class="strong">
+            <td><strong>10–12</strong></td>
+            <td>Strong</td>
+            <td>Excellent performance</td>
+        </tr>
+    </table>
+
+    <div class="callout important">
+        <h4>The Magic Number: 7–9</h4>
+        <p>The most common roll on 2d6 is 7. Rolls of 7, 8, or 9 are "Solid" — right in the middle. This is the baseline. Below is Weak, above is Strong.</p>
+    </div>
+
+    <!-- RESULT TABLES -->
+    <div class="page-break"></div>
+    <h2>Result Tables</h2>
+
+    <p>After winning the battle, the winner rolls 2d6 again. Cross-reference their <strong>battle tier</strong> (columns) with their <strong>result tier</strong> (rows) to find the outcome.</p>
+
+    <h3>Batter Wins → Use This Table</h3>
+    <table class="no-break">
+        <tr>
+            <th>Result ↓ &nbsp; Battle →</th>
+            <th>Weak</th>
+            <th>Solid</th>
+            <th>Strong</th>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Weak (2–6)</strong></td>
+            <td class="out">OUT</td>
+            <td class="out">OUT</td>
+            <td class="hit">1B</td>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Solid (7–9)</strong></td>
+            <td class="walk">BB</td>
+            <td class="hit">1B</td>
+            <td class="hit">2B</td>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Strong (10–12)</strong></td>
+            <td class="hit">1B</td>
+            <td class="hit">2B</td>
+            <td class="hit" style="background: #28a745; color: white;"><strong>HR</strong></td>
+        </tr>
+    </table>
+
+    <h3>Pitcher Wins → Use This Table</h3>
+    <table class="no-break">
+        <tr>
+            <th>Result ↓ &nbsp; Battle →</th>
+            <th>Weak</th>
+            <th>Solid</th>
+            <th>Strong</th>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Weak (2–6)</strong></td>
+            <td class="walk">BB</td>
+            <td class="out">O-RA</td>
+            <td class="out">O-RC</td>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Solid (7–9)</strong></td>
+            <td class="out">O-RA</td>
+            <td class="out">O-RC</td>
+            <td class="out">O-RF</td>
+        </tr>
+        <tr>
+            <td style="background: #f0f0f0;"><strong>Strong (10–12)</strong></td>
+            <td class="out">O-RC</td>
+            <td class="out">O-RF</td>
+            <td class="dp"><strong>DP</strong></td>
+        </tr>
+    </table>
+
+    <p><strong>Key:</strong> 1B = Single, 2B = Double, HR = Home Run, BB = Walk, O-RA = Out (Runners Advance), O-RC = Out (Runner Challenge), O-RF = Out (Runners Freeze), DP = Double Play</p>
+
+    <!-- CRITICAL ROLLS -->
+    <div class="page-break"></div>
+    <h2>Critical Rolls</h2>
+
+    <p>Rolling the minimum (2) or maximum (12) on 2d6 triggers special outcomes that override normal rules.</p>
+
+    <h3>During the Battle Phase</h3>
+    <table class="no-break">
+        <tr>
+            <th>Roll</th>
+            <th>If Batter Rolls It</th>
+            <th>If Pitcher Rolls It</th>
+        </tr>
+        <tr>
+            <td><strong>Snake Eyes (2)</strong></td>
+            <td class="out">Automatic OUT</td>
+            <td class="walk">Automatic Walk (BB)</td>
+        </tr>
+        <tr>
+            <td><strong>Boxcars (12)</strong></td>
+            <td class="hit" style="background: #28a745; color: white;">Automatic HOME RUN</td>
+            <td class="dp">Automatic Double Play*</td>
+        </tr>
+    </table>
+    <p style="font-size: 10pt; color: #666;">*Double play requires runners on base. If no runners, it's just an out.</p>
+
+    <h3>During the Result Phase</h3>
+    <p>Critical rolls in the result phase give you the best or worst outcome for your position on the table:</p>
+    <ul>
+        <li><strong>Snake Eyes (2):</strong> Worst possible outcome for that battle tier</li>
+        <li><strong>Boxcars (12):</strong> Best possible outcome for that battle tier</li>
+    </ul>
+
+    <div class="callout no-break">
+        <h4>Example</h4>
+        <p>The batter wins a Solid battle (rolled 8). They roll again for the result and get boxcars (12). Looking at the Batter table, Solid battle column — the best outcome is 2B (from the Strong row). So boxcars gives them a double.</p>
+    </div>
+
+    <!-- OUTCOMES EXPLAINED -->
+    <div class="page-break"></div>
+    <h2>Outcomes Explained</h2>
+
+    <h3>Hit Outcomes</h3>
+    <table class="no-break">
+        <tr>
+            <th>Outcome</th>
+            <th>What Happens</th>
+        </tr>
+        <tr>
+            <td class="hit"><strong>1B (Single)</strong></td>
+            <td style="text-align: left;">Batter reaches first base. Runners advance one base.</td>
+        </tr>
+        <tr>
+            <td class="hit"><strong>2B (Double)</strong></td>
+            <td style="text-align: left;">Batter reaches second base. Runners on 2nd and 3rd score. Runner on 1st goes to third.</td>
+        </tr>
+        <tr>
+            <td class="hit" style="background: #28a745; color: white;"><strong>HR (Home Run)</strong></td>
+            <td style="text-align: left;">Batter scores. All runners score.</td>
+        </tr>
+    </table>
+
+    <h3>Walk</h3>
+    <table class="no-break">
+        <tr>
+            <th>Outcome</th>
+            <th>What Happens</th>
+        </tr>
+        <tr>
+            <td class="walk"><strong>BB (Walk)</strong></td>
+            <td style="text-align: left;">Batter goes to first. Only forced runners advance (runner on 1st goes to 2nd only if batter takes 1st, etc.)</td>
+        </tr>
+    </table>
+
+    <h3>Out Outcomes</h3>
+    <table class="no-break">
+        <tr>
+            <th>Outcome</th>
+            <th>What Happens</th>
+        </tr>
+        <tr>
+            <td class="out"><strong>O-RA (Runners Advance)</strong></td>
+            <td style="text-align: left;">Batter is out. All runners advance one base (like a sacrifice fly or groundout).</td>
+        </tr>
+        <tr>
+            <td class="out"><strong>O-RC (Runner Challenge)</strong></td>
+            <td style="text-align: left;">Batter is out. Each runner may <em>choose</em> to attempt advancing (see Runner Challenge).</td>
+        </tr>
+        <tr>
+            <td class="out"><strong>O-RF (Runners Freeze)</strong></td>
+            <td style="text-align: left;">Batter is out. Runners cannot advance — they stay where they are.</td>
+        </tr>
+        <tr>
+            <td class="dp"><strong>DP (Double Play)</strong></td>
+            <td style="text-align: left;">Two outs recorded. Lead runner is removed from the bases.</td>
+        </tr>
+    </table>
+
+    <!-- RUNNER MOVEMENT -->
+    <div class="page-break"></div>
+    <h2>Runner Movement</h2>
+
+    <h3>On Hits</h3>
+    <ul>
+        <li><strong>Single (1B):</strong> Runner on 1st → 2nd, Runner on 2nd → 3rd, Runner on 3rd → scores</li>
+        <li><strong>Double (2B):</strong> Runners on 2nd and 3rd score, Runner on 1st → 3rd</li>
+        <li><strong>Home Run:</strong> All runners score, batter scores</li>
+    </ul>
+
+    <h3>On Walks</h3>
+    <p>Only <em>forced</em> runners advance. A runner is forced if there's a runner behind them or the batter taking a base behind them.</p>
+
+    <h3>Runner Challenge (O-RC)</h3>
+    <p>When the outcome is O-RC, each runner may choose to attempt advancing:</p>
+    <ol>
+        <li>The runner declares they're going</li>
+        <li>Both players roll 2d6 (no modifiers)</li>
+        <li>Higher roll wins (ties re-roll)</li>
+        <li>Runner wins → Safe at next base</li>
+        <li>Defense wins → Runner is OUT</li>
+    </ol>
+
+    <div class="callout important">
+        <h4>Risk vs. Reward</h4>
+        <p>The Runner Challenge is optional. The runner can choose to stay put. But if they try and fail, that's another out!</p>
+    </div>
+
+    <h3>Productive Outs</h3>
+    <p>When the <strong>batter wins the battle</strong> but the outcome is still an <strong>OUT</strong>, runners advance one base anyway. The batter fought well and sacrificed themselves to move the runners — like a deep fly ball or a productive groundout.</p>
+    <p><em>This only applies to outs from the Batter table, not from the Pitcher table.</em></p>
+
+    <!-- GAME STRUCTURE -->
+    <div class="page-break"></div>
+    <h2>Game Structure</h2>
+
+    <h3>Innings</h3>
+    <p>A standard game is <strong>3 innings</strong>. Each inning has two halves:</p>
+    <ul>
+        <li><strong>Top of the inning:</strong> Away team bats, Home team pitches</li>
+        <li><strong>Bottom of the inning:</strong> Home team bats, Away team pitches</li>
+    </ul>
+
+    <h3>Outs</h3>
+    <p>Each half-inning continues until the batting team records <strong>3 outs</strong>. Then teams switch roles.</p>
+
+    <h3>Winning</h3>
+    <p>The team with more runs after all innings wins. If the home team is ahead going into the bottom of the last inning, they don't need to bat — they've already won.</p>
+
+    <h3>Ties</h3>
+    <p>If the score is tied after the final inning, play extra innings until one team is ahead at the end of a complete inning.</p>
+
+    <h3>Suggested Game Lengths</h3>
+    <table>
+        <tr>
+            <th>Format</th>
+            <th>Innings</th>
+            <th>Time</th>
+        </tr>
+        <tr>
+            <td>Quick Game</td>
+            <td>1</td>
+            <td>5–10 min</td>
+        </tr>
+        <tr>
+            <td>Standard Game</td>
+            <td>3</td>
+            <td>15–25 min</td>
+        </tr>
+        <tr>
+            <td>Full Game</td>
+            <td>9</td>
+            <td>45–60 min</td>
+        </tr>
+    </table>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p>Cheddar Bob: Bush League v1.2</p>
+        <p>&copy; 2025 Rymare International LLC</p>
+        <p style="margin-top: 8pt; font-style: italic;">"Read your opponent. Roll your fate."</p>
+    </div>
+
+</body>
+</html>
