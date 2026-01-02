@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheddar Bob: Bush League - Tin Manual</title>
+    <title>Cheddar Bob: Bush League - Tin Manual (Squircle)</title>
     <style>
         * {
             margin: 0;
@@ -45,10 +45,10 @@
             padding: 0.25in;
         }
 
-        .circle {
+        .panel {
             width: 2in;
             height: 2in;
-            border-radius: 50%;
+            border-radius: 10mm;
             border: 1px solid #ccc;
             background: white;
             overflow: hidden;
@@ -56,7 +56,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 0.1in;
+            padding: 0.12in;
             font-size: 6pt;
             line-height: 1.25;
             text-align: center;
@@ -269,18 +269,19 @@
         <h2>Print Instructions</h2>
         <ol>
             <li>Print on letter paper, double-sided (flip on short edge)</li>
-            <li>Cut out the circles using a 2" circle cutter</li>
-            <li>Round corners with corner cutter if desired</li>
+            <li>Cut out 2" × 2" squares</li>
+            <li>Round all corners with 10mm corner cutter</li>
             <li>Accordion fold: panels 1-2-3-4 on front, 5-6-7-8 on back</li>
         </ol>
         <p><strong>Page 1:</strong> Panels 1, 2, 3, 4 (left to right)</p>
         <p><strong>Page 2:</strong> Panels 8, 7, 6, 5 (reversed for double-sided printing)</p>
+        <p><strong>Panel size:</strong> 2" × 2" squares with 10mm rounded corners (squircles)</p>
     </div>
 
     <!-- PAGE 1: FRONT (Panels 1-4) -->
     <div class="page">
         <!-- PANEL 1: COVER -->
-        <div class="circle">
+        <div class="panel">
             <div class="cover-title">CHEDDAR BOB</div>
             <div class="cover-subtitle">Bush League</div>
             <div style="font-size: 20pt; margin: 4px 0;">⚾🎲🎲</div>
@@ -289,7 +290,7 @@
         </div>
 
         <!-- PANEL 2: WHAT YOU NEED + OVERVIEW -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title">WHAT YOU NEED</div>
             <ul>
                 <li>2 dice (2d6) per player</li>
@@ -302,7 +303,7 @@
         </div>
 
         <!-- PANEL 3: TURN STRUCTURE -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title">THE TURN</div>
             <div class="flow">
                 <span class="flow-step">1 COMMIT</span>
@@ -321,7 +322,7 @@
         </div>
 
         <!-- PANEL 4: STRATEGY -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title">STRATEGY</div>
             <div class="strat-card" style="margin: 2px auto;">
                 <span class="emoji">🔨</span> POWER
@@ -344,7 +345,7 @@
     <!-- PAGE 2: BACK (Panels 8-7-6-5, reversed for printing) -->
     <div class="page">
         <!-- PANEL 8: OUTCOMES + COPYRIGHT (Back cover) -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title">OUTCOMES</div>
             <table style="font-size: 4.5pt;">
                 <tr><td class="hit"><strong>1B</strong></td><td>Single: R1→2, R2→3, R3 scores</td></tr>
@@ -361,7 +362,7 @@
         </div>
 
         <!-- PANEL 7: PITCHER TABLE + CRITICALS -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title" style="background: linear-gradient(135deg, #721c24 0%, #c62828 100%);">PITCHER WINS</div>
             <table>
                 <tr>
@@ -396,7 +397,7 @@
         </div>
 
         <!-- PANEL 6: BATTER TABLE -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title" style="background: linear-gradient(135deg, #155724 0%, #28a745 100%);">BATTER WINS</div>
             <p class="tiny" style="margin-bottom: 2px;">Battle tier → columns | Result tier → rows</p>
             <table>
@@ -429,7 +430,7 @@
         </div>
 
         <!-- PANEL 5: TIERS + BATTLE -->
-        <div class="circle">
+        <div class="panel">
             <div class="panel-title">TIERS & BATTLE</div>
             <div class="tier-box">
                 <p class="tiny" style="margin-bottom: 2px;"><strong>THE MAGIC NUMBER: 7-9</strong></p>
