@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheddar Bob: Bush League - Tin Manual (Bulk Print)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @page {
+            size: letter;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .page {
+                page-break-after: always;
+            }
+            .page:last-child {
+                page-break-after: avoid;
+            }
+            .print-instructions {
+                display: none;
+            }
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f0f0f0;
+        }
+
+        .page {
+            width: 8.5in;
+            height: 11in;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 0.4in;
+            padding: 0.25in;
+            position: relative;
+        }
+
+        /* Strip container - holds 4 panels + trim marks */
+        .strip-container {
+            position: relative;
+            width: 8.1in;
+            height: 2.1in;
+        }
+
+        .strip {
+            position: absolute;
+            top: 0.05in;
+            left: 0.05in;
+            display: flex;
+            gap: 0;
+        }
+
+        .panel {
+            width: 2in;
+            height: 2in;
+            border: 1px solid #ccc;
+            background: white;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 0.12in;
+            font-size: 6pt;
+            line-height: 1.25;
+            text-align: center;
+            position: relative;
+        }
+
+        /* Fold guides - dashed lines between panels */
+        .fold-guide {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 2in;
+            border-left: 1px dashed #999;
+        }
+
+        .fold-guide-1 { left: calc(2in + 0.05in); }
+        .fold-guide-2 { left: calc(4in + 0.05in); }
+        .fold-guide-3 { left: calc(6in + 0.05in); }
+
+        /* Trim marks - corner targets */
+        .trim-mark {
+            position: absolute;
+            width: 0.15in;
+            height: 0.15in;
+        }
+
+        .trim-mark::before,
+        .trim-mark::after {
+            content: '';
+            position: absolute;
+            background: black;
+        }
+
+        /* Top-left */
+        .trim-tl { top: 0; left: 0; }
+        .trim-tl::before { width: 0.15in; height: 1px; top: 0; left: 0; }
+        .trim-tl::after { width: 1px; height: 0.15in; top: 0; left: 0; }
+
+        /* Top-right */
+        .trim-tr { top: 0; right: 0; }
+        .trim-tr::before { width: 0.15in; height: 1px; top: 0; right: 0; }
+        .trim-tr::after { width: 1px; height: 0.15in; top: 0; right: 0; }
+
+        /* Bottom-left */
+        .trim-bl { bottom: 0; left: 0; }
+        .trim-bl::before { width: 0.15in; height: 1px; bottom: 0; left: 0; }
+        .trim-bl::after { width: 1px; height: 0.15in; bottom: 0; left: 0; }
+
+        /* Bottom-right */
+        .trim-br { bottom: 0; right: 0; }
+        .trim-br::before { width: 0.15in; height: 1px; bottom: 0; right: 0; }
+        .trim-br::after { width: 1px; height: 0.15in; bottom: 0; right: 0; }
+
+        /* Panel titles */
+        .panel-title {
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c23 100%);
+            color: white;
+            font-size: 7pt;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-bottom: 4px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+        }
+
+        .panel-title.dark {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+        }
+
+        /* Cover panel */
+        .cover-title {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #2d5016;
+            margin-top: 0.15in;
+        }
+
+        .cover-subtitle {
+            font-size: 8pt;
+            color: #4a7c23;
+            margin-bottom: 0.1in;
+        }
+
+        .cover-tagline {
+            font-size: 6pt;
+            font-style: italic;
+            color: #666;
+            margin-top: 0.05in;
+        }
+
+        .cover-version {
+            font-size: 5pt;
+            color: #999;
+            margin-top: auto;
+            margin-bottom: 0.05in;
+        }
+
+        /* Content styling */
+        h3 {
+            font-size: 6.5pt;
+            color: #2d5016;
+            margin: 3px 0 2px 0;
+        }
+
+        p {
+            margin-bottom: 2px;
+        }
+
+        .small {
+            font-size: 5pt;
+        }
+
+        .tiny {
+            font-size: 4.5pt;
+        }
+
+        ul {
+            text-align: left;
+            margin-left: 8px;
+            font-size: 5.5pt;
+        }
+
+        li {
+            margin-bottom: 1px;
+        }
+
+        /* Flow diagram */
+        .flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2px;
+            margin: 4px 0;
+            font-size: 5pt;
+        }
+
+        .flow-step {
+            background: #f0f4ff;
+            border: 1px solid #4a5568;
+            border-radius: 4px;
+            padding: 2px 4px;
+            font-weight: bold;
+        }
+
+        .flow-arrow {
+            color: #4a7c23;
+            font-weight: bold;
+        }
+
+        /* Strategy cards */
+        .strategy-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin: 2px 0;
+        }
+
+        .strat-card {
+            background: #f0f0f0;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 5pt;
+        }
+
+        .strat-card .emoji {
+            font-size: 10pt;
+        }
+
+        /* Tables */
+        table {
+            border-collapse: collapse;
+            font-size: 6.5pt;
+            margin: 3px auto;
+            width: 90%;
+        }
+
+        th, td {
+            border: 1px solid #333;
+            padding: 3px 4px;
+            text-align: center;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            font-size: 5.5pt;
+        }
+
+        .weak { background: #ffe6e6; }
+        .solid { background: #fff9e6; }
+        .strong { background: #e6ffe6; }
+        .hit { background: #d4edda; }
+        .out { background: #f8d7da; }
+        .walk { background: #cce5ff; }
+        .dp { background: #f5c6cb; }
+        .hr { background: #28a745; color: white; font-weight: bold; }
+
+        /* Tier box */
+        .tier-box {
+            background: #f8f8f8;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 3px;
+            margin: 3px 0;
+            font-size: 5.5pt;
+        }
+
+        .tier-row {
+            display: flex;
+            justify-content: space-around;
+            gap: 4px;
+        }
+
+        .tier-item {
+            text-align: center;
+        }
+
+        .tier-num {
+            font-weight: bold;
+            font-size: 7pt;
+        }
+
+        /* Callout */
+        .callout {
+            background: #fff3cd;
+            border: 1px solid #d4a800;
+            border-radius: 4px;
+            padding: 3px;
+            margin: 3px 0;
+            font-size: 5pt;
+        }
+
+        /* Copyright */
+        .copyright {
+            font-size: 4pt;
+            color: #999;
+            margin-top: auto;
+        }
+
+        /* Print instructions */
+        .print-instructions {
+            background: #e3f2fd;
+            padding: 16px;
+            margin: 16px;
+            border-radius: 8px;
+            font-size: 10pt;
+        }
+
+        .print-instructions h2 {
+            margin-bottom: 8px;
+        }
+
+        .print-instructions ul {
+            font-size: 10pt;
+            margin-left: 20px;
+        }
+
+        .print-instructions li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="print-instructions">
+        <h2>Bulk Print Instructions — 3 Manuals Per Sheet</h2>
+        <ul>
+            <li><strong>Page 1:</strong> Front sides (panels 1-2-3-4) × 3</li>
+            <li><strong>Page 2:</strong> Back sides (panels 8-7-6-5) × 3</li>
+            <li>Print double-sided, flip on <strong>short edge</strong></li>
+            <li><strong>Trim marks:</strong> Corner targets show where to cut (8" × 2" strips)</li>
+            <li><strong>Fold guides:</strong> Dashed lines show where to fold (accordion/z-fold)</li>
+            <li>After cutting, round corners with 10mm corner punch (optional)</li>
+        </ul>
+    </div>
+
+    <!-- PAGE 1: FRONT SIDES (×3) -->
+    <div class="page">
+        <!-- Strip 1 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <!-- PANEL 1: COVER -->
+                <div class="panel">
+                    <div class="cover-title">CHEDDAR BOB</div>
+                    <div class="cover-subtitle">Bush League</div>
+                    <div style="font-size: 20pt; margin: 4px 0;">⚾🎲🎲</div>
+                    <div class="cover-tagline">"No excuses. No equipment.<br>Just hands and dice."</div>
+                    <div class="cover-version">v1.2 Player Manual</div>
+                </div>
+
+                <!-- PANEL 2: WHAT YOU NEED + OVERVIEW -->
+                <div class="panel">
+                    <div class="panel-title">WHAT YOU NEED</div>
+                    <ul>
+                        <li>2 dice (2d6) per player</li>
+                        <li>Your hands (for RPS)</li>
+                        <li>Optional: scorecard</li>
+                    </ul>
+                    <h3>GAME OVERVIEW</h3>
+                    <p class="small">Two players: Pitcher vs Batter.<br>Score more runs in 3 innings to win.</p>
+                    <p class="small">Every at-bat is a contest — both players pick strategy, roll dice, determine outcome.</p>
+                </div>
+
+                <!-- PANEL 3: TURN STRUCTURE -->
+                <div class="panel">
+                    <div class="panel-title">THE TURN</div>
+                    <div class="flow">
+                        <span class="flow-step">1 COMMIT</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">2 SHOW</span>
+                    </div>
+                    <div class="flow">
+                        <span class="flow-step">3 BATTLE</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">4 RESULT</span>
+                    </div>
+                    <p class="small" style="margin-top: 4px;"><strong>1.</strong> Both secretly pick strategy</p>
+                    <p class="small"><strong>2.</strong> Reveal together (like RPS)</p>
+                    <p class="small"><strong>3.</strong> Roll 2d6 + mods, high wins</p>
+                    <p class="small"><strong>4.</strong> Winner rolls for outcome</p>
+                </div>
+
+                <!-- PANEL 4: STRATEGY -->
+                <div class="panel">
+                    <div class="panel-title">STRATEGY</div>
+                    <div class="strat-card" style="margin: 2px auto;">
+                        <span class="emoji">🔨</span> POWER
+                    </div>
+                    <div style="font-size: 8pt;">↗ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
+                    <div class="strategy-row">
+                        <div class="strat-card"><span class="emoji">🎯</span> FINESSE</div>
+                        <span style="font-size: 8pt;">←</span>
+                        <div class="strat-card"><span class="emoji">⚖️</span> BALANCE</div>
+                    </div>
+                    <p class="small" style="margin-top: 4px;">Arrow points to <strong>loser</strong></p>
+                    <div class="callout">
+                        <strong>Winner gets +2</strong> to battle roll<br>
+                        Tie = no modifier
+                    </div>
+                    <p class="tiny"><strong>Hand signals:</strong> Fist=Power, Flat=Balance, Point=Finesse</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strip 2 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <div class="panel">
+                    <div class="cover-title">CHEDDAR BOB</div>
+                    <div class="cover-subtitle">Bush League</div>
+                    <div style="font-size: 20pt; margin: 4px 0;">⚾🎲🎲</div>
+                    <div class="cover-tagline">"No excuses. No equipment.<br>Just hands and dice."</div>
+                    <div class="cover-version">v1.2 Player Manual</div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">WHAT YOU NEED</div>
+                    <ul>
+                        <li>2 dice (2d6) per player</li>
+                        <li>Your hands (for RPS)</li>
+                        <li>Optional: scorecard</li>
+                    </ul>
+                    <h3>GAME OVERVIEW</h3>
+                    <p class="small">Two players: Pitcher vs Batter.<br>Score more runs in 3 innings to win.</p>
+                    <p class="small">Every at-bat is a contest — both players pick strategy, roll dice, determine outcome.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">THE TURN</div>
+                    <div class="flow">
+                        <span class="flow-step">1 COMMIT</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">2 SHOW</span>
+                    </div>
+                    <div class="flow">
+                        <span class="flow-step">3 BATTLE</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">4 RESULT</span>
+                    </div>
+                    <p class="small" style="margin-top: 4px;"><strong>1.</strong> Both secretly pick strategy</p>
+                    <p class="small"><strong>2.</strong> Reveal together (like RPS)</p>
+                    <p class="small"><strong>3.</strong> Roll 2d6 + mods, high wins</p>
+                    <p class="small"><strong>4.</strong> Winner rolls for outcome</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">STRATEGY</div>
+                    <div class="strat-card" style="margin: 2px auto;">
+                        <span class="emoji">🔨</span> POWER
+                    </div>
+                    <div style="font-size: 8pt;">↗ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
+                    <div class="strategy-row">
+                        <div class="strat-card"><span class="emoji">🎯</span> FINESSE</div>
+                        <span style="font-size: 8pt;">←</span>
+                        <div class="strat-card"><span class="emoji">⚖️</span> BALANCE</div>
+                    </div>
+                    <p class="small" style="margin-top: 4px;">Arrow points to <strong>loser</strong></p>
+                    <div class="callout">
+                        <strong>Winner gets +2</strong> to battle roll<br>
+                        Tie = no modifier
+                    </div>
+                    <p class="tiny"><strong>Hand signals:</strong> Fist=Power, Flat=Balance, Point=Finesse</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strip 3 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <div class="panel">
+                    <div class="cover-title">CHEDDAR BOB</div>
+                    <div class="cover-subtitle">Bush League</div>
+                    <div style="font-size: 20pt; margin: 4px 0;">⚾🎲🎲</div>
+                    <div class="cover-tagline">"No excuses. No equipment.<br>Just hands and dice."</div>
+                    <div class="cover-version">v1.2 Player Manual</div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">WHAT YOU NEED</div>
+                    <ul>
+                        <li>2 dice (2d6) per player</li>
+                        <li>Your hands (for RPS)</li>
+                        <li>Optional: scorecard</li>
+                    </ul>
+                    <h3>GAME OVERVIEW</h3>
+                    <p class="small">Two players: Pitcher vs Batter.<br>Score more runs in 3 innings to win.</p>
+                    <p class="small">Every at-bat is a contest — both players pick strategy, roll dice, determine outcome.</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">THE TURN</div>
+                    <div class="flow">
+                        <span class="flow-step">1 COMMIT</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">2 SHOW</span>
+                    </div>
+                    <div class="flow">
+                        <span class="flow-step">3 BATTLE</span>
+                        <span class="flow-arrow">→</span>
+                        <span class="flow-step">4 RESULT</span>
+                    </div>
+                    <p class="small" style="margin-top: 4px;"><strong>1.</strong> Both secretly pick strategy</p>
+                    <p class="small"><strong>2.</strong> Reveal together (like RPS)</p>
+                    <p class="small"><strong>3.</strong> Roll 2d6 + mods, high wins</p>
+                    <p class="small"><strong>4.</strong> Winner rolls for outcome</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">STRATEGY</div>
+                    <div class="strat-card" style="margin: 2px auto;">
+                        <span class="emoji">🔨</span> POWER
+                    </div>
+                    <div style="font-size: 8pt;">↗ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ↘</div>
+                    <div class="strategy-row">
+                        <div class="strat-card"><span class="emoji">🎯</span> FINESSE</div>
+                        <span style="font-size: 8pt;">←</span>
+                        <div class="strat-card"><span class="emoji">⚖️</span> BALANCE</div>
+                    </div>
+                    <p class="small" style="margin-top: 4px;">Arrow points to <strong>loser</strong></p>
+                    <div class="callout">
+                        <strong>Winner gets +2</strong> to battle roll<br>
+                        Tie = no modifier
+                    </div>
+                    <p class="tiny"><strong>Hand signals:</strong> Fist=Power, Flat=Balance, Point=Finesse</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PAGE 2: BACK SIDES (×3) - Panels 8-7-6-5 reversed -->
+    <div class="page">
+        <!-- Strip 1 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <!-- PANEL 8: OUTCOMES + COPYRIGHT (Back cover) -->
+                <div class="panel">
+                    <div class="panel-title">OUTCOMES</div>
+                    <table style="font-size: 4.5pt;">
+                        <tr><td class="hit"><strong>1B</strong></td><td>Single: R1→2, R2→3, R3 scores</td></tr>
+                        <tr><td class="hit"><strong>2B</strong></td><td>Double: R2+R3 score, R1→3</td></tr>
+                        <tr><td class="hr"><strong>HR</strong></td><td>Home Run: Everyone scores!</td></tr>
+                        <tr><td class="walk"><strong>BB</strong></td><td>Walk: Forced runners advance</td></tr>
+                        <tr><td class="out"><strong>O-RA</strong></td><td>Out: Runners advance 1</td></tr>
+                        <tr><td class="out"><strong>O-RC</strong></td><td>Out: Runner may challenge</td></tr>
+                        <tr><td class="out"><strong>O-RF</strong></td><td>Out: Runners freeze</td></tr>
+                        <tr><td class="dp"><strong>DP</strong></td><td>Double Play: 2 outs</td></tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>Productive Out:</strong> Batter wins but OUT? Runners advance 1.</p>
+                    <div class="copyright">© 2025 Rymare International LLC</div>
+                </div>
+
+                <!-- PANEL 7: PITCHER TABLE + CRITICALS -->
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #721c24 0%, #c62828 100%);">PITCHER WINS</div>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="walk">BB</td>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                            <td class="dp">DP</td>
+                        </tr>
+                    </table>
+                    <h3>CRITICALS</h3>
+                    <p class="tiny">🐍 Snake Eyes (2) = Worst for you</p>
+                    <p class="tiny">🎰 Boxcars (12) = Best for you</p>
+                    <p class="tiny"><em>In Battle: Batter 12=HR, Pitcher 12=DP</em></p>
+                </div>
+
+                <!-- PANEL 6: BATTER TABLE -->
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #155724 0%, #28a745 100%);">BATTER WINS</div>
+                    <p class="tiny" style="margin-bottom: 2px;">Battle tier → columns | Result tier → rows</p>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="out">OUT</td>
+                            <td class="out">OUT</td>
+                            <td class="hit">1B+</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="walk">BB</td>
+                            <td class="hit">1B+</td>
+                            <td class="hit">2B+</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="hit">1B</td>
+                            <td class="hit">2B</td>
+                            <td class="hr">HR</td>
+                        </tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>+</strong> = can attempt stretch (runner challenge)</p>
+                </div>
+
+                <!-- PANEL 5: TIERS + BATTLE -->
+                <div class="panel">
+                    <div class="panel-title">TIERS & BATTLE</div>
+                    <div class="tier-box">
+                        <p class="tiny" style="margin-bottom: 2px;"><strong>THE MAGIC NUMBER: 7-9</strong></p>
+                        <div class="tier-row">
+                            <div class="tier-item weak" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">≤6</div>
+                                <div>Weak</div>
+                            </div>
+                            <div class="tier-item solid" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">7-9</div>
+                                <div>Solid</div>
+                            </div>
+                            <div class="tier-item strong" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">10+</div>
+                                <div>Strong</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>BATTLE PHASE</h3>
+                    <p class="small">1. Both roll 2d6</p>
+                    <p class="small">2. Add +2 if you won strategy</p>
+                    <p class="small">3. Higher total wins</p>
+                    <p class="small">4. Tie? Re-roll (no mods)</p>
+                    <p class="tiny" style="margin-top: 3px;"><em>Winner's roll determines their Battle Tier</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strip 2 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <div class="panel">
+                    <div class="panel-title">OUTCOMES</div>
+                    <table style="font-size: 4.5pt;">
+                        <tr><td class="hit"><strong>1B</strong></td><td>Single: R1→2, R2→3, R3 scores</td></tr>
+                        <tr><td class="hit"><strong>2B</strong></td><td>Double: R2+R3 score, R1→3</td></tr>
+                        <tr><td class="hr"><strong>HR</strong></td><td>Home Run: Everyone scores!</td></tr>
+                        <tr><td class="walk"><strong>BB</strong></td><td>Walk: Forced runners advance</td></tr>
+                        <tr><td class="out"><strong>O-RA</strong></td><td>Out: Runners advance 1</td></tr>
+                        <tr><td class="out"><strong>O-RC</strong></td><td>Out: Runner may challenge</td></tr>
+                        <tr><td class="out"><strong>O-RF</strong></td><td>Out: Runners freeze</td></tr>
+                        <tr><td class="dp"><strong>DP</strong></td><td>Double Play: 2 outs</td></tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>Productive Out:</strong> Batter wins but OUT? Runners advance 1.</p>
+                    <div class="copyright">© 2025 Rymare International LLC</div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #721c24 0%, #c62828 100%);">PITCHER WINS</div>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="walk">BB</td>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                            <td class="dp">DP</td>
+                        </tr>
+                    </table>
+                    <h3>CRITICALS</h3>
+                    <p class="tiny">🐍 Snake Eyes (2) = Worst for you</p>
+                    <p class="tiny">🎰 Boxcars (12) = Best for you</p>
+                    <p class="tiny"><em>In Battle: Batter 12=HR, Pitcher 12=DP</em></p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #155724 0%, #28a745 100%);">BATTER WINS</div>
+                    <p class="tiny" style="margin-bottom: 2px;">Battle tier → columns | Result tier → rows</p>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="out">OUT</td>
+                            <td class="out">OUT</td>
+                            <td class="hit">1B+</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="walk">BB</td>
+                            <td class="hit">1B+</td>
+                            <td class="hit">2B+</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="hit">1B</td>
+                            <td class="hit">2B</td>
+                            <td class="hr">HR</td>
+                        </tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>+</strong> = can attempt stretch (runner challenge)</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">TIERS & BATTLE</div>
+                    <div class="tier-box">
+                        <p class="tiny" style="margin-bottom: 2px;"><strong>THE MAGIC NUMBER: 7-9</strong></p>
+                        <div class="tier-row">
+                            <div class="tier-item weak" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">≤6</div>
+                                <div>Weak</div>
+                            </div>
+                            <div class="tier-item solid" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">7-9</div>
+                                <div>Solid</div>
+                            </div>
+                            <div class="tier-item strong" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">10+</div>
+                                <div>Strong</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>BATTLE PHASE</h3>
+                    <p class="small">1. Both roll 2d6</p>
+                    <p class="small">2. Add +2 if you won strategy</p>
+                    <p class="small">3. Higher total wins</p>
+                    <p class="small">4. Tie? Re-roll (no mods)</p>
+                    <p class="tiny" style="margin-top: 3px;"><em>Winner's roll determines their Battle Tier</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Strip 3 -->
+        <div class="strip-container">
+            <div class="trim-mark trim-tl"></div>
+            <div class="trim-mark trim-tr"></div>
+            <div class="trim-mark trim-bl"></div>
+            <div class="trim-mark trim-br"></div>
+            <div class="fold-guide fold-guide-1"></div>
+            <div class="fold-guide fold-guide-2"></div>
+            <div class="fold-guide fold-guide-3"></div>
+            <div class="strip">
+                <div class="panel">
+                    <div class="panel-title">OUTCOMES</div>
+                    <table style="font-size: 4.5pt;">
+                        <tr><td class="hit"><strong>1B</strong></td><td>Single: R1→2, R2→3, R3 scores</td></tr>
+                        <tr><td class="hit"><strong>2B</strong></td><td>Double: R2+R3 score, R1→3</td></tr>
+                        <tr><td class="hr"><strong>HR</strong></td><td>Home Run: Everyone scores!</td></tr>
+                        <tr><td class="walk"><strong>BB</strong></td><td>Walk: Forced runners advance</td></tr>
+                        <tr><td class="out"><strong>O-RA</strong></td><td>Out: Runners advance 1</td></tr>
+                        <tr><td class="out"><strong>O-RC</strong></td><td>Out: Runner may challenge</td></tr>
+                        <tr><td class="out"><strong>O-RF</strong></td><td>Out: Runners freeze</td></tr>
+                        <tr><td class="dp"><strong>DP</strong></td><td>Double Play: 2 outs</td></tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>Productive Out:</strong> Batter wins but OUT? Runners advance 1.</p>
+                    <div class="copyright">© 2025 Rymare International LLC</div>
+                </div>
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #721c24 0%, #c62828 100%);">PITCHER WINS</div>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="walk">BB</td>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="out">O-RA</td>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="out">O-RC</td>
+                            <td class="out">O-RF</td>
+                            <td class="dp">DP</td>
+                        </tr>
+                    </table>
+                    <h3>CRITICALS</h3>
+                    <p class="tiny">🐍 Snake Eyes (2) = Worst for you</p>
+                    <p class="tiny">🎰 Boxcars (12) = Best for you</p>
+                    <p class="tiny"><em>In Battle: Batter 12=HR, Pitcher 12=DP</em></p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title" style="background: linear-gradient(135deg, #155724 0%, #28a745 100%);">BATTER WINS</div>
+                    <p class="tiny" style="margin-bottom: 2px;">Battle tier → columns | Result tier → rows</p>
+                    <table>
+                        <tr>
+                            <th></th>
+                            <th>Weak</th>
+                            <th>Solid</th>
+                            <th>Strong</th>
+                        </tr>
+                        <tr>
+                            <th>Weak</th>
+                            <td class="out">OUT</td>
+                            <td class="out">OUT</td>
+                            <td class="hit">1B+</td>
+                        </tr>
+                        <tr>
+                            <th>Solid</th>
+                            <td class="walk">BB</td>
+                            <td class="hit">1B+</td>
+                            <td class="hit">2B+</td>
+                        </tr>
+                        <tr>
+                            <th>Strong</th>
+                            <td class="hit">1B</td>
+                            <td class="hit">2B</td>
+                            <td class="hr">HR</td>
+                        </tr>
+                    </table>
+                    <p class="tiny" style="margin-top: 2px;"><strong>+</strong> = can attempt stretch (runner challenge)</p>
+                </div>
+                <div class="panel">
+                    <div class="panel-title">TIERS & BATTLE</div>
+                    <div class="tier-box">
+                        <p class="tiny" style="margin-bottom: 2px;"><strong>THE MAGIC NUMBER: 7-9</strong></p>
+                        <div class="tier-row">
+                            <div class="tier-item weak" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">≤6</div>
+                                <div>Weak</div>
+                            </div>
+                            <div class="tier-item solid" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">7-9</div>
+                                <div>Solid</div>
+                            </div>
+                            <div class="tier-item strong" style="padding: 2px 6px; border-radius: 4px;">
+                                <div class="tier-num">10+</div>
+                                <div>Strong</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h3>BATTLE PHASE</h3>
+                    <p class="small">1. Both roll 2d6</p>
+                    <p class="small">2. Add +2 if you won strategy</p>
+                    <p class="small">3. Higher total wins</p>
+                    <p class="small">4. Tie? Re-roll (no mods)</p>
+                    <p class="tiny" style="margin-top: 3px;"><em>Winner's roll determines their Battle Tier</em></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
