@@ -186,11 +186,13 @@
         }
 
         .flow-step .name {
+            display: block;
             font-weight: bold;
             font-size: 12pt;
         }
 
         .flow-step .desc {
+            display: block;
             font-size: 9pt;
             color: #666;
         }
@@ -279,7 +281,51 @@
         <div class="subtitle">Bush League</div>
         <div class="edition">Player Manual</div>
         <div class="tagline">"No excuses. No equipment. Just hands and dice."</div>
-        <div class="version">Version 1.2</div>
+        <div class="version">Version 1.4</div>
+    </div>
+
+    <!-- COPYRIGHT PAGE -->
+    <div class="page-break"></div>
+    <div style="display: flex; flex-direction: column; justify-content: center; min-height: 8in; text-align: center;">
+        <div style="margin-top: auto;">
+            <p style="font-size: 14pt; font-weight: bold; margin-bottom: 8pt;">Cheddar Bob: Bush League</p>
+            <p style="font-size: 11pt; margin-bottom: 24pt;">Player Manual — Version 1.4</p>
+
+            <p style="font-size: 10pt; margin-bottom: 16pt;">© 2025 Rymare International LLC<br>All rights reserved.</p>
+
+            <p style="font-size: 9pt; color: #666; margin-bottom: 24pt;">No part of this publication may be reproduced, distributed, or transmitted in any form without prior written permission.</p>
+
+            <p style="font-size: 10pt; font-style: italic;">First Edition, 2025</p>
+        </div>
+        <div style="margin-top: auto; margin-bottom: 1in;">
+            <p style="font-size: 9pt; color: #888;">cheddarbobgame.com</p>
+        </div>
+    </div>
+
+    <!-- WHY CHEDDAR BOB -->
+    <div class="page-break"></div>
+    <h2>Why Cheddar Bob?</h2>
+
+    <p>One fall, just after the World Series ended, I found myself reflecting on how much I love watching a good Game Seven. There's nothing quite like an entire season coming down to the last inning, of the last game, and the last at-bat.</p>
+
+    <p>I had never really seen a baseball game capture the emotional sense of a pitcher-batter matchup. Most games were either <em>way too complex</em> — taking hours to play and a PhD in statistics to figure out — or they focused too much on batting and pitching separately. You didn't get a sense that you were in charge of playing a <em>game</em>.</p>
+
+    <p>So I started working on a fun little pitching simulator. I told my oldest son Ryan about it. Ryan played D1 baseball — he was a standout center fielder. I asked him to think about batting and hitting strategy. He was standing in the kitchen when he said, "Well, if you're facing Cheddar Bob..."</p>
+
+    <p>I laughed out loud. "Cheddar Bob?"</p>
+
+    <p>"Yeah," he responds. "You know, generic fastball guy."</p>
+
+    <p><strong>Cheddar Bob</strong> was slang for that player who had a big arm in high school, but upon arriving at college learned he was just one of many pitchers who threw hard. I knew I had to call the game Cheddar Bob. That's baseball — taking your strengths and humbling them.</p>
+
+    <p>Shortly after, my other son Matthew — who <em>also</em> played D1 college baseball — started brainstorming about the game. He liked the concept. So he played it with a friend from little league. They liked the feel of it, but it took them forty-five minutes to play a single inning. And it was three up, three down. The game was <em>too slow</em>.</p>
+
+    <p>Matt wanted something fun, something energizing. He wanted a game he could play with friends in the bullpen, on the bus, or in the locker room. We streamlined the game, and what you hold in your hands is the result. Instead of <em>only</em> generating the tension of the pitcher-batter matchup, we managed to get much more — a fast, fun baseball simulation that <em>feels</em> like playing baseball!</p>
+
+    <div class="callout">
+        <h4>Tested &amp; Tuned</h4>
+        <p>Cheddar Bob wasn't just designed — it was <em>validated</em>. We simulated tens of thousands of games, tweaking the mechanics until the outcomes matched real baseball. The balance between pitcher and batter? Dead even. The way runs score, the rhythm of innings, the tension of a close game — it all checks out against actual MLB statistics.</p>
+        <p>We're not saying Cheddar Bob <em>is</em> baseball. But when you play it, you'll swear it feels like baseball. And we had so much fun playing it with friends, we wanted to share it with baseball enthusiasts just like you!</p>
     </div>
 
     <!-- TABLE OF CONTENTS -->
@@ -325,11 +371,11 @@
     <p>Score more runs than your opponent over the course of the game. A standard game is <strong>3 innings</strong>, but you can play any number you agree on.</p>
 
     <h3>The Core Concept</h3>
-    <p>Every at-bat is a contest between pitcher and batter. Both players simultaneously choose a strategy, then roll dice to determine who wins the confrontation. The winner then rolls again to determine the specific outcome (hit, out, walk, etc.).</p>
+    <p>Every at-bat is a contest between pitcher and batter. Both players simultaneously choose a strategy, then roll dice to determine who controls the outcome. The winner then rolls again to determine the specific results of the at bat (hit, out, walk, etc.). Cheddar Bob is a game that lets you make <em>baseball</em> decisions, take risks, and try to balance strategy and luck, just like in the "real game."</p>
 
     <div class="callout important">
         <h4>Key Insight</h4>
-        <p>Unlike traditional baseball simulations, <em>both players are always engaged</em>. The pitcher isn't passive — they're actively trying to out-think and out-roll the batter on every pitch.</p>
+        <p>Unlike traditional baseball simulations, <em>both players are always engaged</em>. Every decision is contested. The pitcher isn't passive — they're actively trying to out-think and out-roll the batter on every turn.</p>
     </div>
 
     <!-- TURN STRUCTURE -->
@@ -366,15 +412,57 @@
 
     <h3>Step 1: COMMIT</h3>
     <p>Both players secretly choose one of three strategies: <strong>Power</strong>, <strong>Balance</strong>, or <strong>Finesse</strong>. Hold your choice behind your back or under the table.</p>
+    <p><em>Some players find it easier to think: Power is a rock, paper is balanced, and it takes finesse to run with scissors.</em></p>
 
     <h3>Step 2: SHOW</h3>
     <p>On a count of three, both players reveal their choices simultaneously (like rock-paper-scissors). Compare strategies to determine if either player gets a modifier.</p>
 
     <h3>Step 3: BATTLE</h3>
-    <p>Both players roll 2d6 and add any modifiers. The player with the higher total wins the battle. Ties are re-rolled.</p>
+    <p>Both players roll 2d6 and add any modifiers they won in the SHOW step. The player with the higher total wins the battle. Ties are re-rolled (with modifiers).</p>
+    <p>The result of the battle roll <em>also</em> tells the winner what tier they will roll against in the Result phase. A weak win? Use the weak column. A strong win? Your results will come from the strong tier.</p>
 
     <h3>Step 4: RESULT</h3>
-    <p>The battle winner rolls 2d6 again. Cross-reference their battle tier with their result tier on the appropriate table to determine the outcome.</p>
+    <p>The battle winner rolls 2d6 again (no modifiers — straight roll). Cross-reference their battle tier with their result tier on the appropriate table to determine the outcome.</p>
+
+    <!-- EXAMPLE INNING -->
+    <div class="page-break"></div>
+    <h2>Example: One Inning of Play</h2>
+
+    <p>Let's walk through a half-inning to see how it all comes together. The Away team is batting.</p>
+
+    <h3>Batter 1</h3>
+    <p><strong>COMMIT:</strong> Both players choose secretly. Batter picks Power (🔨), Pitcher picks Balance (⚖️).</p>
+    <p><strong>SHOW:</strong> They reveal — Balance beats Power! Pitcher gets +2.</p>
+    <p><strong>BATTLE:</strong> Batter rolls 8, Pitcher rolls 5+2=7. Batter wins with 8 (Solid tier).</p>
+    <p><strong>RESULT:</strong> Batter rolls 7 (Solid). Solid battle + Solid result = <strong>1B</strong>. Runner on first!</p>
+
+    <h3>Batter 2</h3>
+    <p><strong>COMMIT:</strong> Batter picks Finesse (🎯), Pitcher picks Power (🔨).</p>
+    <p><strong>SHOW:</strong> Power beats Finesse! Pitcher gets +2.</p>
+    <p><strong>BATTLE:</strong> Batter rolls 6, Pitcher rolls 9+2=11. Pitcher wins with 11 (Strong tier).</p>
+    <p><strong>RESULT:</strong> Pitcher rolls 8 (Solid). Strong battle + Solid result = <strong>O-RF</strong>. Out #1, runner frozen at first.</p>
+
+    <h3>Batter 3</h3>
+    <p><strong>COMMIT:</strong> Both pick Power — tie! No modifiers.</p>
+    <p><strong>BATTLE:</strong> Batter rolls 10, Pitcher rolls 7. Batter wins with 10 (Strong tier).</p>
+    <p><strong>RESULT:</strong> Batter rolls 11 (Strong). Strong battle + Strong result = <strong>HR!</strong> Two runs score!</p>
+
+    <h3>Batter 4</h3>
+    <p><strong>COMMIT:</strong> Batter picks Balance (⚖️), Pitcher picks Finesse (🎯).</p>
+    <p><strong>SHOW:</strong> Finesse beats Balance! Pitcher gets +2.</p>
+    <p><strong>BATTLE:</strong> Batter rolls 7, Pitcher rolls 6+2=8. Pitcher wins with 8 (Solid tier).</p>
+    <p><strong>RESULT:</strong> Pitcher rolls 5 (Weak). Solid battle + Weak result = <strong>O-RA</strong>. Out #2 (no runners to advance).</p>
+
+    <h3>Batter 5</h3>
+    <p><strong>COMMIT:</strong> Batter picks Power (🔨), Pitcher picks Finesse (🎯).</p>
+    <p><strong>SHOW:</strong> Power beats Finesse! Batter gets +2.</p>
+    <p><strong>BATTLE:</strong> Batter rolls 4+2=6, Pitcher rolls 9. Pitcher wins with 9 (Solid tier).</p>
+    <p><strong>RESULT:</strong> Pitcher rolls 10 (Strong). Solid battle + Strong result = <strong>O-RF</strong>. Out #3 — inning over!</p>
+
+    <div class="callout tip">
+        <h4>Inning Summary</h4>
+        <p><strong>2 runs scored</strong> on the home run. Total time: about 3 minutes. The RPS-style strategy picks keep both players engaged on every single at-bat — no waiting around!</p>
+    </div>
 
     <!-- STRATEGY SELECTION -->
     <div class="page-break"></div>
@@ -417,7 +505,7 @@
     <ul>
         <li><strong>Power (🔨):</strong> Closed fist</li>
         <li><strong>Balance (⚖️):</strong> Flat hand, palm down</li>
-        <li><strong>Finesse (🎯):</strong> Pointed finger</li>
+        <li><strong>Finesse (🎯):</strong> Pointed finger(s)</li>
     </ul>
 
     <!-- BATTLE PHASE -->
@@ -430,7 +518,7 @@
         <li>Both players roll 2d6</li>
         <li>Add +2 if you won the strategy comparison</li>
         <li>Compare totals — higher wins</li>
-        <li>If tied, both re-roll (no modifiers on re-roll)</li>
+        <li>If tied, both re-roll (keep your modifiers)</li>
     </ol>
 
     <p>The winner of the battle will roll again in the Result phase. Their battle roll determines which <strong>tier</strong> they achieved.</p>
@@ -560,16 +648,11 @@
     <p style="font-size: 10pt; color: #666;">*Double play requires runners on base. If no runners, it's just an out.</p>
 
     <h3>During the Result Phase</h3>
-    <p>Critical rolls in the result phase give you the best or worst outcome for your position on the table:</p>
+    <p>Critical rolls in the result phase jump straight to the best or worst outcome on the table:</p>
     <ul>
-        <li><strong>Snake Eyes (2):</strong> Worst possible outcome for that battle tier</li>
-        <li><strong>Boxcars (12):</strong> Best possible outcome for that battle tier</li>
+        <li><strong>Snake Eyes (2):</strong> Worst outcome — OUT (batter) or BB (pitcher)</li>
+        <li><strong>Boxcars (12):</strong> Best outcome — HR (batter) or DP (pitcher)</li>
     </ul>
-
-    <div class="callout no-break">
-        <h4>Example</h4>
-        <p>The batter wins a Solid battle (rolled 8). They roll again for the result and get boxcars (12). Looking at the Batter table, Solid battle column — the best outcome is 2B (from the Strong row). So boxcars gives them a double.</p>
-    </div>
 
     <!-- OUTCOMES EXPLAINED -->
     <div class="page-break"></div>
@@ -660,6 +743,11 @@
         <p>The Runner Challenge is optional. The runner can choose to stay put. But if they try and fail, that's another out!</p>
     </div>
 
+    <div class="callout">
+        <h4>Double Steals</h4>
+        <p>If there's more than one runner, both can attempt to steal — this means two throws and two challenge rolls. It's up to the offensive player whether one runner stays put (like holding a runner on third while the runner on first steals second).</p>
+    </div>
+
     <h3>Productive Outs</h3>
     <p>When the <strong>batter wins the battle</strong> but the outcome is still an <strong>OUT</strong>, runners advance one base anyway. The batter fought well and sacrificed themselves to move the runners — like a deep fly ball or a productive groundout.</p>
     <p><em>This only applies to outs from the Batter table, not from the Pitcher table.</em></p>
@@ -692,21 +780,23 @@
             <th>Time</th>
         </tr>
         <tr>
-            <td>Quick Game</td>
-            <td>1</td>
-            <td>5–10 min</td>
+            <td><strong>Recommended</strong></td>
+            <td>1–2</td>
+            <td>3–10 min</td>
         </tr>
         <tr>
-            <td>Standard Game</td>
+            <td>Standard</td>
             <td>3</td>
-            <td>15–25 min</td>
+            <td>10–15 min</td>
         </tr>
         <tr>
             <td>Full Game</td>
             <td>9</td>
-            <td>45–60 min</td>
+            <td>30–45 min</td>
         </tr>
     </table>
+    <p><strong>Ties:</strong> If tied after the final inning, play a third inning to decide the winner.</p>
+    <p>Once players get comfortable with the RPS and battle rolls, outs happen fast — a single inning often takes just 3–5 minutes. Most players prefer starting fresh games rather than playing all 9 innings, but there's no reason you can't!</p>
 
     <!-- HOW TO KEEP SCORE -->
     <div class="page-break"></div>
@@ -765,6 +855,13 @@
         <li>Or just write the result and update the linescore</li>
         <li>Circle any notation where a run scored</li>
     </ul>
+
+    <p>Some sets include a <strong>play mat</strong> and tokens to mark runners on base. Players can also use small dice (12mm) to track score — when there's no score, the dice stay in the tin. When a team scores, put the die showing their score by their side of the "dugout." (It's <em>super rare</em> to score more than 6 runs in 2–3 innings of Cheddar Bob.)</p>
+
+    <div class="callout tip">
+        <h4>The Scrimmage Rule</h4>
+        <p>In more advanced games, players have little trouble tracking scores and outs. But we always encourage the scrimmage rule: <strong>both players must agree</strong> on the game state. If they don't? RPS or a battle roll to decide!</p>
+    </div>
 
     <div class="callout">
         <h4>Scoring Example</h4>
@@ -872,7 +969,7 @@
                 <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
                 <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
             </table>
-            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+            <div class="scorecard-footer">v1.4 | © 2025 Rymare International LLC</div>
         </div>
 
         <!-- Scorecard 2 -->
@@ -896,7 +993,7 @@
                 <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
                 <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
             </table>
-            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+            <div class="scorecard-footer">v1.4 | © 2025 Rymare International LLC</div>
         </div>
 
         <!-- Scorecard 3 -->
@@ -920,7 +1017,7 @@
                 <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
                 <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
             </table>
-            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+            <div class="scorecard-footer">v1.4 | © 2025 Rymare International LLC</div>
         </div>
 
         <!-- Scorecard 4 -->
@@ -944,13 +1041,61 @@
                 <tr><td class="team-name">Away</td><td></td><td></td><td></td><td></td></tr>
                 <tr><td class="team-name">Home</td><td></td><td></td><td></td><td></td></tr>
             </table>
-            <div class="scorecard-footer">v1.2 | © 2025 Rymare International LLC</div>
+            <div class="scorecard-footer">v1.4 | © 2025 Rymare International LLC</div>
         </div>
     </div>
 
+    <!-- ADDENDUM: BY THE NUMBERS -->
+    <div class="page-break"></div>
+    <h2>Addendum: By the Numbers</h2>
+
+    <p>We didn't just <em>guess</em> that Cheddar Bob feels like baseball — we tested it. After simulating tens of thousands of games, here's how our mechanics compare to actual Major League Baseball:</p>
+
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Cheddar Bob</th>
+            <th>MLB (2023)</th>
+            <th>Notes</th>
+        </tr>
+        <tr>
+            <td><strong>Runs via Home Run</strong></td>
+            <td>45%</td>
+            <td>47%</td>
+            <td>Nearly identical!</td>
+        </tr>
+        <tr>
+            <td><strong>Pitcher vs. Batter Balance</strong></td>
+            <td>50/50</td>
+            <td>—</td>
+            <td>Perfectly even matchup</td>
+        </tr>
+        <tr>
+            <td><strong>Runs per Game</strong></td>
+            <td>~7</td>
+            <td>~9</td>
+            <td>Slightly lower (faster games)</td>
+        </tr>
+        <tr>
+            <td><strong>Games Simulated</strong></td>
+            <td colspan="2" style="text-align: center;">10,000+</td>
+            <td>Rigorous testing</td>
+        </tr>
+    </table>
+
+    <div class="callout">
+        <h4>The Bottom Line</h4>
+        <p>The proportions match. The rhythm matches. The way big innings happen — with home runs carrying the load and strung-together singles being rare — matches real baseball.</p>
+        <p>Cheddar Bob isn't a simulation of baseball statistics. It's a simulation of <strong>baseball moments</strong>.</p>
+    </div>
+
+    <h3>What the Numbers Don't Show</h3>
+    <p>The best part of Cheddar Bob can't be captured in a spreadsheet: the moment when someone rolls boxcars for a walk-off home run, and everyone at the table erupts. The tension of a tie game going to extras. The story you tell about "that one game" weeks later.</p>
+    <p>That's what we built this for.</p>
+
     <!-- FOOTER -->
     <div class="footer">
-        <p>Cheddar Bob: Bush League v1.2</p>
+        <p>Cheddar Bob: Bush League v1.4</p>
         <p>&copy; 2025 Rymare International LLC</p>
         <p style="margin-top: 8pt; font-style: italic;">"Read your opponent. Roll your fate."</p>
     </div>
