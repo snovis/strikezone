@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cheddar Bob: Bush League - Player Manual</title>
+    <title>Cheddar Bob: Bush League - Player Manual (Booklet)</title>
     <style>
         * {
             margin: 0;
@@ -11,9 +11,13 @@
             box-sizing: border-box;
         }
 
+        /* BOOKLET FORMAT: 5.5" x 8.5" (half-letter) pages
+           Print on letter paper, landscape, 2-up
+           Use printer's "Booklet" mode for automatic imposition
+           Or use a PDF tool to impose pages for saddle-stitch */
         @page {
-            size: letter;
-            margin: 0.75in;
+            size: 5.5in 8.5in;
+            margin: 0.4in;
         }
 
         @media print {
@@ -31,95 +35,96 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            font-size: 11pt;
-            line-height: 1.5;
+            font-size: 9pt;
+            line-height: 1.4;
             color: #333;
-            max-width: 7in;
+            max-width: 4.7in;
             margin: 0 auto;
-            padding: 0.5in;
+            padding: 0.2in;
         }
 
         /* Cover Page */
         .cover {
             text-align: center;
-            padding: 2in 0;
-            min-height: 9in;
+            padding: 1in 0;
+            min-height: 7in;
         }
 
         .cover h1 {
-            font-size: 36pt;
+            font-size: 28pt;
             color: #2d5016;
-            margin-bottom: 0.25in;
+            margin-bottom: 0.15in;
         }
 
         .cover .subtitle {
-            font-size: 24pt;
+            font-size: 18pt;
             color: #4a7c23;
-            margin-bottom: 0.5in;
+            margin-bottom: 0.3in;
         }
 
         .cover .edition {
-            font-size: 18pt;
+            font-size: 12pt;
             color: #666;
-            margin-bottom: 1in;
+            margin-bottom: 0.5in;
         }
 
         .cover .tagline {
-            font-size: 14pt;
+            font-size: 10pt;
             font-style: italic;
             color: #888;
-            margin-bottom: 2in;
+            margin-bottom: 1in;
         }
 
         .cover .version {
-            font-size: 12pt;
+            font-size: 9pt;
             color: #999;
         }
 
         /* Section Headers */
         h2 {
-            font-size: 18pt;
+            font-size: 14pt;
             color: #2d5016;
-            border-bottom: 3px solid #4a7c23;
-            padding-bottom: 6px;
-            margin: 24pt 0 12pt 0;
+            border-bottom: 2px solid #4a7c23;
+            padding-bottom: 4px;
+            margin: 14pt 0 8pt 0;
         }
 
         h3 {
-            font-size: 14pt;
+            font-size: 11pt;
             color: #333;
-            margin: 18pt 0 8pt 0;
+            margin: 10pt 0 5pt 0;
         }
 
         h4 {
-            font-size: 12pt;
+            font-size: 9pt;
             color: #4a7c23;
-            margin: 12pt 0 6pt 0;
+            margin: 8pt 0 4pt 0;
         }
 
         p {
-            margin-bottom: 10pt;
+            margin-bottom: 6pt;
         }
 
         /* Lists */
         ul, ol {
-            margin: 10pt 0 10pt 24pt;
+            margin: 6pt 0 6pt 18pt;
         }
 
         li {
-            margin-bottom: 6pt;
+            margin-bottom: 3pt;
         }
 
         /* Tables */
         table {
             border-collapse: collapse;
             width: 100%;
-            margin: 12pt 0;
+            margin: 8pt 0;
+            font-size: 8pt;
         }
 
         th, td {
             border: 1px solid #333;
-            padding: 8px 12px;
+            padding: 4px 6px;
             text-align: center;
         }
 
@@ -127,6 +132,7 @@
             background: #333;
             color: white;
             font-weight: bold;
+            font-size: 7pt;
         }
 
         .weak { background: #ffe6e6; }
@@ -140,10 +146,11 @@
         /* Callout Boxes */
         .callout {
             background: #f8f8f8;
-            border: 2px solid #333;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16pt 0;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 8pt 0;
+            font-size: 8pt;
         }
 
         .callout.important {
@@ -159,6 +166,7 @@
         .callout h4 {
             margin-top: 0;
             color: #333;
+            font-size: 9pt;
         }
 
         /* Flow Diagram */
@@ -167,10 +175,10 @@
             justify-content: space-between;
             align-items: center;
             background: #f0f4ff;
-            border: 2px solid #4a5568;
-            border-radius: 8px;
-            padding: 16px;
-            margin: 16pt 0;
+            border: 1px solid #4a5568;
+            border-radius: 6px;
+            padding: 8px;
+            margin: 10pt 0;
         }
 
         .flow-step {
@@ -180,7 +188,7 @@
 
         .flow-step .number {
             display: block;
-            font-size: 24pt;
+            font-size: 14pt;
             font-weight: bold;
             color: #4a7c23;
         }
@@ -188,45 +196,45 @@
         .flow-step .name {
             display: block;
             font-weight: bold;
-            font-size: 12pt;
+            font-size: 9pt;
         }
 
         .flow-step .desc {
             display: block;
-            font-size: 9pt;
+            font-size: 7pt;
             color: #666;
         }
 
         .flow-arrow {
-            font-size: 24pt;
+            font-size: 14pt;
             color: #4a7c23;
-            padding: 0 8px;
+            padding: 0 4px;
         }
 
         /* Strategy Triangle */
         .triangle-container {
             text-align: center;
-            margin: 20pt 0;
+            margin: 10pt 0;
         }
 
         .strategy-card {
             display: inline-block;
             background: #f0f0f0;
-            border: 2px solid #333;
-            border-radius: 8px;
-            padding: 12px 20px;
-            margin: 4px;
-            min-width: 100px;
+            border: 1px solid #333;
+            border-radius: 6px;
+            padding: 6px 12px;
+            margin: 2px;
+            min-width: 70px;
         }
 
         .strategy-card .emoji {
-            font-size: 28pt;
+            font-size: 18pt;
             display: block;
         }
 
         .strategy-card .name {
             font-weight: bold;
-            font-size: 12pt;
+            font-size: 8pt;
         }
 
         /* Footer */
@@ -277,7 +285,7 @@
 <body>
     <!-- COVER PAGE -->
     <div class="cover">
-        <img src="tin-cover-art/CheddarBob Wordmark.png" alt="Cheddar Bob" style="max-width: 80%; height: auto; margin-bottom: 0.25in;">
+        <img src="tin-cover-art/CheddarBob Wordmark.png" alt="Cheddar Bob" style="max-width: 90%; height: auto; margin-bottom: 0.2in;">
         <div class="subtitle">Bush League</div>
         <div class="edition">Player Manual</div>
         <div class="tagline">"No excuses. No equipment. Just hands and dice."</div>
@@ -286,19 +294,19 @@
 
     <!-- COPYRIGHT PAGE -->
     <div class="page-break"></div>
-    <div style="display: flex; flex-direction: column; justify-content: center; min-height: 8in; text-align: center;">
+    <div style="display: flex; flex-direction: column; justify-content: center; min-height: 6.5in; text-align: center;">
         <div style="margin-top: auto;">
-            <p style="font-size: 14pt; font-weight: bold; margin-bottom: 8pt;">Cheddar Bob: Bush League</p>
-            <p style="font-size: 11pt; margin-bottom: 24pt;">Player Manual — Version 1.4</p>
+            <p style="font-size: 11pt; font-weight: bold; margin-bottom: 6pt;">Cheddar Bob: Bush League</p>
+            <p style="font-size: 9pt; margin-bottom: 16pt;">Player Manual — Version 1.4</p>
 
-            <p style="font-size: 10pt; margin-bottom: 16pt;">© 2025 Rymare International LLC<br>All rights reserved.</p>
+            <p style="font-size: 8pt; margin-bottom: 12pt;">© 2025 Rymare International LLC<br>All rights reserved.</p>
 
-            <p style="font-size: 9pt; color: #666; margin-bottom: 24pt;">No part of this publication may be reproduced, distributed, or transmitted in any form without prior written permission.</p>
+            <p style="font-size: 7pt; color: #666; margin-bottom: 16pt;">No part of this publication may be reproduced, distributed, or transmitted in any form without prior written permission.</p>
 
-            <p style="font-size: 10pt; font-style: italic;">First Edition, 2025</p>
+            <p style="font-size: 8pt; font-style: italic;">First Edition, 2025</p>
         </div>
-        <div style="margin-top: auto; margin-bottom: 1in;">
-            <p style="font-size: 9pt; color: #888;">cheddarbobgame.com</p>
+        <div style="margin-top: auto; margin-bottom: 0.5in;">
+            <p style="font-size: 7pt; color: #888;">cheddarbobgame.com</p>
         </div>
     </div>
 
