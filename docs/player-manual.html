@@ -13,7 +13,7 @@
 
         @page {
             size: letter;
-            margin: 0.75in;
+            margin: 0.5in;
         }
 
         @media print {
@@ -115,6 +115,7 @@
             border-collapse: collapse;
             width: 100%;
             margin: 12pt 0;
+            page-break-inside: avoid;
         }
 
         th, td {
@@ -144,6 +145,7 @@
             border-radius: 8px;
             padding: 16px;
             margin: 16pt 0;
+            page-break-inside: avoid;
         }
 
         .callout.important {
